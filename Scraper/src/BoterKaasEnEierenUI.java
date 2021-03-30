@@ -13,10 +13,11 @@ public class BoterKaasEnEierenUI extends Application {
     public void start(Stage stage) {
         MenuUI menuUI = new MenuUI();
         BoterKaasEnEierenUitlegUI boterKaasEnEierenUitlegUI = new BoterKaasEnEierenUitlegUI();
+        TicTacToe ticTacToe = new TicTacToe();
 
         Button tegenComputerButton = new Button("Speel tegen een computer");
         tegenComputerButton.setOnAction(event -> 
-            menuUI.start(stage) //TODO
+            ticTacToe.start(stage)
         );
         
         Button lokaalSpelButton = new Button("Speel lokaal tegen elkaar");

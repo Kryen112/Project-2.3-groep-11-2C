@@ -13,7 +13,7 @@ public class TicTacToe extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        BorderPane pane = setBorderPane();
+        BorderPane pane = setBorderPane(primaryStage);
         Scene scene = new Scene(pane, 500, 500);
 
         primaryStage.setTitle("TicTacToe");
@@ -21,17 +21,27 @@ public class TicTacToe extends Application {
         primaryStage.show();
     }
 
-    public BorderPane setBorderPane() {
+    public BorderPane setBorderPane(Stage primaryStage) {
+        BoterKaasEnEierenUI boterKaasEnEierenUI = new BoterKaasEnEierenUI();
+        TicTacToe ticTacToe = new TicTacToe();
         BorderPane pane = new BorderPane();
 
         pane.setPadding(new Insets(10, 10, 10, 10));
 
         HBox hbButtons = new HBox();
 
-        Button quit = new Button("Quit");
+        Button stopButton = new Button("Stop");
+        stopButton.setOnAction(event -> 
+            boterKaasEnEierenUI.start(primaryStage)
+        );
 
+        Button resetButton = new Button("Reset");
+        resetButton.setOnAction(event -> 
+            ticTacToe.start(primaryStage)
+        );
 
-        hbButtons.getChildren().add(quit);
+        hbButtons.getChildren().add(stopButton);
+        hbButtons.getChildren().add(resetButton);
         hbButtons.setAlignment(Pos.CENTER_RIGHT);
 
         hbButtons.setSpacing(50);
@@ -64,18 +74,18 @@ public class TicTacToe extends Application {
     }
 
     public String buttonStyle(int id) {
-        return switch (id) {
-            case 0 -> "-fx-border-color: black; -fx-border-width: 0 2 2 0; -fx-background-color: transparent";
-            case 1 -> "-fx-border-color: black; -fx-border-width: 2 2 2 0; -fx-background-color: transparent";
-            case 2 -> "-fx-border-color: black; -fx-border-width: 2 2 0 0; -fx-background-color: transparent";
-            case 3 -> "-fx-border-color: black; -fx-border-width: 0 2 2 2; -fx-background-color: transparent";
-            case 4 -> "-fx-border-color: black; -fx-border-width: 2 2 2 2; -fx-background-color: transparent";
-            case 5 -> "-fx-border-color: black; -fx-border-width: 2 2 0 2; -fx-background-color: transparent";
-            case 6 -> "-fx-border-color: black; -fx-border-width: 0 0 2 2; -fx-background-color: transparent";
-            case 7 -> "-fx-border-color: black; -fx-border-width: 2 0 2 2; -fx-background-color: transparent";
-            case 8 -> "-fx-border-color: black; -fx-border-width: 2 0 0 2; -fx-background-color: transparent";
-            default -> null;
-        };
+        switch (id) {
+            case 0: return "-fx-border-color: black; -fx-border-width: 0 2 2 0; -fx-background-color: transparent";
+            case 1: return "-fx-border-color: black; -fx-border-width: 2 2 2 0; -fx-background-color: transparent";
+            case 2: return "-fx-border-color: black; -fx-border-width: 2 2 0 0; -fx-background-color: transparent";
+            case 3: return "-fx-border-color: black; -fx-border-width: 0 2 2 2; -fx-background-color: transparent";
+            case 4: return "-fx-border-color: black; -fx-border-width: 2 2 2 2; -fx-background-color: transparent";
+            case 5: return "-fx-border-color: black; -fx-border-width: 2 2 0 2; -fx-background-color: transparent";
+            case 6: return "-fx-border-color: black; -fx-border-width: 0 0 2 2; -fx-background-color: transparent";
+            case 7: return "-fx-border-color: black; -fx-border-width: 2 0 2 2; -fx-background-color: transparent";
+            case 8: return "-fx-border-color: black; -fx-border-width: 2 0 0 2; -fx-background-color: transparent";
+            default: return null;
+        }
     }
 
     public void doMove(Button button, int xPos, int yPos) {
