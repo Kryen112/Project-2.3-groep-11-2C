@@ -11,10 +11,20 @@ public class TicTacToe extends Application {
 
     private final GridPane tictactoe = new GridPane();
 
+    // e = empty, starting with empty positions
+    private final char[][] positions = {
+            {'e', 'e', 'e'},
+            {'e', 'e', 'e'},
+            {'e', 'e', 'e'}
+    };
+
+    private char turn = 'x';
+    private boolean gameOver = false;
+
     @Override
     public void start(Stage primaryStage) {
         BorderPane pane = setBorderPane(primaryStage);
-        Scene scene = new Scene(pane, 500, 500);
+        Scene scene = new Scene(pane, 1280, 720);
 
         primaryStage.setTitle("TicTacToe");
         primaryStage.setScene(scene);
@@ -44,15 +54,13 @@ public class TicTacToe extends Application {
         hbButtons.getChildren().add(resetButton);
         hbButtons.setAlignment(Pos.CENTER_RIGHT);
 
-        hbButtons.setSpacing(50);
-
         pane.setTop(hbButtons);
 
         int id = 0;
 
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                tictactoe.add(createButton(id,50, 50, i, j), i, j);
+                tictactoe.add(createButton(id,150, 150, i, j), i, j);
                 id++;
             }
         }
@@ -64,13 +72,85 @@ public class TicTacToe extends Application {
         return pane;
     }
 
-    public Button createButton(int id, int width, int height, int xPos, int yPos) {
+    public Button createButton(int id, int width, int height, int hPos, int vPos) {
         Button button = new Button();
         button.setPrefWidth(width);
         button.setPrefHeight(height);
         button.setStyle(buttonStyle(id));
-        button.setOnAction(event -> doMove(button, xPos, yPos));
+        button.setOnAction(event -> doMove(button, hPos, vPos));
         return button;
+    }
+
+    public Boolean isWon() {
+        int x_horizontal = 0;
+        int o_horizontal = 0;
+
+        int x_vertical = 0;
+        int o_vertical = 0;
+
+        // horizontal and vertical row check
+        for(int i = 0; i<3; i++) {
+            for(int j = 0; j<3; j++) {
+                if(positions[i][j] == 'x') {
+                    x_horizontal++;
+                }
+                if(positions[i][j] == 'o') {
+                    o_horizontal++;
+                }
+                if(positions[j][i] == 'x') {
+                    x_vertical++;
+                }
+                if(positions[j][i] == 'o') {
+                    o_vertical++;
+                }
+            }
+
+            if(x_horizontal == 3 || o_horizontal == 3 || x_vertical == 3 || o_vertical == 3) {
+                return true;
+            }
+
+            x_horizontal = 0;
+            o_horizontal = 0;
+            x_vertical = 0;
+            o_vertical = 0;
+        }
+
+        int count = 0;
+        int x_diagonal = 0;
+        int o_diagonal = 0;
+
+        // diagonal top left to bottom right
+        for(int i = 0; i < 3; i++) {
+            if(positions[i][count] == 'x') {
+                x_diagonal++;
+            }
+            if(positions[i][count] == 'o') {
+                o_diagonal++;
+            }
+            if(x_diagonal == 3 || o_diagonal == 3) {
+                return true;
+            }
+            count++;
+        }
+
+        x_diagonal = 0;
+        o_diagonal = 0;
+        count = 0;
+
+        // diagonal bottom left to top right
+        for(int i = 2; i >= 0; i--) {
+            if(positions[i][count] == 'x') {
+                x_diagonal++;
+            }
+            if(positions[i][count] == 'o') {
+                o_diagonal++;
+            }
+            if(x_diagonal == 3 || o_diagonal == 3) {
+                return true;
+            }
+            count++;
+        }
+        return false;
     }
 
     public String buttonStyle(int id) {
@@ -88,15 +168,44 @@ public class TicTacToe extends Application {
         }
     }
 
-    public void doMove(Button button, int xPos, int yPos) {
-        tictactoe.add(getX(), xPos, yPos);
-        button.setOnAction(null);
+    public void doMove(Button button, int hPos, int vPos) {
+
+        if(!gameOver) {
+            tictactoe.add(getXO(), hPos, vPos);
+            positions[hPos][vPos] = turn;
+            button.setOnAction(null);
+        }
+
+        if(isWon()) {
+            gameOver = true;
+        } else {
+            changeTurn();
+        }
     }
 
-    public ImageView getX() {
-        ImageView x = new ImageView("./x.png");
-        x.setFitHeight(45);
-        x.setFitWidth(45);
-        return x;
+    public void changeTurn() {
+        if(turn == 'x') {
+            this.turn = 'o';
+        }
+        else if(turn == 'o') {
+            this.turn = 'x';
+        }
+    }
+
+    public ImageView getXO() {
+        ImageView xo = new ImageView();
+
+        if(turn == 'x') {
+            xo = new ImageView("./x.png");
+        }
+
+        if(turn == 'o') {
+            xo = new ImageView("./o.png");
+        }
+
+        xo.setFitHeight(150);
+        xo.setFitWidth(150);
+
+        return xo;
     }
 }
