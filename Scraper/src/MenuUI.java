@@ -4,7 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -46,11 +46,10 @@ public class MenuUI extends Application {
             instellingenUI.start(stage)
         );
 
-        //Label voor game text
-        Label gameText = new Label("Welk spel wil je spelen?");
-
         //Creating a Grid Pane 
         GridPane gridPane = new GridPane();    
+
+        gridPane.setId("pane");
         
         //Setting size for the pane  
         gridPane.setMinSize(1280, 720); 
@@ -67,17 +66,21 @@ public class MenuUI extends Application {
         //gridPane.setGridLinesVisible(true);
         
         //Alle nodes in de gridPane zetten
-        gridPane.add(gameText, 1, 0);
-        gridPane.add(boterKaasEierenButton, 2, 1);
-        gridPane.add(othelloButton, 0, 1);
-        gridPane.add(instellingenButton, 0, 10);
-        gridPane.add(overOnsButton, 2, 10); 
+        gridPane.add(boterKaasEierenButton, 5, 0);
+        gridPane.add(othelloButton, 0, 0);
+        gridPane.add(instellingenButton, 0, 80);
+        gridPane.add(overOnsButton, 5, 80); 
 
-        gridPane.getColumnConstraints().add(new ColumnConstraints(100)); //Kolom 0
-        gridPane.getColumnConstraints().add(new ColumnConstraints(150)); //Kolom 1
-        gridPane.getColumnConstraints().add(new ColumnConstraints(150)); //Kolom 2
+        BorderPane borderPane = new BorderPane();
+        borderPane.setId("topPane");
+        Label welkomTekst = new Label("Welk spel wil je spelen?");
+        borderPane.setTop(welkomTekst);
+        borderPane.setAlignment(welkomTekst, Pos.CENTER);
+        borderPane.setCenter(gridPane);
 
-        Scene scene = new Scene(gridPane, 1280, 720);
+        
+        Scene scene = new Scene(borderPane, 1280, 720);
+        scene.getStylesheets().addAll(this.getClass().getResource("Menus.css").toExternalForm());
         stage.setTitle("Game menu");
         stage.setScene(scene);
         stage.show();
