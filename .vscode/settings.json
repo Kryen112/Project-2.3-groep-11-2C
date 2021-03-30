@@ -1,0 +1,13 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "Scraper/lib/javafx.base.jar",
+        "Scraper/lib/javafx.controls.jar",
+        "Scraper/lib/javafx.fxml.jar",
+        "Scraper/lib/javafx.graphics.jar",
+        "Scraper/lib/javafx.media.jar",
+        "Scraper/lib/javafx.swing.jar",
+        "Scraper/lib/javafx.web.jar",
+        "Scraper/lib/javafx-swt.jar"
+    ]
+}
