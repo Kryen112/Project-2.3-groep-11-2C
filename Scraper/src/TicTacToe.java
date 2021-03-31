@@ -24,7 +24,10 @@ public class TicTacToe extends Application {
     @Override
     public void start(Stage primaryStage) {
         BorderPane pane = setBorderPane(primaryStage);
+        pane.setId("pane");
         Scene scene = new Scene(pane, 1280, 720);
+        scene.getStylesheets().addAll(this.getClass().getResource("Menus.css").toExternalForm());
+
 
         primaryStage.setTitle("TicTacToe");
         primaryStage.setScene(scene);
@@ -53,6 +56,7 @@ public class TicTacToe extends Application {
         hbButtons.getChildren().add(stopButton);
         hbButtons.getChildren().add(resetButton);
         hbButtons.setAlignment(Pos.CENTER_RIGHT);
+        hbButtons.setId("topPane");
 
         pane.setTop(hbButtons);
 
@@ -60,7 +64,7 @@ public class TicTacToe extends Application {
 
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                tictactoe.add(createButton(id,150, 150, i, j), i, j);
+                tictactoe.add(createButton(id, 150, 150, i, j), i, j);
                 id++;
             }
         }
@@ -207,5 +211,6 @@ public class TicTacToe extends Application {
         xo.setFitWidth(150);
 
         return xo;
+
     }
 }
