@@ -1,16 +1,23 @@
+import java.util.Random;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class TicTacToe extends Application {
+public class TicTacToeAI extends Application {
 
     /** tictactoe - the tictactoe game board */
     private final GridPane tictactoe = new GridPane();
+    private VBox turnBox = new VBox();
 
     /** positions - multidemensional char array to keep track of the positions (e = empty) */
     private final char[][] positions = {
@@ -20,23 +27,23 @@ public class TicTacToe extends Application {
     };
 
     /** winning_positions - multdimensional char array to keep track of the winning sets (e = empty) */
-    private char[][] winning_positions = {
+    private char[][] winningPositions = {
             {'e', 'e', 'e'},
             {'e', 'e', 'e'},
             {'e', 'e', 'e'}
     };
 
     /** turn - char that represents current turn of player */
-    private char turn = 'x';
+    private char turn;
 
     /** gameOver - boolean to check if game is over */
     private boolean gameOver = false;
 
     @Override
     public void start(Stage primaryStage) {
+        turn = randomTurnPicker();
         BorderPane pane = setBorderPane(primaryStage);
         pane.setId("pane");
-
         Scene scene = new Scene(pane, 1280, 720);
         scene.getStylesheets().addAll(this.getClass().getResource("Menus.css").toExternalForm());
 
@@ -47,7 +54,7 @@ public class TicTacToe extends Application {
 
     public BorderPane setBorderPane(Stage primaryStage) {
         BoterKaasEnEierenUI boterKaasEnEierenUI = new BoterKaasEnEierenUI();
-        TicTacToe ticTacToe = new TicTacToe();
+        TicTacToeAI ticTacToeAI = new TicTacToeAI();
 
         BorderPane pane = new BorderPane();
         pane.setPadding(new Insets(10, 10, 10, 10));
@@ -59,16 +66,22 @@ public class TicTacToe extends Application {
 
         Button resetButton = new Button("Reset");
         resetButton.setOnAction(event -> 
-            ticTacToe.start(primaryStage)
+            ticTacToeAI.start(primaryStage)
         );
 
         HBox hbButtons = new HBox();
         hbButtons.getChildren().add(stopButton);
         hbButtons.getChildren().add(resetButton);
-        hbButtons.setAlignment(Pos.CENTER_RIGHT);
+        hbButtons.setAlignment(Pos.TOP_RIGHT);
         hbButtons.setId("topPane");
+        hbButtons.setSpacing(50);
 
         pane.setTop(hbButtons);
+
+        Label turnLabel = new Label("De beurt is aan:");
+        turnBox.getChildren().add(turnLabel);
+        turnBox.getChildren().add(new Label("" + getTurn()));
+        pane.setLeft(turnBox);
 
         int id = 0;
         for(int i = 0; i < 3; i++) {
@@ -95,95 +108,95 @@ public class TicTacToe extends Application {
     }
 
     public Boolean isWon() {
-        int x_horizontal = 0;
-        int o_horizontal = 0;
+        int xHorizontal = 0;
+        int oHorizontal = 0;
 
         // horizontal row check
         for(int i = 0; i<3; i++) {
             for(int j = 0; j<3; j++) {
                 if(positions[i][j] == 'x') {
-                    winning_positions[i][j] = 'x';
-                    x_horizontal++;
+                    winningPositions[i][j] = 'x';
+                    xHorizontal++;
                 }
                 if(positions[i][j] == 'o') {
-                    winning_positions[i][j] = 'o';
-                    o_horizontal++;
+                    winningPositions[i][j] = 'o';
+                    oHorizontal++;
                 }
             }
 
-            if(x_horizontal == 3 || o_horizontal == 3) {
+            if(xHorizontal == 3 || oHorizontal == 3) {
                 return true;
             }
 
-            x_horizontal = 0;
-            o_horizontal = 0;
+            xHorizontal = 0;
+            oHorizontal = 0;
             resetWinningPositions();
         }
 
-        int x_vertical = 0;
-        int o_vertical = 0;
+        int xVertical = 0;
+        int oVertical = 0;
 
         for(int i = 0; i<3; i++) {
             for(int j = 0; j<3; j++) {
                 if(positions[j][i] == 'x') {
-                    winning_positions[j][i] = 'x';
-                    x_vertical++;
+                    winningPositions[j][i] = 'x';
+                    xVertical++;
                 }
                 if(positions[j][i] == 'o') {
-                    winning_positions[j][i] = 'o';
-                    o_vertical++;
+                    winningPositions[j][i] = 'o';
+                    oVertical++;
                 }
             }
 
-            if(x_vertical == 3 || o_vertical == 3) {
+            if(xVertical == 3 || oVertical == 3) {
                 return true;
             }
-            x_vertical = 0;
-            o_vertical = 0;
+            xVertical = 0;
+            oVertical = 0;
             resetWinningPositions();
         }
 
         int count = 0;
-        int x_diagonal = 0;
-        int o_diagonal = 0;
+        int xDiagonal = 0;
+        int oDiagonal = 0;
 
         // diagonal top left to bottom right
         for(int i = 0; i < 3; i++) {
             if(positions[i][count] == 'x') {
-                winning_positions[i][count] = 'x';
-                x_diagonal++;
+                winningPositions[i][count] = 'x';
+                xDiagonal++;
             }
             if(positions[i][count] == 'o') {
-                winning_positions[i][count] = 'o';
-                o_diagonal++;
+                winningPositions[i][count] = 'o';
+                oDiagonal++;
             }
-            if(x_diagonal == 3 || o_diagonal == 3) {
+            if(xDiagonal == 3 || oDiagonal == 3) {
                 return true;
             }
             count++;
         }
 
         resetWinningPositions();
-        x_diagonal = 0;
-        o_diagonal = 0;
+        xDiagonal = 0;
+        oDiagonal = 0;
         count = 0;
 
         // diagonal bottom left to top right
         for(int i = 2; i >= 0; i--) {
             if(positions[i][count] == 'x') {
-                winning_positions[i][count] = 'x';
-                x_diagonal++;
+                winningPositions[i][count] = 'x';
+                xDiagonal++;
             }
             if(positions[i][count] == 'o') {
-                winning_positions[i][count] = 'o';
-                o_diagonal++;
+                winningPositions[i][count] = 'o';
+                oDiagonal++;
             }
-            if(x_diagonal == 3 || o_diagonal == 3) {
+            if(xDiagonal == 3 || oDiagonal == 3) {
                 return true;
             }
             count++;
         }
-        resetWinningPositions();
+        resetWinningPositions(  );
         return false;
     }
 
@@ -213,22 +226,30 @@ public class TicTacToe extends Application {
         if(isWon()) {
             gameOver = true;
             setWinningColors();
+            turnBox.getChildren().set(0, new Label(getTurn() + " heeft gewonnen!"));
+            turnBox.getChildren().set(1, new Label(""));
+
         } else {
             changeTurn();
+            turnBox.getChildren().set(1, new Label("" + getTurn()));
         }
     }
 
+    public void doAITurn() {
+        //TODO
+    }
+
     public void changeTurn() {
-        if(turn == 'x') {
-            this.turn = 'o';
+        if(getTurn() == 'x') {
+            setTurn('o');
         }
-        else if(turn == 'o') {
-            this.turn = 'x';
+        else if(getTurn() == 'o') {
+            setTurn('x');
         }
     }
 
     public void resetWinningPositions() {
-        this.winning_positions = new char[][] {
+        this.winningPositions = new char[][] {
                 {'e', 'e', 'e'},
                 {'e', 'e', 'e'},
                 {'e', 'e', 'e'}
@@ -238,13 +259,13 @@ public class TicTacToe extends Application {
     public void setWinningColors() {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                if(winning_positions[i][j] == 'x') {
+                if(winningPositions[i][j] == 'x') {
                     ImageView x_won = new ImageView("./x_won.png");
                     x_won.setFitHeight(150);
                     x_won.setFitWidth(150);
                     tictactoe.add(x_won, j, i);
                 }
-                if(winning_positions[i][j] == 'o') {
+                if(winningPositions[i][j] == 'o') {
                     ImageView o_won = new ImageView("./o_won.png");
                     o_won.setFitWidth(150);
                     o_won.setFitHeight(150);
@@ -257,17 +278,34 @@ public class TicTacToe extends Application {
     public ImageView getXO() {
         ImageView xo = new ImageView();
 
-        if(turn == 'x') {
+        if(getTurn() == 'x') {
             xo = new ImageView("./x.png");
         }
 
-        if(turn == 'o') {
+        if(getTurn() == 'o') {
             xo = new ImageView("./o.png");
         }
 
         xo.setFitHeight(150);
         xo.setFitWidth(150);
-
         return xo;
+    }
+
+    public char randomTurnPicker() {
+        Random r = new Random();
+        int i = r.nextInt(2);
+        if(i==0) {
+            return 'x';
+        } else {
+            return 'o';
+        }
+    }
+
+    public char getTurn() {
+        return turn;
+    }
+
+    public void setTurn(char turn) {
+        this.turn = turn;
     }
 }

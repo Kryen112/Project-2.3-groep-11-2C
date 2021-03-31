@@ -13,16 +13,17 @@ public class BoterKaasEnEierenUI extends Application {
     public void start(Stage stage) {
         MenuUI menuUI = new MenuUI();
         BoterKaasEnEierenUitlegUI boterKaasEnEierenUitlegUI = new BoterKaasEnEierenUitlegUI();
-        TicTacToe ticTacToe = new TicTacToe();
+        TicTacToeLocal ticTacToeLocal = new TicTacToeLocal();
+        TicTacToeAI ticTacToeAI = new TicTacToeAI();
 
         Button tegenComputerButton = new Button("Speel tegen een computer");
         tegenComputerButton.setOnAction(event -> 
-            ticTacToe.start(stage)
+            ticTacToeAI.start(stage)
         );
         
         Button lokaalSpelButton = new Button("Speel lokaal tegen elkaar");
         lokaalSpelButton.setOnAction(event -> 
-            menuUI.start(stage) //TODO
+            ticTacToeLocal.start(stage)
         );
 
         Button onlineSpelButton = new Button("Speel online tegen andere spelers");
