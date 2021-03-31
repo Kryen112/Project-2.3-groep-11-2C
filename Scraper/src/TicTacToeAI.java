@@ -17,7 +17,8 @@ public class TicTacToeAI extends Application {
 
     /** tictactoe - the tictactoe game board */
     private final GridPane tictactoe = new GridPane();
-    private VBox turnBox = new VBox();
+    private final VBox turnBox = new VBox();
+    private boolean isSet = false;
 
     /** positions - multidemensional char array to keep track of the positions (e = empty) */
     private final char[][] positions = {
@@ -41,7 +42,6 @@ public class TicTacToeAI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        turn = randomTurnPicker();
         BorderPane pane = setBorderPane(primaryStage);
         pane.setId("pane");
         Scene scene = new Scene(pane, 1280, 720);
@@ -50,6 +50,7 @@ public class TicTacToeAI extends Application {
         primaryStage.setTitle("TicTacToe");
         primaryStage.setScene(scene);
         primaryStage.show();
+        randomTurnPicker();
     }
 
     public BorderPane setBorderPane(Stage primaryStage) {
@@ -103,7 +104,7 @@ public class TicTacToeAI extends Application {
         button.setPrefWidth(width);
         button.setPrefHeight(height);
         button.setStyle(buttonStyle(id));
-        button.setOnAction(event -> doMove(button, hPos, vPos));
+        button.setOnAction(event -> processTurn(button, hPos, vPos));
         return button;
     }
 
@@ -215,12 +216,43 @@ public class TicTacToeAI extends Application {
         }
     }
 
-    public void doMove(Button button, int hPos, int vPos) {
+    public void processTurn(Button button, int hPos, int vPos) {
+        doUserTurn(button, hPos, vPos);
+        if(!isSet) {
+            doAITurn();
+        }
+        isSet = false;
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                System.out.print(positions[i][j]);
+            }
+        }
+        System.out.println("");
+    }
 
+    public void changeTurn() {
+        if(getTurn() == 'x') {
+            setTurn('o');
+        }
+        else if(getTurn() == 'o') {
+            setTurn('x');
+        }
+    }
+
+    public void doAITurn() {
         if(!gameOver) {
-            tictactoe.add(getXO(), hPos, vPos);
-            positions[vPos][hPos] = turn;
-            button.setOnAction(null);
+            boolean validMove = false;
+
+            while (!validMove) {
+                Random r = new Random();
+                int i = r.nextInt(3);
+                int j = r.nextInt(3);
+                if (positions[j][i] == 'e') {
+                    positions[j][i] = 'o';
+                    tictactoe.add(getXO(), i, j);
+                    validMove = true;
+                }
+            }
         }
 
         if(isWon()) {
@@ -235,12 +267,29 @@ public class TicTacToeAI extends Application {
         }
     }
 
-    public void changeTurn() {
-        if(getTurn() == 'x') {
-            setTurn('o');
+    public void doUserTurn(Button button, int hPos, int vPos) {
+        if(!gameOver) {
+            if (positions[vPos][hPos] == 'o') {
+                button.setOnAction(null);
+                isSet = true;
+            } else {
+                tictactoe.add(getXO(), hPos, vPos);
+                positions[vPos][hPos] = turn;
+                button.setOnAction(null);
+            }
         }
-        else if(getTurn() == 'o') {
-            setTurn('x');
+
+        if(isWon()) {
+            gameOver = true;
+            setWinningColors();
+            turnBox.getChildren().set(0, new Label(getTurn() + " heeft gewonnen!"));
+            turnBox.getChildren().set(1, new Label(""));
+
+        } else {
+            if(!isSet) {
+                changeTurn();
+            }
+            turnBox.getChildren().set(1, new Label("" + getTurn()));
         }
     }
 
@@ -287,13 +336,14 @@ public class TicTacToeAI extends Application {
         return xo;
     }
 
-    public char randomTurnPicker() {
+    public void randomTurnPicker() {
         Random r = new Random();
         int i = r.nextInt(2);
         if(i==0) {
-            return 'x';
+            turn = 'x';
         } else {
-            return 'o';
+            turn = 'o';
+            doAITurn();
         }
     }
 
