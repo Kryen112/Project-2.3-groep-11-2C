@@ -189,15 +189,15 @@ public class TicTacToe extends Application {
 
     public String buttonStyle(int id) {
         switch (id) {
-            case 0: return "-fx-border-color: black; -fx-border-width: 0 2 2 0; -fx-background-color: transparent";
-            case 1: return "-fx-border-color: black; -fx-border-width: 2 2 2 0; -fx-background-color: transparent";
-            case 2: return "-fx-border-color: black; -fx-border-width: 2 2 0 0; -fx-background-color: transparent";
-            case 3: return "-fx-border-color: black; -fx-border-width: 0 2 2 2; -fx-background-color: transparent";
-            case 4: return "-fx-border-color: black; -fx-border-width: 2 2 2 2; -fx-background-color: transparent";
-            case 5: return "-fx-border-color: black; -fx-border-width: 2 2 0 2; -fx-background-color: transparent";
-            case 6: return "-fx-border-color: black; -fx-border-width: 0 0 2 2; -fx-background-color: transparent";
-            case 7: return "-fx-border-color: black; -fx-border-width: 2 0 2 2; -fx-background-color: transparent";
-            case 8: return "-fx-border-color: black; -fx-border-width: 2 0 0 2; -fx-background-color: transparent";
+            case 0: return "-fx-border-color: black; -fx-border-width: 0 4 4 0; -fx-background-color: transparent";
+            case 1: return "-fx-border-color: black; -fx-border-width: 4 4 4 0; -fx-background-color: transparent";
+            case 2: return "-fx-border-color: black; -fx-border-width: 4 4 0 0; -fx-background-color: transparent";
+            case 3: return "-fx-border-color: black; -fx-border-width: 0 4 4 4; -fx-background-color: transparent";
+            case 4: return "-fx-border-color: black; -fx-border-width: 4 4 4 4; -fx-background-color: transparent";
+            case 5: return "-fx-border-color: black; -fx-border-width: 4 4 0 4; -fx-background-color: transparent";
+            case 6: return "-fx-border-color: black; -fx-border-width: 0 0 4 4; -fx-background-color: transparent";
+            case 7: return "-fx-border-color: black; -fx-border-width: 4 0 4 4; -fx-background-color: transparent";
+            case 8: return "-fx-border-color: black; -fx-border-width: 4 0 0 4; -fx-background-color: transparent";
             default: return null;
         }
     }
@@ -213,16 +213,6 @@ public class TicTacToe extends Application {
         if(isWon()) {
             gameOver = true;
             setWinningColors();
-            for(int i = 0; i < 3; i++) {
-                for(int j = 0; j < 3; j++) {
-                    System.out.println("Winning positions: "+winning_positions[i][j]);
-                }
-            }
-            for(int i = 0; i < 3; i++) {
-                for(int j = 0; j < 3; j++) {
-                    System.out.println("ALl position: "+positions[i][j]);
-                }
-            }
         } else {
             changeTurn();
         }
