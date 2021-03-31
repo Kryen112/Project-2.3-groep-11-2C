@@ -3,6 +3,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -11,6 +12,7 @@ public class TicTacToe extends Application {
 
     /** tictactoe - the tictactoe game board */
     private final GridPane tictactoe = new GridPane();
+    private VBox turnBox = new VBox();
 
     /** positions - multidemensional char array to keep track of the positions (e = empty) */
     private final char[][] positions = {
@@ -65,10 +67,16 @@ public class TicTacToe extends Application {
         HBox hbButtons = new HBox();
         hbButtons.getChildren().add(stopButton);
         hbButtons.getChildren().add(resetButton);
-        hbButtons.setAlignment(Pos.CENTER_RIGHT);
+        hbButtons.setAlignment(Pos.TOP_RIGHT);
         hbButtons.setId("topPane");
+        hbButtons.setSpacing(50);
 
         pane.setTop(hbButtons);
+
+        Label turnLabel = new Label("De beurt is aan:");
+        turnBox.getChildren().add(turnLabel);
+        turnBox.getChildren().add(new Label("" + getTurn()));
+        pane.setLeft(turnBox);
 
         int id = 0;
         for(int i = 0; i < 3; i++) {
@@ -213,17 +221,21 @@ public class TicTacToe extends Application {
         if(isWon()) {
             gameOver = true;
             setWinningColors();
+            turnBox.getChildren().set(0, new Label(getTurn() + " heeft gewonnen!"));
+            turnBox.getChildren().set(1, new Label(""));
+
         } else {
             changeTurn();
+            turnBox.getChildren().set(1, new Label("" + getTurn()));
         }
     }
 
     public void changeTurn() {
-        if(turn == 'x') {
-            this.turn = 'o';
+        if(getTurn() == 'x') {
+            setTurn('o');
         }
-        else if(turn == 'o') {
-            this.turn = 'x';
+        else if(getTurn() == 'o') {
+            setTurn('x');
         }
     }
 
@@ -257,11 +269,11 @@ public class TicTacToe extends Application {
     public ImageView getXO() {
         ImageView xo = new ImageView();
 
-        if(turn == 'x') {
+        if(getTurn() == 'x') {
             xo = new ImageView("./x.png");
         }
 
-        if(turn == 'o') {
+        if(getTurn() == 'o') {
             xo = new ImageView("./o.png");
         }
 
@@ -269,5 +281,14 @@ public class TicTacToe extends Application {
         xo.setFitWidth(150);
 
         return xo;
+
+    }
+
+    public char getTurn() {
+        return turn;
+    }
+
+    public void setTurn(char turn) {
+        this.turn = turn;
     }
 }
