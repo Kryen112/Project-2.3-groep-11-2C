@@ -9,12 +9,36 @@ import javafx.stage.Stage;
 
 public class TicTacToe extends Application {
 
+    /** tictactoe - the tictactoe game board */
     private final GridPane tictactoe = new GridPane();
+
+    /** positions - multidemensional char array to keep track of the positions (e = empty) */
+    private final char[][] positions = {
+            {'e', 'e', 'e'},
+            {'e', 'e', 'e'},
+            {'e', 'e', 'e'}
+    };
+
+    /** winning_positions - multdimensional char array to keep track of the winning sets (e = empty) */
+    private char[][] winning_positions = {
+            {'e', 'e', 'e'},
+            {'e', 'e', 'e'},
+            {'e', 'e', 'e'}
+    };
+
+    /** turn - char that represents current turn of player */
+    private char turn = 'x';
+
+    /** gameOver - boolean to check if game is over */
+    private boolean gameOver = false;
 
     @Override
     public void start(Stage primaryStage) {
         BorderPane pane = setBorderPane(primaryStage);
-        Scene scene = new Scene(pane, 500, 500);
+        pane.setId("pane");
+
+        Scene scene = new Scene(pane, 1280, 720);
+        scene.getStylesheets().addAll(this.getClass().getResource("Menus.css").toExternalForm());
 
         primaryStage.setTitle("TicTacToe");
         primaryStage.setScene(scene);
@@ -24,11 +48,9 @@ public class TicTacToe extends Application {
     public BorderPane setBorderPane(Stage primaryStage) {
         BoterKaasEnEierenUI boterKaasEnEierenUI = new BoterKaasEnEierenUI();
         TicTacToe ticTacToe = new TicTacToe();
+
         BorderPane pane = new BorderPane();
-
         pane.setPadding(new Insets(10, 10, 10, 10));
-
-        HBox hbButtons = new HBox();
 
         Button stopButton = new Button("Stop");
         stopButton.setOnAction(event -> 
@@ -40,19 +62,18 @@ public class TicTacToe extends Application {
             ticTacToe.start(primaryStage)
         );
 
+        HBox hbButtons = new HBox();
         hbButtons.getChildren().add(stopButton);
         hbButtons.getChildren().add(resetButton);
         hbButtons.setAlignment(Pos.CENTER_RIGHT);
-
-        hbButtons.setSpacing(50);
+        hbButtons.setId("topPane");
 
         pane.setTop(hbButtons);
 
         int id = 0;
-
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
-                tictactoe.add(createButton(id,50, 50, i, j), i, j);
+                tictactoe.add(createButton(id, 150, 150, i, j), i, j);
                 id++;
             }
         }
@@ -64,39 +85,189 @@ public class TicTacToe extends Application {
         return pane;
     }
 
-    public Button createButton(int id, int width, int height, int xPos, int yPos) {
+    public Button createButton(int id, int width, int height, int hPos, int vPos) {
         Button button = new Button();
         button.setPrefWidth(width);
         button.setPrefHeight(height);
         button.setStyle(buttonStyle(id));
-        button.setOnAction(event -> doMove(button, xPos, yPos));
+        button.setOnAction(event -> doMove(button, hPos, vPos));
         return button;
+    }
+
+    public Boolean isWon() {
+        int x_horizontal = 0;
+        int o_horizontal = 0;
+
+        // horizontal row check
+        for(int i = 0; i<3; i++) {
+            for(int j = 0; j<3; j++) {
+                if(positions[i][j] == 'x') {
+                    winning_positions[i][j] = 'x';
+                    x_horizontal++;
+                }
+                if(positions[i][j] == 'o') {
+                    winning_positions[i][j] = 'o';
+                    o_horizontal++;
+                }
+            }
+
+            if(x_horizontal == 3 || o_horizontal == 3) {
+                return true;
+            }
+
+            x_horizontal = 0;
+            o_horizontal = 0;
+            resetWinningPositions();
+        }
+
+        int x_vertical = 0;
+        int o_vertical = 0;
+
+        for(int i = 0; i<3; i++) {
+            for(int j = 0; j<3; j++) {
+                if(positions[j][i] == 'x') {
+                    winning_positions[j][i] = 'x';
+                    x_vertical++;
+                }
+                if(positions[j][i] == 'o') {
+                    winning_positions[j][i] = 'o';
+                    o_vertical++;
+                }
+            }
+
+            if(x_vertical == 3 || o_vertical == 3) {
+                return true;
+            }
+            x_vertical = 0;
+            o_vertical = 0;
+            resetWinningPositions();
+        }
+
+        int count = 0;
+        int x_diagonal = 0;
+        int o_diagonal = 0;
+
+        // diagonal top left to bottom right
+        for(int i = 0; i < 3; i++) {
+            if(positions[i][count] == 'x') {
+                winning_positions[i][count] = 'x';
+                x_diagonal++;
+            }
+            if(positions[i][count] == 'o') {
+                winning_positions[i][count] = 'o';
+                o_diagonal++;
+            }
+            if(x_diagonal == 3 || o_diagonal == 3) {
+                return true;
+            }
+            count++;
+        }
+
+        resetWinningPositions();
+        x_diagonal = 0;
+        o_diagonal = 0;
+        count = 0;
+
+        // diagonal bottom left to top right
+        for(int i = 2; i >= 0; i--) {
+            if(positions[i][count] == 'x') {
+                winning_positions[i][count] = 'x';
+                x_diagonal++;
+            }
+            if(positions[i][count] == 'o') {
+                winning_positions[i][count] = 'o';
+                o_diagonal++;
+            }
+            if(x_diagonal == 3 || o_diagonal == 3) {
+                return true;
+            }
+            count++;
+        }
+        resetWinningPositions();
+        return false;
     }
 
     public String buttonStyle(int id) {
         switch (id) {
-            case 0: return "-fx-border-color: black; -fx-border-width: 0 2 2 0; -fx-background-color: transparent";
-            case 1: return "-fx-border-color: black; -fx-border-width: 2 2 2 0; -fx-background-color: transparent";
-            case 2: return "-fx-border-color: black; -fx-border-width: 2 2 0 0; -fx-background-color: transparent";
-            case 3: return "-fx-border-color: black; -fx-border-width: 0 2 2 2; -fx-background-color: transparent";
-            case 4: return "-fx-border-color: black; -fx-border-width: 2 2 2 2; -fx-background-color: transparent";
-            case 5: return "-fx-border-color: black; -fx-border-width: 2 2 0 2; -fx-background-color: transparent";
-            case 6: return "-fx-border-color: black; -fx-border-width: 0 0 2 2; -fx-background-color: transparent";
-            case 7: return "-fx-border-color: black; -fx-border-width: 2 0 2 2; -fx-background-color: transparent";
-            case 8: return "-fx-border-color: black; -fx-border-width: 2 0 0 2; -fx-background-color: transparent";
+            case 0: return "-fx-border-color: black; -fx-border-width: 0 4 4 0; -fx-background-color: transparent";
+            case 1: return "-fx-border-color: black; -fx-border-width: 4 4 4 0; -fx-background-color: transparent";
+            case 2: return "-fx-border-color: black; -fx-border-width: 4 4 0 0; -fx-background-color: transparent";
+            case 3: return "-fx-border-color: black; -fx-border-width: 0 4 4 4; -fx-background-color: transparent";
+            case 4: return "-fx-border-color: black; -fx-border-width: 4 4 4 4; -fx-background-color: transparent";
+            case 5: return "-fx-border-color: black; -fx-border-width: 4 4 0 4; -fx-background-color: transparent";
+            case 6: return "-fx-border-color: black; -fx-border-width: 0 0 4 4; -fx-background-color: transparent";
+            case 7: return "-fx-border-color: black; -fx-border-width: 4 0 4 4; -fx-background-color: transparent";
+            case 8: return "-fx-border-color: black; -fx-border-width: 4 0 0 4; -fx-background-color: transparent";
             default: return null;
         }
     }
 
-    public void doMove(Button button, int xPos, int yPos) {
-        tictactoe.add(getX(), xPos, yPos);
-        button.setOnAction(null);
+    public void doMove(Button button, int hPos, int vPos) {
+
+        if(!gameOver) {
+            tictactoe.add(getXO(), hPos, vPos);
+            positions[vPos][hPos] = turn;
+            button.setOnAction(null);
+        }
+
+        if(isWon()) {
+            gameOver = true;
+            setWinningColors();
+        } else {
+            changeTurn();
+        }
     }
 
-    public ImageView getX() {
-        ImageView x = new ImageView("./x.png");
-        x.setFitHeight(45);
-        x.setFitWidth(45);
-        return x;
+    public void changeTurn() {
+        if(turn == 'x') {
+            this.turn = 'o';
+        }
+        else if(turn == 'o') {
+            this.turn = 'x';
+        }
+    }
+
+    public void resetWinningPositions() {
+        this.winning_positions = new char[][] {
+                {'e', 'e', 'e'},
+                {'e', 'e', 'e'},
+                {'e', 'e', 'e'}
+        };
+    }
+
+    public void setWinningColors() {
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                if(winning_positions[i][j] == 'x') {
+                    ImageView x_won = new ImageView("./x_won.png");
+                    x_won.setFitHeight(150);
+                    x_won.setFitWidth(150);
+                    tictactoe.add(x_won, j, i);
+                }
+                if(winning_positions[i][j] == 'o') {
+                    ImageView o_won = new ImageView("./o_won.png");
+                    o_won.setFitWidth(150);
+                    o_won.setFitHeight(150);
+                    tictactoe.add(o_won, j, i);
+                }
+            }
+        }
+    }
+
+    public ImageView getXO() {
+        ImageView xo = new ImageView();
+
+        if(turn == 'x') {
+            xo = new ImageView("./x.png");
+        }
+
+        if(turn == 'o') {
+            xo = new ImageView("./o.png");
+        }
+
+        xo.setFitHeight(150);
+        xo.setFitWidth(150);
+
+        return xo;
     }
 }
