@@ -196,7 +196,7 @@ public class TicTacToeAI extends Application {
             }
             count++;
         }
-        resetWinningPositions(  );
+        resetWinningPositions();
         return false;
     }
 
@@ -233,10 +233,6 @@ public class TicTacToeAI extends Application {
             changeTurn();
             turnBox.getChildren().set(1, new Label("" + getTurn()));
         }
-    }
-
-    public void doAITurn() {
-        //TODO
     }
 
     public void changeTurn() {
