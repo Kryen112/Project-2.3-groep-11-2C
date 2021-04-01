@@ -17,7 +17,8 @@ public class TicTacToeAI extends Application {
 
     /** tictactoe - the tictactoe game board */
     private final GridPane tictactoe = new GridPane();
-    private VBox turnBox = new VBox();
+    private final VBox turnBox = new VBox();
+    private boolean isSet = false;
 
     /** positions - multidemensional char array to keep track of the positions (e = empty) */
     private final char[][] positions = {
@@ -34,14 +35,16 @@ public class TicTacToeAI extends Application {
     };
 
     /** turn - char that represents current turn of player */
-    private char turn;
+    private char turn = 'x';
 
     /** gameOver - boolean to check if game is over */
     private boolean gameOver = false;
 
+    /** turns - integer that represents the amount of turns taken */
+    private int turns = 0;
+
     @Override
     public void start(Stage primaryStage) {
-        turn = randomTurnPicker();
         BorderPane pane = setBorderPane(primaryStage);
         pane.setId("pane");
         Scene scene = new Scene(pane, 1280, 720);
@@ -50,6 +53,7 @@ public class TicTacToeAI extends Application {
         primaryStage.setTitle("TicTacToe");
         primaryStage.setScene(scene);
         primaryStage.show();
+        randomTurnPicker();
     }
 
     public BorderPane setBorderPane(Stage primaryStage) {
@@ -103,7 +107,7 @@ public class TicTacToeAI extends Application {
         button.setPrefWidth(width);
         button.setPrefHeight(height);
         button.setStyle(buttonStyle(id));
-        button.setOnAction(event -> doMove(button, hPos, vPos));
+        button.setOnAction(event -> processTurn(button, hPos, vPos));
         return button;
     }
 
@@ -196,7 +200,7 @@ public class TicTacToeAI extends Application {
             }
             count++;
         }
-        resetWinningPositions(  );
+        resetWinningPositions();
         return false;
     }
 
@@ -215,28 +219,12 @@ public class TicTacToeAI extends Application {
         }
     }
 
-    public void doMove(Button button, int hPos, int vPos) {
-
-        if(!gameOver) {
-            tictactoe.add(getXO(), hPos, vPos);
-            positions[vPos][hPos] = turn;
-            button.setOnAction(null);
+    public void processTurn(Button button, int hPos, int vPos) {
+        doUserTurn(button, hPos, vPos);
+        if(!isSet) {
+            doAITurn();
         }
-
-        if(isWon()) {
-            gameOver = true;
-            setWinningColors();
-            turnBox.getChildren().set(0, new Label(getTurn() + " heeft gewonnen!"));
-            turnBox.getChildren().set(1, new Label(""));
-
-        } else {
-            changeTurn();
-            turnBox.getChildren().set(1, new Label("" + getTurn()));
-        }
-    }
-
-    public void doAITurn() {
-        //TODO
+        isSet = false;
     }
 
     public void changeTurn() {
@@ -245,6 +233,238 @@ public class TicTacToeAI extends Application {
         }
         else if(getTurn() == 'o') {
             setTurn('x');
+        }
+    }
+
+    public void doAITurn() {
+        boolean validMove = false;
+        if(!gameOver) {
+            while(!validMove) {
+                //Eerst controleren of de computer ergens 3 op een rij kan krijgen
+                for(int a = 0; a < 3; a++) { 
+                    //Verticale checks om te winnen
+                    if(positions[a][0] == 'o' && positions[a][1] == 'o' && positions[a][2] == 'e' && !validMove) {
+                        positions[a][2] = 'o';
+                        tictactoe.add(getXO(), 2, a);
+                        turns++;
+                        validMove = true;
+                    }
+                    if(positions[a][1] == 'o' && positions[a][2] == 'o' && positions[a][0] == 'e' && !validMove) {
+                        positions[a][0] = 'o';
+                        tictactoe.add(getXO(), 0, a);
+                        turns++;
+                        validMove = true;
+                    }
+                    if(positions[a][0] == 'o' && positions[a][2] == 'o' && positions[a][1] == 'e' && !validMove) {
+                        positions[a][1] = 'o';
+                        tictactoe.add(getXO(), 1, a);
+                        turns++;
+                        validMove = true;
+                    }
+                    //Horizontale checks om te winnen
+                    if(positions[0][a] == 'o' && positions[1][a] == 'o' && positions[2][a] == 'e' && !validMove) {
+                        positions[2][a] = 'o';
+                        tictactoe.add(getXO(), a, 2);
+                        turns++;
+                        validMove = true;
+                    }
+                    if(positions[1][a] == 'o' && positions[2][a] == 'o' && positions[0][a] == 'e' && !validMove) {
+                        positions[0][a] = 'o';
+                        tictactoe.add(getXO(), a, 0);
+                        turns++;
+                        validMove = true;
+                    }
+                    if(positions[0][a] == 'o' && positions[2][a] == 'o' && positions[1][a] == 'e' && !validMove) {
+                        positions[1][a] = 'o';
+                        tictactoe.add(getXO(), a, 1);
+                        turns++;
+                        validMove = true;
+                    }
+                }
+                //Diagonale checks om te winnen (\)
+                if(positions[0][0] == 'o' && positions[1][1] == 'o' && positions[2][2] == 'e' && !validMove) {
+                    positions[2][2] = 'o';
+                    tictactoe.add(getXO(), 2, 2);
+                    turns++;
+                    validMove = true;
+                }
+                if(positions[1][1] == 'o' && positions[2][2] == 'o' && positions[0][0] == 'e' && !validMove) {
+                    positions[0][0] = 'o';
+                    tictactoe.add(getXO(), 0, 0);
+                    turns++;
+                    validMove = true;
+                }
+                if(positions[0][0] == 'o' && positions[2][2] == 'o' && positions[1][1] == 'e' && !validMove) {
+                    positions[1][1] = 'o';
+                    tictactoe.add(getXO(), 1, 1);
+                    turns++;
+                    validMove = true;
+                }
+                //Diagonale checks om te winnen (/)
+                if(positions[0][2] == 'o' && positions[1][1] == 'o' && positions[2][0] == 'e' && !validMove) {
+                    positions[2][0] = 'o';
+                    tictactoe.add(getXO(), 0, 2);
+                    turns++;
+                    validMove = true;
+                }
+                if(positions[1][1] == 'o' && positions[2][0] == 'o' && positions[0][2] == 'e' && !validMove) {
+                    positions[0][2] = 'o';
+                    tictactoe.add(getXO(), 2, 0);
+                    turns++;
+                    validMove = true;
+                }
+                if(positions[2][0] == 'o' && positions[0][2] == 'o' && positions[1][1] == 'e' && !validMove) {
+                    positions[1][1] = 'o';
+                    tictactoe.add(getXO(), 1, 1);
+                    turns++;
+                    validMove = true;
+                }
+
+                //Nu controleren of de tegenspeler in de volgende beurt ergens 3 op een rij kan krijgen.
+                for(int b = 0; b < 3; b++) { 
+                    //Verticale checks om niet te verliezen
+                    if(positions[b][0] == 'x' && positions[b][1] == 'x' && positions[b][2] == 'e' && !validMove) {
+                        positions[b][2] = 'o';
+                        tictactoe.add(getXO(), 2, b);
+                        turns++;
+                        validMove = true;
+                    }
+                    if(positions[b][1] == 'x' && positions[b][2] == 'x' && positions[b][0] == 'e' && !validMove) {
+                        positions[b][0] = 'o';
+                        tictactoe.add(getXO(), 0, b);
+                        turns++;
+                        validMove = true;
+                    }
+                    if(positions[b][0] == 'x' && positions[b][2] == 'x' && positions[b][1] == 'e' && !validMove) {
+                        positions[b][1] = 'o';
+                        tictactoe.add(getXO(), 1, b);
+                        turns++;
+                        validMove = true;
+                    }
+                    //Horizontale checks om niet te verliezen
+                    if(positions[0][b] == 'x' && positions[1][b] == 'x' && positions[2][b] == 'e' && !validMove) {
+                        positions[2][b] = 'o';
+                        tictactoe.add(getXO(), b, 2);
+                        turns++;
+                        validMove = true;
+                    }
+                    if(positions[1][b] == 'x' && positions[2][b] == 'x' && positions[0][b] == 'e' && !validMove) {
+                        positions[0][b] = 'o';
+                        tictactoe.add(getXO(), b, 0);
+                        turns++;
+                        validMove = true;
+                    }
+                    if(positions[0][b] == 'x' && positions[2][b] == 'x' && positions[1][b] == 'e' && !validMove) {
+                        positions[1][b] = 'o';
+                        tictactoe.add(getXO(), b, 1);
+                        turns++;
+                        validMove = true;
+                    }
+                }
+                //Diagonale checks om niet te verliezen (\)
+                if(positions[0][0] == 'x' && positions[1][1] == 'x' && positions[2][2] == 'e' && !validMove) {
+                    positions[2][2] = 'o';
+                    tictactoe.add(getXO(), 2, 2);
+                    turns++;
+                    validMove = true;
+                }
+                if(positions[1][1] == 'x' && positions[2][2] == 'x' && positions[0][0] == 'e' && !validMove) {
+                    positions[0][0] = 'o';
+                    tictactoe.add(getXO(), 0, 0);
+                    turns++;
+                    validMove = true;
+                }
+                if(positions[0][0] == 'x' && positions[2][2] == 'x' && positions[1][1] == 'e' && !validMove) {
+                    positions[1][1] = 'o';
+                    tictactoe.add(getXO(), 1, 1);
+                    turns++;
+                    validMove = true;
+                }
+                //Diagonale checks om niet te verliezen (/)
+                if(positions[0][2] == 'x' && positions[1][1] == 'x' && positions[2][0] == 'e' && !validMove) {
+                    positions[2][0] = 'o';
+                    tictactoe.add(getXO(), 0, 2);
+                    turns++;
+                    validMove = true;
+                }
+                if(positions[1][1] == 'x' && positions[2][0] == 'x' && positions[0][2] == 'e' && !validMove) {
+                    positions[0][2] = 'o';
+                    tictactoe.add(getXO(), 2, 0);
+                    turns++;
+                    validMove = true;
+                }
+                if(positions[2][0] == 'x' && positions[0][2] == 'x' && positions[1][1] == 'e' && !validMove) {
+                    positions[1][1] = 'o';
+                    tictactoe.add(getXO(), 1, 1);
+                    turns++;
+                    validMove = true;
+                }
+                //Nu proberen 2 naast elkaar te krijgen
+
+                //Als niets hierboven werkt, maar het midden is open; vul het midden.
+                if(!validMove && positions[1][1] == 'e') {
+                    positions[1][1] = 'o';
+                    tictactoe.add(getXO(), 1, 1);
+                    turns++;
+                    validMove = true;
+                }
+                //Als geen van de bovenstaande criteria werken, doe een willekeurige zet.
+                if(!validMove) { 
+                    Random r = new Random();
+                    int i = r.nextInt(3);
+                    int j = r.nextInt(3);
+                    if(positions[j][i] == 'e') {
+                        positions[j][i] = 'o';
+                        tictactoe.add(getXO(), i, j);
+                        turns++;
+                        validMove = true;
+                    }
+                }
+            }
+        }
+
+        if(isWon()) {
+            gameOver = true;
+            setWinningColors();
+            turnBox.getChildren().set(0, new Label(getTurn() + " heeft gewonnen!"));
+            turnBox.getChildren().set(1, new Label(""));
+        } else if(turns == 9) {
+            gameOver = true;
+            turnBox.getChildren().set(0, new Label("Helaas, gelijkspel!"));
+            turnBox.getChildren().set(1, new Label(""));
+        } else {
+            changeTurn();
+            turnBox.getChildren().set(1, new Label("" + getTurn()));
+        }
+    }
+
+    public void doUserTurn(Button button, int hPos, int vPos) {
+        if(!gameOver) {
+            if (positions[vPos][hPos] == 'o') {
+                button.setOnAction(null);
+                isSet = true;
+            } else {
+                tictactoe.add(getXO(), hPos, vPos);
+                positions[vPos][hPos] = turn;
+                button.setOnAction(null);
+                turns++;
+            }
+        }
+
+        if(isWon()) {
+            gameOver = true;
+            setWinningColors();
+            turnBox.getChildren().set(0, new Label(getTurn() + " heeft gewonnen!"));
+            turnBox.getChildren().set(1, new Label(""));
+        } else if(turns == 9) {
+            gameOver = true;
+            turnBox.getChildren().set(0, new Label("Helaas, gelijkspel!"));
+            turnBox.getChildren().set(1, new Label(""));
+        } else {
+            if(!isSet) {
+                changeTurn();
+            }
+            turnBox.getChildren().set(1, new Label("" + getTurn()));
         }
     }
 
@@ -260,16 +480,16 @@ public class TicTacToeAI extends Application {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 if(winningPositions[i][j] == 'x') {
-                    ImageView x_won = new ImageView("./x_won.png");
-                    x_won.setFitHeight(150);
-                    x_won.setFitWidth(150);
-                    tictactoe.add(x_won, j, i);
+                    ImageView xWon = new ImageView("./x_won.png");
+                    xWon.setFitHeight(150);
+                    xWon.setFitWidth(150);
+                    tictactoe.add(xWon, j, i);
                 }
                 if(winningPositions[i][j] == 'o') {
-                    ImageView o_won = new ImageView("./o_won.png");
-                    o_won.setFitWidth(150);
-                    o_won.setFitHeight(150);
-                    tictactoe.add(o_won, j, i);
+                    ImageView oWon = new ImageView("./o_won.png");
+                    oWon.setFitWidth(150);
+                    oWon.setFitHeight(150);
+                    tictactoe.add(oWon, j, i);
                 }
             }
         }
@@ -291,13 +511,14 @@ public class TicTacToeAI extends Application {
         return xo;
     }
 
-    public char randomTurnPicker() {
+    public void randomTurnPicker() {
         Random r = new Random();
         int i = r.nextInt(2);
         if(i==0) {
-            return 'x';
+            setTurn('x');
         } else {
-            return 'o';
+            setTurn('o');
+            doAITurn();
         }
     }
 
