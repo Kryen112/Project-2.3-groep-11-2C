@@ -6,6 +6,7 @@
     "configurations": [
         {
             "type": "java",
+
             "name": "Launch Test",
             "request": "launch",
             "mainClass": "Test",
