@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+    Start will serve as the startup for the Application,
+    this fxml file works with the java class Start which can be found in the controllers package
+
+    @author Anouk
+-->
+<?import javafx.scene.text.Text?>
+<?import java.net.URL?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="groep11.controllers.Start">
+
+    <!--
+        The BorderPane has a top and bottom section reserved for navigation / information purposes
+        The center section is reserved for the various game screens possible
+        The handling of the center
+    -->
+    <BorderPane fx:id="mainPane" >
+        <left>
+            <VBox translateX="-1" fx:id="menu">
+                <Button fx:id="home" text="Spellen" onAction="#handleHomeButton" alignment="BOTTOM_LEFT"/>
+
+                <!--   TODO FUTURE when user is logged in change image to desired image -->
+                <ImageView fitWidth="120" fitHeight="100" translateX="10">
+<!--                    <Image fx:id="userPicture" url="@../images/temp.png"/>-->
+                    <Image fx:id="userPicture" url="@../images/guest.PNG"/> <!-- TODO change temp image to logo -->
+                </ImageView>
+
+                <!--   TODO when user is logged in
+                        - change login button to logout
+                        - add button to go to profile
+                        - display username as buttonName -->
+                <Button fx:id="login" text="Login" onAction="#handleLoginButton" alignment="BOTTOM_LEFT"/>
+                <Button fx:id="profile" text="Profile" onAction="#handleProfileButton" alignment="BOTTOM_LEFT"/>
+                <Button fx:id="instellingen" text="Instellingen" onAction="#handleSettingsButton" alignment="BOTTOM_LEFT"/>
+                <Button fx:id="help" text="Help" onAction="#handleHelpButton" alignment="BOTTOM_LEFT"/>
+                <Button fx:id="over" text="Over ons" onAction="#handleAboutUsButton" alignment="BOTTOM_LEFT" />
+            </VBox>
+        </left>
+
+        <center>
+            <fx:include source="gameScreen.fxml"/>
+        </center>
+
+    </BorderPane>
+
+    <stylesheets>
+        <!-- note: The @ symbol before the name of the style sheet in the URL
+            indicates that the style sheet is in the same directory as the FXML file. -->
+        <URL value="@/groep11/styling/main.css" />
+    </stylesheets>
+</AnchorPane>
