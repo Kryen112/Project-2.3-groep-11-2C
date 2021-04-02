@@ -16,6 +16,7 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
     public static Stage appPrimaryStage;
+    public static Scene homeScene;
     public static final int UIWIDTH = 900;
     public static final int UIHEIGHT = 630;
 
@@ -38,14 +39,12 @@ public class App extends Application {
      * @param uiWidth the width of the ui
      * @param uiHeight the height of the ui
      */
-    public void setPrimaryStageUI(Stage primaryStage, Parent root, String title, int uiWidth, int uiHeight){
+    public static void setPrimaryStageUI(Stage primaryStage, Parent root, String title, int uiWidth, int uiHeight){
         primaryStage.setTitle(title);
-        primaryStage.setScene(new Scene(root, uiWidth, uiHeight));
+        homeScene = new Scene(root, uiWidth, uiHeight);
+        primaryStage.setScene(homeScene);
         primaryStage.setResizable(true);    // stage is not resizable
         primaryStage.show();
     }
 
-    public static Stage getAppPrimaryStage() {
-        return appPrimaryStage;
-    }
 }
