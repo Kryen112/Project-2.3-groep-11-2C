@@ -15,11 +15,15 @@ import javafx.stage.Stage;
  * @author Anouk
  */
 public class App extends Application {
+    public static Stage appPrimaryStage;
+    public static final int UIWIDTH = 900;
+    public static final int UIHEIGHT = 630;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("fxml/start.fxml"));
-        setPrimaryStageUI(primaryStage, root, "AI Gaming", 900, 630);
+        appPrimaryStage = primaryStage;
+        setPrimaryStageUI(primaryStage, root, "AI Gaming", UIWIDTH, UIHEIGHT);
     }
 
     public static void main(String[] args) {
@@ -41,4 +45,7 @@ public class App extends Application {
         primaryStage.show();
     }
 
+    public static Stage getAppPrimaryStage() {
+        return appPrimaryStage;
+    }
 }
