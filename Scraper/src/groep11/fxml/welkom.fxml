@@ -30,14 +30,14 @@
 
     <!--  GAME1 TICTACTOE  -->
     <ImageView GridPane.columnIndex="0" GridPane.rowIndex="6" fitWidth="150" fitHeight="150">
-            <Image url="@../images/bke.jpg"/>
+            <Image url="@../images/gametypes/bke.jpg"/>
     </ImageView>
     <Button fx:id="bke" text="Boter Kaas Eieren" onAction="#playTicTacToe"
             GridPane.columnIndex="0" GridPane.rowIndex="6"/>
 
     <!--  GAME2 RIVERSI  -->
     <ImageView GridPane.columnIndex="1" GridPane.rowIndex="6" fitWidth="150" fitHeight="150">
-        <Image url="@../images/riversi.png"/>
+        <Image url="@../images/gametypes/riversi.png"/>
     </ImageView>
     <Button fx:id="riv" text="Othello" onAction="#playRiversi"
             GridPane.columnIndex="1" GridPane.rowIndex="6"/>

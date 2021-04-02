@@ -1,5 +1,6 @@
 package groep11;
 
+import groep11.controllers.GameScreen;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,4 +40,5 @@ public class App extends Application {
         primaryStage.setResizable(true);    // stage is not resizable
         primaryStage.show();
     }
+
 }

@@ -25,7 +25,6 @@ public class Start {
     @FXML protected Button help;
     @FXML protected Button over;
 
-
     /**
      * Method to handle the games button
      * @param event
@@ -115,6 +114,10 @@ public class Start {
 
         // go to About us pane view
         goToPaneView(pathToAboutUs);
+    }
+
+    public BorderPane getMainPane() {
+        return mainPane;
     }
 
     /**
