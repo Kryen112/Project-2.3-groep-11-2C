@@ -20,6 +20,8 @@ public class TicTacToeAI extends Application {
     /** tictactoe - the tictactoe game board */
     private final GridPane tictactoe = new GridPane();
     private final VBox turnBox = new VBox();
+
+    /** Temporary measure to check the state of buttons set with O */
     private boolean isSet = false;
 
     /** positions - multidemensional char array to keep track of the positions (e = empty) */
@@ -29,7 +31,7 @@ public class TicTacToeAI extends Application {
             {'e', 'e', 'e'}
     };
 
-    /** winning_positions - multdimensional char array to keep track of the winning sets (e = empty) */
+    /** winningPositions - multdimensional char array to keep track of the winning sets (e = empty) */
     private char[][] winningPositions = {
             {'e', 'e', 'e'},
             {'e', 'e', 'e'},
@@ -497,20 +499,23 @@ public class TicTacToeAI extends Application {
         }
     }
 
-    public ImageView getXO() {
+    public HBox getXO() {
         ImageView xo = new ImageView();
+        HBox returnBox = new HBox();
 
         if(getTurn() == 'x') {
             xo = new ImageView("groep11/x.png");
+            xo.setFitHeight(150);
+            xo.setFitWidth(150);
         }
-
         if(getTurn() == 'o') {
             xo = new ImageView("groep11/o.png");
+            xo.setFitHeight(130);
+            xo.setFitWidth(130);
         }
-
-        xo.setFitHeight(150);
-        xo.setFitWidth(150);
-        return xo;
+        returnBox.setAlignment(Pos.CENTER);
+        returnBox.getChildren().add(xo);
+        return returnBox;
     }
 
     public void randomTurnPicker() {
