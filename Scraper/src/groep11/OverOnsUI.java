@@ -1,3 +1,5 @@
+package groep11;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -48,7 +50,7 @@ public class OverOnsUI extends Application {
         borderPane.setCenter(gridPane);
 
         Scene scene = new Scene(borderPane, 1280, 720);
-        scene.getStylesheets().addAll(this.getClass().getResource("Menus.css").toExternalForm());
+        scene.getStylesheets().addAll(this.getClass().getResource("groep11/Menus.css").toExternalForm());
         stage.setTitle("Over ons");
         stage.setScene(scene);
         stage.show();
