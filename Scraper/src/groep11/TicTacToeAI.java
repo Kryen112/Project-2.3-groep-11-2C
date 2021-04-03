@@ -1,3 +1,5 @@
+package groep11;
+
 import java.util.Random;
 
 import javafx.application.Application;
@@ -18,6 +20,8 @@ public class TicTacToeAI extends Application {
     /** tictactoe - the tictactoe game board */
     private final GridPane tictactoe = new GridPane();
     private final VBox turnBox = new VBox();
+
+    /** Temporary measure to check the state of buttons set with O */
     private boolean isSet = false;
 
     /** positions - multidemensional char array to keep track of the positions (e = empty) */
@@ -27,7 +31,7 @@ public class TicTacToeAI extends Application {
             {'e', 'e', 'e'}
     };
 
-    /** winning_positions - multdimensional char array to keep track of the winning sets (e = empty) */
+    /** winningPositions - multdimensional char array to keep track of the winning sets (e = empty) */
     private char[][] winningPositions = {
             {'e', 'e', 'e'},
             {'e', 'e', 'e'},
@@ -48,7 +52,7 @@ public class TicTacToeAI extends Application {
         BorderPane pane = setBorderPane(primaryStage);
         pane.setId("pane");
         Scene scene = new Scene(pane, 1280, 720);
-        scene.getStylesheets().addAll(this.getClass().getResource("Menus.css").toExternalForm());
+        scene.getStylesheets().addAll(this.getClass().getResource("groep11/Menus.css").toExternalForm());
 
         primaryStage.setTitle("TicTacToe");
         primaryStage.setScene(scene);
@@ -480,13 +484,13 @@ public class TicTacToeAI extends Application {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 if(winningPositions[i][j] == 'x') {
-                    ImageView xWon = new ImageView("./x_won.png");
+                    ImageView xWon = new ImageView("groep11/x_won.png");
                     xWon.setFitHeight(150);
                     xWon.setFitWidth(150);
                     tictactoe.add(xWon, j, i);
                 }
                 if(winningPositions[i][j] == 'o') {
-                    ImageView oWon = new ImageView("./o_won.png");
+                    ImageView oWon = new ImageView("groep11/o_won.png");
                     oWon.setFitWidth(150);
                     oWon.setFitHeight(150);
                     tictactoe.add(oWon, j, i);
@@ -495,20 +499,23 @@ public class TicTacToeAI extends Application {
         }
     }
 
-    public ImageView getXO() {
+    public HBox getXO() {
         ImageView xo = new ImageView();
+        HBox returnBox = new HBox();
 
         if(getTurn() == 'x') {
-            xo = new ImageView("./x.png");
+            xo = new ImageView("groep11/x.png");
+            xo.setFitHeight(150);
+            xo.setFitWidth(150);
         }
-
         if(getTurn() == 'o') {
-            xo = new ImageView("./o.png");
+            xo = new ImageView("groep11/o.png");
+            xo.setFitHeight(130);
+            xo.setFitWidth(130);
         }
-
-        xo.setFitHeight(150);
-        xo.setFitWidth(150);
-        return xo;
+        returnBox.setAlignment(Pos.CENTER);
+        returnBox.getChildren().add(xo);
+        return returnBox;
     }
 
     public void randomTurnPicker() {

@@ -6,38 +6,17 @@
     "configurations": [
         {
             "type": "java",
-
-            "name": "Launch Test",
+            "name": "Launch Run",
             "request": "launch",
-            "mainClass": "Test",
-            "projectName": "Project-2.3-groep-11-2C_c4b4617b"
+            "mainClass": "RandomIT.Run",
+            "projectName": ""
         },
         {
             "type": "java",
-            "name": "CodeLens (Launch) - Server_Commands",
+            "name": "Launch MenuUI",
             "request": "launch",
-            "mainClass": "Server_Commands",
-            "projectName": "Project-2.3-groep-11-2C_c4b4617b"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - Connect",
-            "request": "launch",
-            "mainClass": "Connect",
-            "projectName": "Project-2.3-groep-11-2C_c4b4617b"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - App",
-            "request": "launch",
-            "mainClass": "App",
-            "projectName": "Project-2.3-groep-11-2C_c4b4617b"
-        },
-        {
-            "type": "java",
-            "name": "Launch Current File",
-            "request": "launch",
-            "mainClass": "${file}",
+            "mainClass": "MenuUI",
+            "projectName": "Project-2.3-groep-11-2C_2e1cbd2d",
             "vmArgs": "--module-path \"C:\\javafx-sdk-15.0.1\\lib\" --add-modules javafx.controls,javafx.fxml"
         }
     ]
