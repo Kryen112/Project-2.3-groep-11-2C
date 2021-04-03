@@ -1,5 +1,4 @@
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -483,7 +482,7 @@ public class TicTacToeAI extends Application {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 if(winningPositions[i][j] == 'x') {
-                    ImageView x = new ImageView("./x_won.png");
+                    ImageView x = new ImageView("x_won.png");
                     x.setFitHeight(150);
                     x.setFitWidth(150);
                     HBox xBox = new HBox();
@@ -492,7 +491,7 @@ public class TicTacToeAI extends Application {
                     tictactoe.add(xBox, j, i);
                 }
                 if(winningPositions[i][j] == 'o') {
-                    ImageView o = new ImageView("./o_won.png");
+                    ImageView o = new ImageView("o_won.png");
                     o.setFitWidth(130);
                     o.setFitHeight(130);
                     HBox oBox = new HBox();
@@ -509,12 +508,12 @@ public class TicTacToeAI extends Application {
         HBox returnBox = new HBox();
 
         if(getTurn() == 'x') {
-            xo = new ImageView("./x.png");
+            xo = new ImageView("x.png");
             xo.setFitHeight(150);
             xo.setFitWidth(150);
         }
         if(getTurn() == 'o') {
-            xo = new ImageView("./o.png");
+            xo = new ImageView("o.png");
             xo.setFitHeight(130);
             xo.setFitWidth(130);
         }

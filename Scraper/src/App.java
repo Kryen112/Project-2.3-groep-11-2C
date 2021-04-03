@@ -1,6 +1,14 @@
 import java.util.List;
 
-public class App {
+import Games.*;
+import Games.GameAttributes.*;
+import Games.GameMenu.*;
+import Games.Players.*;
+
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+public class App extends Application implements Runnable {
     private String name;
     private boolean running;
 
@@ -15,7 +23,7 @@ public class App {
     private Player winner;
 
     public static void main(String[] args) {
-
+        launch(args);
     }
 
     public void startGame() {
@@ -59,6 +67,18 @@ public class App {
     }
 
     public void quit() {
+        
+    }
+
+    @Override
+    public void start(Stage arg0) throws Exception {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
         
     }
 }
