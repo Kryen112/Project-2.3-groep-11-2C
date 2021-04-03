@@ -1,3 +1,5 @@
+package groep11;
+
 import java.util.Random;
 
 import javafx.application.Application;
@@ -50,7 +52,7 @@ public class TicTacToeAI extends Application {
         BorderPane pane = setBorderPane(primaryStage);
         pane.setId("pane");
         Scene scene = new Scene(pane, 1280, 720);
-        scene.getStylesheets().addAll(this.getClass().getResource("Menus.css").toExternalForm());
+        scene.getStylesheets().addAll(this.getClass().getResource("groep11/Menus.css").toExternalForm());
 
         primaryStage.setTitle("TicTacToe");
         primaryStage.setScene(scene);
@@ -482,22 +484,16 @@ public class TicTacToeAI extends Application {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 if(winningPositions[i][j] == 'x') {
-                    ImageView x = new ImageView("x_won.png");
-                    x.setFitHeight(150);
-                    x.setFitWidth(150);
-                    HBox xBox = new HBox();
-                    xBox.setAlignment(Pos.CENTER);
-                    xBox.getChildren().add(x);
-                    tictactoe.add(xBox, j, i);
+                    ImageView xWon = new ImageView("groep11/x_won.png");
+                    xWon.setFitHeight(150);
+                    xWon.setFitWidth(150);
+                    tictactoe.add(xWon, j, i);
                 }
                 if(winningPositions[i][j] == 'o') {
-                    ImageView o = new ImageView("o_won.png");
-                    o.setFitWidth(130);
-                    o.setFitHeight(130);
-                    HBox oBox = new HBox();
-                    oBox.setAlignment(Pos.CENTER);
-                    oBox.getChildren().add(o);
-                    tictactoe.add(oBox, j, i);
+                    ImageView oWon = new ImageView("groep11/o_won.png");
+                    oWon.setFitWidth(150);
+                    oWon.setFitHeight(150);
+                    tictactoe.add(oWon, j, i);
                 }
             }
         }
@@ -508,12 +504,12 @@ public class TicTacToeAI extends Application {
         HBox returnBox = new HBox();
 
         if(getTurn() == 'x') {
-            xo = new ImageView("x.png");
+            xo = new ImageView("groep11/x.png");
             xo.setFitHeight(150);
             xo.setFitWidth(150);
         }
         if(getTurn() == 'o') {
-            xo = new ImageView("o.png");
+            xo = new ImageView("groep11/o.png");
             xo.setFitHeight(130);
             xo.setFitWidth(130);
         }
