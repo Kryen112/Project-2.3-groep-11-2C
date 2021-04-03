@@ -1,3 +1,5 @@
+package groep11;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,20 +10,22 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class OthelloUI extends Application {
+public class BoterKaasEnEierenUI extends Application {
     @Override
     public void start(Stage stage) {
         MenuUI menuUI = new MenuUI();
-        OthelloUitlegUI othelloUitlegUI = new OthelloUitlegUI();
+        BoterKaasEnEierenUitlegUI boterKaasEnEierenUitlegUI = new BoterKaasEnEierenUitlegUI();
+        TicTacToeLocal ticTacToeLocal = new TicTacToeLocal();
+        TicTacToeAI ticTacToeAI = new TicTacToeAI();
 
         Button tegenComputerButton = new Button("Speel tegen een computer");
         tegenComputerButton.setOnAction(event -> 
-            menuUI.start(stage) //TODO
+            ticTacToeAI.start(stage)
         );
         
         Button lokaalSpelButton = new Button("Speel lokaal tegen elkaar");
         lokaalSpelButton.setOnAction(event -> 
-            menuUI.start(stage) //TODO
+            ticTacToeLocal.start(stage)
         );
 
         Button onlineSpelButton = new Button("Speel online tegen andere spelers");
@@ -34,9 +38,9 @@ public class OthelloUI extends Application {
             menuUI.start(stage)
         );
 
-        Button infoButton = new Button("Spelregels Othello");
+        Button infoButton = new Button("Spelregels Boter kaas en eieren");
         infoButton.setOnAction(event -> 
-            othelloUitlegUI.start(stage)
+            boterKaasEnEierenUitlegUI.start(stage)
         );
 
         GridPane gridPane = new GridPane();    
@@ -51,7 +55,7 @@ public class OthelloUI extends Application {
         
         //Setting the vertical and horizontal gaps between the columns 
         gridPane.setVgap(5); 
-        gridPane.setHgap(30);       
+        gridPane.setHgap(5);       
         
         //Setting the Grid alignment 
         gridPane.setAlignment(Pos.CENTER); 
@@ -67,14 +71,14 @@ public class OthelloUI extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.setId("topPane");
 
-        Label welkomTekst = new Label("Welkom bij het keuzemenu van het spel Othello");
+        Label welkomTekst = new Label("Welkom bij het keuzemenu van het spel Boter kaas en eieren");
         borderPane.setTop(welkomTekst);
         borderPane.setAlignment(welkomTekst, Pos.CENTER);
         borderPane.setCenter(gridPane);
 
         Scene scene = new Scene(borderPane, 1280, 720);
-        scene.getStylesheets().addAll(this.getClass().getResource("Menus.css").toExternalForm());
-        stage.setTitle("Othello");
+        scene.getStylesheets().addAll(this.getClass().getResource("groep11/Menus.css").toExternalForm());
+        stage.setTitle("Boter kaas en eieren");
         stage.setScene(scene);
         stage.show();
         

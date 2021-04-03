@@ -1,3 +1,5 @@
+package groep11;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,17 +10,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class BoterKaasEnEierenUitlegUI extends Application {
+public class OthelloUitlegUI extends Application {
     @Override
     public void start(Stage stage) {
-        BoterKaasEnEierenUI boterKaasEnEierenUI = new BoterKaasEnEierenUI();
+        OthelloUI othelloUI = new OthelloUI();
 
         Button terugButton = new Button("Terug");
         terugButton.setOnAction(event -> 
-            boterKaasEnEierenUI.start(stage)
+            othelloUI.start(stage)
         );
 
-        Label uitlegText = new Label("Boter kaas en eieren is een spel dat je kan spelen met 2 spelers, of alleen tegen een computer.");
+        Label uitlegText = new Label("Othello is een spel dat je kan spelen met 2 spelers, of alleen tegen een computer.");
         uitlegText.setWrapText(true);
         uitlegText.setMaxWidth(1000);
 
@@ -37,14 +39,14 @@ public class BoterKaasEnEierenUitlegUI extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.setId("topPane");
 
-        Label welkomTekst = new Label("Speluitleg boter kaas en eieren");
+        Label welkomTekst = new Label("Speluitleg Othello");
         borderPane.setTop(welkomTekst);
         borderPane.setAlignment(welkomTekst, Pos.CENTER);
         borderPane.setLeft(vBox);
 
         Scene scene = new Scene(borderPane, 1280, 720);
-        scene.getStylesheets().addAll(this.getClass().getResource("Menus.css").toExternalForm());
-        stage.setTitle("Speluitleg Boter kaas en eieren");
+        scene.getStylesheets().addAll(this.getClass().getResource("groep11/Menus.css").toExternalForm());
+        stage.setTitle("Speluitleg Othello");
         stage.setScene(scene);
         stage.show();
     }
