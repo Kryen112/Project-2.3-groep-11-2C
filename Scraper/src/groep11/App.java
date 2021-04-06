@@ -1,6 +1,7 @@
 package groep11;
 
-import groep11.controllers.GameScreen;
+import groep11.serverConnection.Connection;
+import groep11.serverConnection.Server;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,11 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Objects;
-import java.util.Scanner;
 
 /**
  * Main class voor project 2.3 Game Framework
@@ -26,10 +23,31 @@ public class App extends Application implements Runnable{
     public static final int PORT = 7789;
     public static final String IPSCHOOL = "145.33.225.170";
     public static Stage appPrimaryStage;
+
+    /** The scene */
     public static Scene homeScene;
+
+    /** The UI width */
     public static final int UIWIDTH = 900;
+
+    /** The UI height */
     public static final int UIHEIGHT = 630;
+
+    /** The name of the game */
     public static final String GAMENAME = "AI Gaming";
+
+    /** The server */
+    public Server server;
+
+    /**
+     * The constructor
+     */
+    public App() {
+        Connection connection = new Connection();
+        server = connection.getServer();
+        server.help();
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("fxml/start.fxml"));
@@ -114,3 +132,4 @@ public class App extends Application implements Runnable{
         return content.toString();
     }
 }
+
