@@ -1,6 +1,5 @@
 package groep11.controllers;
 
-import groep11.BoterKaasEnEierenUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -27,7 +26,6 @@ public class  HomeController {
     @FXML
     protected void playTicTacToe(ActionEvent event) throws IOException, InterruptedException {
         System.out.println("Tic Tac Toe button clicked");
-        BoterKaasEnEierenUI bke = new BoterKaasEnEierenUI();
     }
 
     @FXML

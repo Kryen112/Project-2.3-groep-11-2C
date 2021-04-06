@@ -80,15 +80,16 @@ public class App extends Application implements Runnable{
 //                out.println(userInput);
 //                System.out.println("Response:" + input.readLine());
 //            }
-                String readInput;
-                while ((readInput = input.readLine()) != null) {
+                while (input.readLine() != null) {
 //                    for (int i = 0; i < 2; i++) {
-                        System.out.println("read line: " + readInput);
-
+                        System.out.println("read line: " + input.readLine());
+                        if(stdIn.ready()) {
+                            out.println(stdIn.readLine());
+                        }
 //                    String userinput;
 
-//                    if( (userinput = stdIn.readLine()) != null) {
-//                        System.out.println("sending: " + userinput);
+//                    if( (stdIn.readLine()) != null) {
+//                        System.out.println("sending: " + stdIn.readLine());
 //                        out.println(userinput);
 //                    }
                 }

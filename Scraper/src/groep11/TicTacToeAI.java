@@ -50,7 +50,7 @@ public class TicTacToeAI extends Application {
         BorderPane pane = setBorderPane(primaryStage);
         pane.setId("pane");
         Scene scene = new Scene(pane, 1280, 720);
-        scene.getStylesheets().addAll(this.getClass().getResource("groep11/Menus.css").toExternalForm());
+        scene.getStylesheets().addAll(this.getClass().getResource("groep11/styling/Menus.css").toExternalForm());
 
         primaryStage.setTitle("TicTacToe");
         primaryStage.setScene(scene);
@@ -59,16 +59,13 @@ public class TicTacToeAI extends Application {
     }
 
     public BorderPane setBorderPane(Stage primaryStage) {
-        BoterKaasEnEierenUI boterKaasEnEierenUI = new BoterKaasEnEierenUI();
         TicTacToeAI ticTacToeAI = new TicTacToeAI();
 
         BorderPane pane = new BorderPane();
         pane.setPadding(new Insets(10, 10, 10, 10));
 
         Button stopButton = new Button("Stop");
-        stopButton.setOnAction(event -> 
-            boterKaasEnEierenUI.start(primaryStage)
-        );
+
 
         Button resetButton = new Button("Reset");
         resetButton.setOnAction(event -> 
