@@ -1,6 +1,7 @@
 package groep11;
 
-import groep11.controllers.GameScreen;
+import groep11.serverConnection.Connection;
+import groep11.serverConnection.Server;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,16 +16,38 @@ import javafx.stage.Stage;
  * @author Anouk
  */
 public class App extends Application {
+    /** The primary stage */
     public static Stage appPrimaryStage;
+
+    /** The scene */
     public static Scene homeScene;
+
+    /** The UI width */
     public static final int UIWIDTH = 900;
+
+    /** The UI height */
     public static final int UIHEIGHT = 630;
+
+    /** The name of the game */
+    public static final String GAMENAME = "AI Gaming";
+
+    /** The server */
+    public Server server;
+
+    /**
+     * The constructor
+     */
+    public App() {
+        Connection connection = new Connection();
+        server = connection.getServer();
+        server.help();
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("fxml/start.fxml"));
         appPrimaryStage = primaryStage;
-        setPrimaryStageUI(primaryStage, root, "AI Gaming", UIWIDTH, UIHEIGHT);
+        setPrimaryStageUI(primaryStage, root, GAMENAME, UIWIDTH, UIHEIGHT);
     }
 
     public static void main(String[] args) {
@@ -46,5 +69,5 @@ public class App extends Application {
         primaryStage.setResizable(true);    // stage is not resizable
         primaryStage.show();
     }
-
 }
+
