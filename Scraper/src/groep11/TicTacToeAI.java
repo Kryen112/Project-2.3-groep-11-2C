@@ -482,13 +482,13 @@ public class TicTacToeAI extends Application {
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 3; j++) {
                 if(winningPositions[i][j] == 'x') {
-                    ImageView xWon = new ImageView("groep11/x_won.png");
+                    ImageView xWon = new ImageView("groep11/images/gameAttr/x_won.png");
                     xWon.setFitHeight(150);
                     xWon.setFitWidth(150);
                     tictactoe.add(xWon, j, i);
                 }
                 if(winningPositions[i][j] == 'o') {
-                    ImageView oWon = new ImageView("groep11/o_won.png");
+                    ImageView oWon = new ImageView("groep11/images/gameAttr/o_won.png");
                     oWon.setFitWidth(150);
                     oWon.setFitHeight(150);
                     tictactoe.add(oWon, j, i);
@@ -501,11 +501,11 @@ public class TicTacToeAI extends Application {
         ImageView xo = new ImageView();
 
         if(getTurn() == 'x') {
-            xo = new ImageView("groep11/x.png");
+            xo = new ImageView("groep11/images/gameAttr/x.png");
         }
 
         if(getTurn() == 'o') {
-            xo = new ImageView("groep11/o.png");
+            xo = new ImageView("groep11/images/gameAttr/o.png");
         }
 
         xo.setFitHeight(150);

@@ -19,20 +19,27 @@
                 <HBox>
                     <Button text="Terug" onAction="#goBackHome"/>
                     <!--    TODO speler kan andere speler verzoek sturen via server d.m.v. gebruikersnaam    -->
-                    <Button text="Nodig speler uit" translateX="600"/>
+                    <Button text="Nodig speler uit" onAction="#uitlegTicTacToe" />
+                    <Button text="Nodig speler uit" onAction="#playGameWithPlayer" translateX="400"/>
                 </HBox>
                 <HBox>
                     <Label fx:id="info" text="Kies een speloptie"/>
-                    <RadioButton text="Lokaal tegen Computer" translateX="20"/>
-                    <RadioButton text="Lokaal met 2 Spelers" translateX="30"/>
-                    <RadioButton text="Online tegen Computer" translateX="40"/>
-                    <RadioButton text="Online tegen Willekeurige speler" translateX="50"/>
+                    <RadioButton fx:id="localvsai" text="Lokaal tegen Computer" translateX="20"/>
+                    <RadioButton fx:id="localvslocal" text="Lokaal met 2 Spelers" translateX="30"/>
+                    <RadioButton fx:id="onlinevsai" text="Online tegen Computer" translateX="40"/>
+                    <RadioButton fx:id="onlinevsrandom" text="Online tegen Willekeurige speler" translateX="50"/>
+                    <Button text="Start nieuw spel" onAction="#playNewGame"/>
                 </HBox>
             </VBox>
         </left>
 
         <center>
+            <VBox fx:id="turnBox">
 
+            </VBox>
+            <GridPane fx:id="pane" minWidth="250" minHeight="250">
+
+            </GridPane>
         </center>
     </BorderPane>
 

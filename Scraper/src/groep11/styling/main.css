@@ -3,7 +3,7 @@ root {
 }
 
 .root {
-    -fx-background-image: url("../images/dice-background.jpg");
+    -fx-background-image: url("../images/background.jpg");
     -fx-background-repeat: repeat;
 }
 
