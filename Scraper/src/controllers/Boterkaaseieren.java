@@ -1,6 +1,6 @@
-package groep11.controllers;
+package controllers;
 
-import groep11.App;
+import app.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +17,7 @@ public class Boterkaaseieren {
     @FXML private RadioButton onlinevsai;
     @FXML private RadioButton onlinevsrandom;
 
-//   terug button
+    //   terug button
     @FXML
     public void goBackHome(ActionEvent actionEvent) {
         App.appPrimaryStage.setScene(App.homeScene);

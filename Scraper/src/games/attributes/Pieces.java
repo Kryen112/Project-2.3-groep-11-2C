@@ -1,4 +1,4 @@
-package Games.GameAttributes;
+package games.attributes;
 
 import java.util.List;
 

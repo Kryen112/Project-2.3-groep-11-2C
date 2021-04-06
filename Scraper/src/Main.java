@@ -1,4 +1,4 @@
-package groep11;
+import app.App;
 
 public class Main {
 

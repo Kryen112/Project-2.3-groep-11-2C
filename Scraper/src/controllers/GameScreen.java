@@ -1,7 +1,7 @@
-package groep11.controllers;
+package controllers;
 
-import com.sun.prism.Image;
-import groep11.App;
+
+import app.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

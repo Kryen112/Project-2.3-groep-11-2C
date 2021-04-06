@@ -1,6 +1,9 @@
-package Games;
+package games;
 
-import Games.GameAttributes.Board;
+import games.attributes.Board;
+import games.players.Player;
+import games.attributes.Board;
+
 
 import java.util.ArrayList;
 
@@ -14,7 +17,7 @@ public class Game extends Board {
     Player currentPlayer;
     Player winner;
 
-    GameType typeOfGame;
+    GameTypes typeOfGame;
 
     public void takeTurn() {
 

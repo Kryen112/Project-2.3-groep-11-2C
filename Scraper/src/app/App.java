@@ -1,7 +1,7 @@
-package groep11;
+package app;
 
-import groep11.serverConnection.Connection;
-import groep11.serverConnection.Server;
+import serverconnection.Connection;
+import serverconnection.Server;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

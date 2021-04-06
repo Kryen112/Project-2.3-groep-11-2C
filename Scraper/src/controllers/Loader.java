@@ -1,4 +1,4 @@
-package groep11.controllers;
+package controllers;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
