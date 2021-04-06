@@ -6,10 +6,27 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Run",
+            "name": "Launch App",
             "request": "launch",
-            "mainClass": "RandomIT.Run",
-            "projectName": ""
+            "mainClass": "App",
+            "projectName": "Project-2.3-groep-11-2C_2e1cbd2d",
+            "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "groep11.App",
+            "projectName": "Project-2.3-groep-11-2C_2e1cbd2d",
+            "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
+            "name": "Launch MenuUI",
+            "request": "launch",
+            "mainClass": "groep11.MenuUI",
+            "projectName": "Project-2.3-groep-11-2C_2e1cbd2d",
+            "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
         },
         {
             "type": "java",
@@ -17,7 +34,7 @@
             "request": "launch",
             "mainClass": "MenuUI",
             "projectName": "Project-2.3-groep-11-2C_2e1cbd2d",
-            "vmArgs": "--module-path \"C:\\javafx-sdk-15.0.1\\lib\" --add-modules javafx.controls,javafx.fxml"
+            "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
         }
     ]
 }

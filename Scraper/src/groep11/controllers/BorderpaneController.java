@@ -29,7 +29,7 @@ public class BorderpaneController {
         String pathToLogin = "../fxml/login.fxml";
 
         // print for testing
-//        System.out.println("Login button clicked");
+        System.out.println("Login button clicked");
 
         // go to login pane view
         goToPaneView(pathToLogin);
