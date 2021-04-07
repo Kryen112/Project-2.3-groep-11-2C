@@ -1,4 +1,6 @@
-package application.serverconnection;
+package application.serverconnect;
+
+import application.serverconnect.InputProcesser;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,7 +19,7 @@ public class Server {
     private PrintWriter out;
 
     /** The class that processes the input */
-    private final InputProcesser inputProcesser;
+    private InputProcesser inputProcesser;
 
     /** Consumer String */
     private Consumer<String> callback;
@@ -26,9 +28,9 @@ public class Server {
      * The constructor
      * @param socket - The socket
      */
-    public Server(Socket socket, InputProcesser inputProcesser) {
+    public Server(Socket socket, InputProcesser inputP) {
         this.socket = socket;
-        this.inputProcesser = inputProcesser;
+        inputProcesser = inputP;
         setPrintWriter();
     }
 

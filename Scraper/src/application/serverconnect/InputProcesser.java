@@ -1,4 +1,4 @@
-package application.serverconnection;
+package application.serverconnect;
 
 public class InputProcesser {
 
