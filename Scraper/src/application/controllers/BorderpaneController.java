@@ -14,7 +14,7 @@ public class BorderpaneController {
      */
     @FXML
     protected void handleHomeButton(ActionEvent event) {
-        String pathToHome = "../application.fxml/gameScreen.application.fxml";
+        String pathToHome = "../fxml/gameScreen.fxml";
 
         // display game screen / home pane
         goToPaneView(pathToHome);
@@ -26,7 +26,7 @@ public class BorderpaneController {
      */
     @FXML
     protected void handleLoginButton(ActionEvent event) {
-        String pathToLogin = "../application.fxml/login.application.fxml";
+        String pathToLogin = "../fxml/login.fxml";
 
         // print for testing
         System.out.println("Login button clicked");
@@ -58,7 +58,7 @@ public class BorderpaneController {
      */
     @FXML
     protected void handleSettingsButton(ActionEvent event)  {
-        String pathToSettings = "../application.fxml/settings.application.fxml";
+        String pathToSettings = "../fxml/settings.fxml";
 
         // printing for testing
 //        System.out.println("Settings button clicked");
@@ -73,7 +73,7 @@ public class BorderpaneController {
      */
     @FXML
     protected void handleHelpButton(ActionEvent event) {
-        String pathToHelp = "../application.fxml/help.application.fxml";
+        String pathToHelp = "../fxml/help.fxml";
 
         // printing for testing
 //        System.out.println("Help button clicked");
@@ -90,7 +90,7 @@ public class BorderpaneController {
      */
     @FXML
     protected void handleAboutUsButton(ActionEvent event)  {
-        String pathToAboutUs = "../application.fxml/aboutUs.application.fxml";
+        String pathToAboutUs = "../fxml/aboutUs.fxml";
 
         // printing for testing
 //        System.out.println("About us button clicked");

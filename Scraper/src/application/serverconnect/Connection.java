@@ -27,10 +27,10 @@ public class Connection {
      * The constructor of ServerListener
      */
     public Connection() {
+        inputProcesser  = new InputProcesser();
         setSocket();
         setServer();
         setInput();
-        inputProcesser  = new InputProcesser();
     }
 
     /**
