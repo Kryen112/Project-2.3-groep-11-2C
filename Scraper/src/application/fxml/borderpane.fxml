@@ -12,8 +12,8 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="application.controllers.BorderpaneController" fx:id="mainPane">
         <left>
-            <VBox translateX="-1" fx:id="menu">
-                <Button fx:id="home" text="Spellen" onAction="#handleHomeButton" alignment="BOTTOM_LEFT"/>
+            <VBox fx:id="menu">
+                <Button fx:id="home" text="Spellen" onAction="#handleHomeButton" alignment="BOTTOM_LEFT" disable="true"/>
 
                 <!--   TODO FUTURE when user is logged in change image to desired image -->
                 <ImageView fitWidth="120" fitHeight="100" translateX="10">
@@ -25,15 +25,15 @@
                         - change login button to logout
                         - add button to go to profile
                         - display username as buttonName -->
-                <Button fx:id="login" text="Login" onAction="#handleLoginButton" alignment="BOTTOM_LEFT"/>
-                <Button fx:id="profile" text="Profile" onAction="#handleProfileButton" alignment="BOTTOM_LEFT"/>
-                <Button fx:id="instellingen" text="Instellingen" onAction="#handleSettingsButton" alignment="BOTTOM_LEFT"/>
-                <Button fx:id="help" text="Help" onAction="#handleHelpButton" alignment="BOTTOM_LEFT"/>
+                <!--                <Button fx:id="login" text="Login" onAction="#handleLoginButton" alignment="BOTTOM_LEFT"/>-->
+                <Button fx:id="profile" text="Profile" onAction="#handleProfileButton" alignment="BOTTOM_LEFT" disable="true"/>
+                <Button fx:id="instellingen" text="Instellingen" onAction="#handleSettingsButton" alignment="BOTTOM_LEFT" disable="true"/>
+                <Button fx:id="help" text="Help" onAction="#handleHelpButton" alignment="BOTTOM_LEFT" />
                 <Button fx:id="over" text="Over ons" onAction="#handleAboutUsButton" alignment="BOTTOM_LEFT" />
             </VBox>
         </left>
 
         <center>
-            <fx:include source="gameScreen.fxml"/>
+            <fx:include source="login.fxml"/>
         </center>
 </BorderPane>

@@ -2,11 +2,14 @@ package application.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class BorderpaneController {
-    @FXML public BorderPane mainPane;
+    @FXML public static BorderPane mainPane;
+    @FXML private static Button profile;
 
     /**
      * Method to handle the application.games button
@@ -103,10 +106,13 @@ public class BorderpaneController {
      * Method that handles the change of the BorderPane center section
      * @param pathToFile
      */
-    public void goToPaneView(String pathToFile) {
+    public static void goToPaneView(String pathToFile) {
         Loader l = new Loader();
         Pane view = l.getPageView(pathToFile);
         mainPane.setCenter(view);
     }
 
+    public static Button getProfile() {
+        return profile;
+    }
 }

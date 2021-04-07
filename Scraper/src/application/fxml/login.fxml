@@ -10,13 +10,15 @@
 <VBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="application.controllers.Login" fx:id="centerBox" >
-    <Text fx:id="title" text="Log in"/>
+
+    <Text fx:id="title" text="Welkom bij AI Gaming"/>
+    <Text fx:id="info" text="Log in met je naam, Kies een spel, speel tegen een computer, een vriend of online"/>
 
     <!--  login  -->
-<!--  TODO PLACE ITEMS NEXT TO EACH OTHER  -->
-    <Label text="Gebruikersnaam:" />
-    <TextField fx:id="userName" maxWidth="100"/>
-    <Button text="Login" onAction="#handleLoginAction" />
-
-    <Text fx:id="message"/>
+    <HBox fx:id="loginBox" translateY="20">
+        <Label text="Gebruikersnaam:" translateY="5"/>
+        <TextField fx:id="userName" maxWidth="200" promptText=" jouw naam" translateX="10" minHeight="30"/>
+        <Button text="Login" onAction="#handleLoginAction"  translateX="20"/>
+    </HBox>
+    <Text fx:id="message" translateY="25"/>
 </VBox>
