@@ -27,8 +27,8 @@ public class Connection {
      * The constructor of ServerListener
      */
     public Connection() {
-        setSocket();
         inputProcesser  = new InputProcesser();
+        setSocket();
         setServer();
         setInput();
     }

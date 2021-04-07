@@ -58,6 +58,7 @@ public class Input implements Runnable {
                 }
                 else if(input.equals("ERR Already logged in")) {
                     inputProcesser.setAnswer("ERR");
+                    System.out.println("Answer from server: "+input);
                     server.setResult(input);
                 }
                 //System.out.println(input);

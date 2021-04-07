@@ -10,7 +10,7 @@
 <?import java.net.URL?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="groep11.controllers.Othello">
+      fx:controller="application.controllers.Othello">
     <BorderPane fx:id="centerBox">
         <left>
             <VBox>
@@ -38,6 +38,6 @@
     <stylesheets>
         <!-- note: The @ symbol before the name of the style sheet in the URL
             indicates that the style sheet is in the same directory as the FXML file. -->
-        <URL value="@/groep11/styling/main.css" />
+        <URL value="@/application/styling/main.css" />
     </stylesheets>
 </VBox>

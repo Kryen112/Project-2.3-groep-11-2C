@@ -10,7 +10,7 @@
 <?import javafx.scene.image.Image?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="groep11.controllers.BorderpaneController" fx:id="mainPane">
+            fx:controller="application.controllers.BorderpaneController" fx:id="mainPane">
         <left>
             <VBox translateX="-1" fx:id="menu">
                 <Button fx:id="home" text="Spellen" onAction="#handleHomeButton" alignment="BOTTOM_LEFT"/>

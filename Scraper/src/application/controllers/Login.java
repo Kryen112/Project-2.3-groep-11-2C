@@ -1,5 +1,8 @@
 package application.controllers;
 
+import application.App;
+import application.serverconnect.Connection;
+import application.serverconnect.Server;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -18,6 +21,13 @@ public class Login {
         if (!userName.getText().isEmpty() || !userName.getText().isBlank()) {
             String player = userName.getText();
             // TODO set player name
+            App.server.login(player, (result) -> {
+                if(App.server.isOK()) {
+                    System.out.println("Inloggen gelukt"); }
+                else {
+                    errorLogin.setText("Inloggen mislukt");
+                };
+            });
 
             // TODO bedenk stappen na inloggen (invoeren naam)
 
