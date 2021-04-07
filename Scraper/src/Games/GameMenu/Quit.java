@@ -1,4 +1,4 @@
-package Games.GameMenu;
+package games.gamemenu;
 
 public class Quit implements MenuOptions {
     @Override
