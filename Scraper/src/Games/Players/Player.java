@@ -1,4 +1,4 @@
-package Games.Players;
+package games.players;
 
 public abstract class Player implements PlayerInterface {
     String name;

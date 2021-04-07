@@ -1,0 +1,66 @@
+root {
+    display: block;
+}
+
+.root {
+    -fx-background-image: url("../images/background.jpg");
+    -fx-background-repeat: repeat;
+}
+
+.label {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #333333;
+}
+
+#title {
+    -fx-font-size: 24px;
+    -fx-font-family: "Roboto";
+    -fx-fill: #000009;
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+}
+
+#info {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Roboto";
+}
+
+#errorLogin {
+    -fx-font-size: 12.5px;
+    -fx-fill: #EE2E31;
+    -fx-font-weight: bold;
+    -fx-font-family: "Roboto";
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+#menu {
+    -fx-max-width: 140px;
+    -fx-min-width: 140px;
+    -fx-min-height: 1600px;
+    -fx-background-color: rgba(24, 99, 85, 0.7);
+}
+
+#centerBox {
+    -fx-padding: 10 0 0 10;
+}
+
+.button {
+    -fx-min-width: 140px;
+    -fx-text-fill: #000009;
+    -fx-font-size: 14px;
+    -fx-font-family: "Roboto";
+    -fx-font-weight: bold;
+    -fx-background-color: rgba(24, 99, 85, 0.7);
+
+}
+
+.button:hover {
+    -fx-background-color: rgba(102, 180, 194, 0.7);
+}
+
+#gameHelp {
+    -fx-min-width: 50px;
+    -fx-max-width: 50px;
+    -fx-background-color: rgba(44, 99, 85, 0.7);
+}
+
