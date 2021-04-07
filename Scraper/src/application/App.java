@@ -45,7 +45,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/application/fxml/start.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../application/fxml/start.fxml"));
         appPrimaryStage = primaryStage;
         setPrimaryStageUI(primaryStage, root, GAMENAME, UIWIDTH, UIHEIGHT);
     }

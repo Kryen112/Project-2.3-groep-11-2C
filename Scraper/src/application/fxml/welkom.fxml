@@ -9,7 +9,7 @@
 <!-- HOME -->
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<BorderPane fx:controller="groep11.controllers.HomeController"  xmlns:fx="http://javafx.com/fxml">
+<BorderPane fx:controller="application.controllers.HomeController" xmlns:fx="http://javafx.com/fxml">
 
     <!--  Button Group application.App Nav  -->
 
@@ -68,7 +68,7 @@
     <stylesheets>
         <!-- note: The @ symbol before the name of the style sheet in the URL
             indicates that the style sheet is in the same directory as the FXML file. -->
-        <URL value="@/groep11/styling/main.css" />
+        <URL value="@/application/styling/main.css" />
     </stylesheets>
 </BorderPane>
 

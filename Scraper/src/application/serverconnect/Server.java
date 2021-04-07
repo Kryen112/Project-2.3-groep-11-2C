@@ -1,6 +1,5 @@
 package application.serverconnect;
 
-import application.serverconnect.InputProcesser;
 
 import java.io.IOException;
 import java.io.PrintWriter;

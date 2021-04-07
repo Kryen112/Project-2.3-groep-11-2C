@@ -28,9 +28,9 @@ public class Connection {
      */
     public Connection() {
         setSocket();
-        inputProcesser  = new InputProcesser();
         setServer();
         setInput();
+        inputProcesser  = new InputProcesser();
     }
 
     /**

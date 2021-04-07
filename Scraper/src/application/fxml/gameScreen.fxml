@@ -13,7 +13,7 @@
 <?import javafx.scene.image.Image?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="groep11.controllers.GameScreen" fx:id="centerBox">
+      fx:controller="application.controllers.GameScreen" fx:id="centerBox">
     <Text fx:id="title" text="Welkom bij AI Gaming"/>
     <Text fx:id="info" text="Kies je spel, speel tegen een computer, een vriend of online"/>
 
