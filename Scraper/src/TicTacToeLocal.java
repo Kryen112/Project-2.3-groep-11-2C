@@ -1,4 +1,3 @@
-package groep11;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -52,16 +51,16 @@ public class TicTacToeLocal extends Application {
     }
 
     public BorderPane setBorderPane(Stage primaryStage) {
-        BoterKaasEnEierenUI boterKaasEnEierenUI = new BoterKaasEnEierenUI();
+//        BoterKaasEnEierenUI boterKaasEnEierenUI = new BoterKaasEnEierenUI();
         TicTacToeLocal ticTacToe = new TicTacToeLocal();
 
         BorderPane pane = new BorderPane();
         pane.setPadding(new Insets(10, 10, 10, 10));
 
         Button stopButton = new Button("Stop");
-        stopButton.setOnAction(event -> 
-            boterKaasEnEierenUI.start(primaryStage)
-        );
+//        stopButton.setOnAction(event ->
+//            boterKaasEnEierenUI.start(primaryStage)
+//        );
 
         Button resetButton = new Button("Reset");
         resetButton.setOnAction(event -> 

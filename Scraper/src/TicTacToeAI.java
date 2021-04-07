@@ -1,4 +1,3 @@
-package groep11;
 
 import java.util.Random;
 
@@ -61,16 +60,16 @@ public class TicTacToeAI extends Application {
     }
 
     public BorderPane setBorderPane(Stage primaryStage) {
-        BoterKaasEnEierenUI boterKaasEnEierenUI = new BoterKaasEnEierenUI();
+//        BoterKaasEnEierenUI boterKaasEnEierenUI = new BoterKaasEnEierenUI();
         TicTacToeAI ticTacToeAI = new TicTacToeAI();
 
         BorderPane pane = new BorderPane();
         pane.setPadding(new Insets(10, 10, 10, 10));
 
         Button stopButton = new Button("Stop");
-        stopButton.setOnAction(event -> 
-            boterKaasEnEierenUI.start(primaryStage)
-        );
+//        stopButton.setOnAction(event ->
+//            boterKaasEnEierenUI.start(primaryStage)
+//        );
 
         Button resetButton = new Button("Reset");
         resetButton.setOnAction(event -> 

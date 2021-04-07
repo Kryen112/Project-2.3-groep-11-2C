@@ -1,6 +1,6 @@
-package groep11.controllers;
+package controllers;
 
-import groep11.App;
+import app.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

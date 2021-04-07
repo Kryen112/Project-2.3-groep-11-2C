@@ -1,4 +1,4 @@
-package Games.Players;
+package games.players;
 
 public interface PlayerInterface {
     int getTypeOfPlayer();

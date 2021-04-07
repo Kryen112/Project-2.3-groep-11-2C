@@ -1,4 +1,4 @@
-package groep11.serverConnection;
+package serverconnection;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
