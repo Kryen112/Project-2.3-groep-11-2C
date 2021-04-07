@@ -1,4 +1,4 @@
-package application.serverconnection;
+package application.serverconnect;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -28,7 +28,7 @@ public class Connection {
      */
     public Connection() {
         setSocket();
-        this.inputProcesser  = new InputProcesser();
+        inputProcesser  = new InputProcesser();
         setServer();
         setInput();
     }
@@ -72,7 +72,7 @@ public class Connection {
      * @return Output - The output class
      */
     public Server getServer() {
-        return this.server;
+        return server;
     }
 
     /**
@@ -80,6 +80,6 @@ public class Connection {
      * @return Input - The input class
      */
     public Input getInput() {
-        return this.input;
+        return input;
     }
 }

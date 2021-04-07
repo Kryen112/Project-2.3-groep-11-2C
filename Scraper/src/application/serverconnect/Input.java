@@ -1,4 +1,4 @@
-package application.serverconnection;
+package application.serverconnect;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,10 +23,10 @@ public class Input implements Runnable {
     /** The constructor
      * @param socket - The socket
      */
-    public Input(Socket socket, InputProcesser inputProcesser, Server server) {
+    public Input(Socket socket, InputProcesser inputP, Server s) {
         this.socket = socket;
-        this.server = server;
-        this.inputProcesser = inputProcesser;
+        server = s;
+        inputProcesser = inputP;
         setBufferedReader();
         Thread thread = new Thread(this);
         thread.start();
@@ -52,12 +52,12 @@ public class Input implements Runnable {
             while(true) {
                 String input = bufferedReader.readLine();
                 if(input.equals("OK")) {
-                    this.inputProcesser.setAnswer("OK");
+                    inputProcesser.setAnswer("OK");
                     System.out.println("Answer from server: "+input);
                     server.setResult(input);
                 }
                 else if(input.equals("ERR Already logged in")) {
-                    this.inputProcesser.setAnswer("ERR");
+                    inputProcesser.setAnswer("ERR");
                     server.setResult(input);
                 }
                 //System.out.println(input);
