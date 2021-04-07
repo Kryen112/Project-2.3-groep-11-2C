@@ -1,7 +1,5 @@
 package application.serverconnect;
 
-import application.serverconnect.InputProcesser;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -61,7 +59,14 @@ public class Server {
         String command = "login "+name;
         this.callback = callback;
         processCommand(command);
-        //return this.inputProcesser.isOK();
+    }
+
+    /**
+     * This method returns a boolean if the command is ok or not
+     * @return - boolean
+     */
+    public boolean isOK() {
+        return this.inputProcesser.isOK();
     }
 
     /**
@@ -69,13 +74,6 @@ public class Server {
      */
     public void getPlayerList() {
         out.println("get playerlist");
-    }
-
-    /**
-     * This method sends the help command to the server
-     */
-    public void help() {
-        out.println("help");
     }
 
     /**

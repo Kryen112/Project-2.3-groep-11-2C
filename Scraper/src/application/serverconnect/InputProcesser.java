@@ -4,6 +4,10 @@ public class InputProcesser {
 
     String answer;
 
+    public InputProcesser() {
+
+    }
+
     public Boolean isOK() {
         return answer.equals("OK");
     }

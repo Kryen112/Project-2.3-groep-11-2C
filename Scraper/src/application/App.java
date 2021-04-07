@@ -31,7 +31,7 @@ public class App extends Application {
     public static final String GAMENAME = "AI Gaming";
 
     /** The server */
-    public Server server;
+    public static Server server;
 
     /**
      * The constructor
@@ -39,13 +39,11 @@ public class App extends Application {
     public App() {
         Connection connection = new Connection();
         server = connection.getServer();
-
-        server.login("test234", (result) -> {System.out.println(result);});
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/application/fxml/start.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../application/fxml/start.fxml"));
         appPrimaryStage = primaryStage;
         setPrimaryStageUI(primaryStage, root, GAMENAME, UIWIDTH, UIHEIGHT);
     }
