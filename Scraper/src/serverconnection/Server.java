@@ -1,4 +1,4 @@
-package groep11.serverConnection;
+package serverconnection;
 
 import java.io.IOException;
 import java.io.PrintWriter;

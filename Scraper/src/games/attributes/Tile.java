@@ -1,4 +1,4 @@
-package Games.GameAttributes;
+package games.attributes;
 
 public class Tile {
     int id;

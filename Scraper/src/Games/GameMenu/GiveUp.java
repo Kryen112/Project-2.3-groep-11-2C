@@ -1,4 +1,4 @@
-package Games.GameMenu;
+package games.gamemenu;
 
 public class GiveUp implements MenuOptions {
     @Override

@@ -1,4 +1,4 @@
-package Games.GameAttributes;
+package games.attributes;
 
 public interface Boards {
     Board execute();

@@ -1,6 +1,6 @@
-package Games.GameAttributes;
+package games.attributes;
 
-import Games.Game;
+import games.Game;
 
 import java.util.ArrayList;
 import java.util.List;
