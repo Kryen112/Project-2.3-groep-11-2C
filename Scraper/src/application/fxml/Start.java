@@ -30,6 +30,7 @@ import java.io.IOException;
 public class Start {
 
     @FXML protected static BorderPane mainPane;    // the mainPane of application
+    @FXML public Group start;
 
     @FXML protected Text title;             // title of pane view
     @FXML protected Text info;              // info of pane view
@@ -47,12 +48,13 @@ public class Start {
 
     // gameCenter
     @FXML protected Group gameCenterBox;
-    @FXML protected Group bke;
-    @FXML protected Group othello;
+    @FXML protected Group games;
     @FXML protected VBox centerGame;
 
     @FXML
     protected void handleLoginAction(ActionEvent event) {
+        games.getChildren().remove(centerGame);
+
         // username can not be empty
         if (!userName.getText().isEmpty() || !userName.getText().isBlank()) {
             String player = userName.getText();
@@ -127,21 +129,27 @@ public class Start {
     @FXML
     public void setUpBoterKaasEieren(MouseEvent actionEvent) throws IOException {
         centerScreen.getChildren().remove(gameCenterBox);
+        games.getChildren().add(centerGame);
         title.setText("Boter, Kaas en Eieren");
-        bke.setVisible(true);
-
+        games.setVisible(true);
     }
 
     @FXML
     public void setUpOthello(MouseEvent actionEvent) throws IOException {
         centerScreen.getChildren().remove(gameCenterBox);
+        games.getChildren().add(centerGame);
+        games.setVisible(true);
         title.setText("Othello");
-        othello.setVisible(true);
     }
 
     @FXML
     public void playNewGame(ActionEvent actionEvent) {
-        System.out.println("speel");
+        if(title.getText().equals("Boter, Kaas en Eieren")) {
+            App.server.subscribe("Tic-tac-toe", (result) -> { System.out.println("Subscribed to Tic-tac-toe"); });
+        }
+        if(title.getText().equals("Othello")) {
+            App.server.subscribe("Reversi", (result) -> { System.out.println("Subscribed to Reversi"); });
+        }
     }
 
     @FXML
@@ -149,4 +157,11 @@ public class Start {
         System.out.println("uitleg");
     }
 
+    @FXML
+    public void goBack(ActionEvent actionEvent) {
+        games.getChildren().remove(centerGame);
+        centerScreen.getChildren().add(gameCenterBox);
+        title.setText(( "AI Gaming [ " + user.getName() + " ]"));
+        info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
+    }
 }

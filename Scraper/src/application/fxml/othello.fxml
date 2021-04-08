@@ -37,6 +37,7 @@
         </HBox>
 
         <Button text="Start nieuw spel" onAction="#playNewGame"/>
+        <Button text="Terug" onAction="#goBack" />
 
     </VBox>
 

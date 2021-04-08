@@ -39,9 +39,6 @@ public class App extends Application {
     public App() {
         Connection connection = new Connection();
         server = connection.getServer();
-
-        server.login("TestTest", (result) -> {System.out.println("Logged in"); });
-        server.subscribe("Reversi", (result) -> { System.out.println("Subscribed to Reversi"); });
     }
 
     @Override
