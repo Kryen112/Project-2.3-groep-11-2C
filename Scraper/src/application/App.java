@@ -1,5 +1,6 @@
 package application;
 
+import application.games.attributes.Board;
 import application.serverconnect.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -33,12 +34,17 @@ public class App extends Application {
     /** The server */
     public static Server server;
 
+    /** The board */
+    public static Board board;
+
     /**
      * The constructor
      */
     public App() {
         Connection connection = new Connection();
         server = connection.getServer();
+        board = new Board();
+        board.execute();
     }
 
     @Override

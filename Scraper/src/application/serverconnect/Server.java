@@ -44,11 +44,22 @@ public class Server {
     }
 
     /**
-     * This method sends commands to the server
-     * @param command - The command
+     *
      */
-    public void sendCommand(String command) {
-        out.println(command);
+    public void acceptChallenge() {
+        if(inputProcesser.isSetChallengeNumber()) {
+            processCommand("challenge accept "+inputProcesser.getChallengeNumber());
+        } else {
+            System.out.println("There is no challenge");
+        }
+
+    }
+
+    /**
+     * This method
+     */
+    public void doMove(int position) {
+        processCommand("move "+position);
     }
 
     /**
@@ -67,6 +78,16 @@ public class Server {
      */
     public boolean isOK() {
         return this.inputProcesser.isOK();
+    }
+
+    /**
+     * This method subscribes to a game
+     * @param game - The game
+     * @param callback - The callback
+     */
+    public void subscribe(String game, Consumer<String> callback) {
+        this.callback = callback;
+        processCommand("subscribe "+game);
     }
 
     /**
