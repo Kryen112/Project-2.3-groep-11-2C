@@ -9,13 +9,16 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -25,12 +28,12 @@ import java.io.IOException;
  * @author Anouk,
  */
 public class Start {
-    public static Boolean isLoggedIn = false;
 
-    @FXML protected BorderPane mainPane;    // the mainPane of application
+    @FXML protected static BorderPane mainPane;    // the mainPane of application
 
     @FXML protected Text title;             // title of pane view
     @FXML protected Text info;              // info of pane view
+    @FXML protected VBox centerScreen;
 
     // login
     @FXML protected Group loginCenterBox;
@@ -44,6 +47,9 @@ public class Start {
 
     // gameCenter
     @FXML protected Group gameCenterBox;
+    @FXML protected Group bke;
+    @FXML protected Group othello;
+    @FXML protected VBox centerGame;
 
     @FXML
     protected void handleLoginAction(ActionEvent event) {
@@ -74,11 +80,25 @@ public class Start {
         }
     }
 
-    @FXML
-    protected void handleContinue(ActionEvent event) {
-        hideLogin();
+    public void handleLocalPlay(ActionEvent actionEvent) {
+        user = new HumanPlayer("Gebruiker");
+        loginCenterBox.getChildren().remove(loginBox);
+        loginCenterBox.getChildren().remove(loginMessageBox);
+
         title.setText(( "AI Gaming [ " + user.getName() + " ]"));
         info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
+
+        gameCenterBox.setVisible(true);
+    }
+
+    @FXML
+    protected void handleContinue(ActionEvent event) {
+        loginCenterBox.getChildren().remove(loginBox);
+        loginCenterBox.getChildren().remove(loginMessageBox);
+
+        title.setText(( "AI Gaming [ " + user.getName() + " ]"));
+        info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
+
         gameCenterBox.setVisible(true);
     }
 
@@ -98,10 +118,6 @@ public class Start {
         textBox.setText(msg);
     }
 
-    public void hideLogin() {
-        mainPane.getChildren().remove(loginCenterBox);
-    }
-
     public static void setAndShowNewGameScreen(String resourceName) throws IOException {
         Parent root = FXMLLoader.load(Start.class.getResource(resourceName));
         application.App.appPrimaryStage.setScene(new Scene(root, application.App.UIWIDTH, application.App.UIHEIGHT));
@@ -110,11 +126,27 @@ public class Start {
 
     @FXML
     public void setUpBoterKaasEieren(MouseEvent actionEvent) throws IOException {
-        setAndShowNewGameScreen("boterkaaseieren.fxml");
+        centerScreen.getChildren().remove(gameCenterBox);
+        title.setText("Boter, Kaas en Eieren");
+        bke.setVisible(true);
+
     }
 
     @FXML
     public void setUpOthello(MouseEvent actionEvent) throws IOException {
-        setAndShowNewGameScreen("othello.fxml");
+        centerScreen.getChildren().remove(gameCenterBox);
+        title.setText("Othello");
+        othello.setVisible(true);
     }
+
+    @FXML
+    public void playNewGame(ActionEvent actionEvent) {
+        System.out.println("speel");
+    }
+
+    @FXML
+    public void uitleg(ActionEvent actionEvent) {
+        System.out.println("uitleg");
+    }
+
 }

@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Text?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="application.controllers.ActiveTicTacToe">
+            fx:controller="application.fxml.ActiveTicTacToe">
 <BorderPane fx:id="centerBox">
     <left>
 
