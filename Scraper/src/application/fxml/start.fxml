@@ -59,17 +59,39 @@
                             <Image url="@../images/gametypes/riversi.png"/>
                         </ImageView>
                     </HBox>
-
-                </Group>
-
-                <!--       GAME TIC TAC TOE         -->
-                <Group fx:id="bke" visible="false">
-                    <fx:include source="boterkaaseieren.fxml" />
                 </Group>
 
                 <!--       GAME OTHELLO         -->
-                <Group fx:id="othello" visible="false">
-                    <fx:include source="othello.fxml" />
+                <Group fx:id="games" visible="false">
+                    <VBox fx:id="centerGame">
+                        <!--      todo
+                                      terug/cancel button
+                                      help button
+                        -->
+                        <fx:define>
+                            <ToggleGroup fx:id="gameSettings"/>
+                        </fx:define>
+
+                        <HBox>
+                            <RadioButton toggleGroup="$gameSettings" fx:id="localvsai" text="Lokaal tegen Computer"/>
+                            <RadioButton toggleGroup="$gameSettings" fx:id="localvslocal" text="Lokaal met 2 Spelers"/>
+                        </HBox>
+
+                        <HBox>
+                            <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsai" text="Online tegen Computer"/>
+                            <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsrandom" text="Online tegen Willekeurige speler"/>
+                        </HBox>
+
+                        <HBox>
+                            <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsplayer" text="Online tegen Speler"/>
+                            <TextField fx:id="player2" minWidth="200"/>
+                        </HBox>
+
+                        <Button text="Start nieuw spel" onAction="#playNewGame"/>
+                        <Button text="Accept Challenge" onAction="#acceptChallenge" />
+                        <Button text="Terug" onAction="#goBack" />
+
+                    </VBox>
                 </Group>
 
             </VBox>
