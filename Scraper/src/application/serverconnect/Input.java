@@ -58,6 +58,4 @@ public class Input implements Runnable {
             System.out.print("Something went wrong: " + e);
         }
     }
-
-
 }
