@@ -1,5 +1,7 @@
 package application.serverconnect;
 
+import application.App;
+
 public class InputProcesser {
 
     public String answer;
@@ -12,11 +14,19 @@ public class InputProcesser {
 
     public int move;
     public String opponent;
-    public String turn;
+    public boolean turn;
     public String black;
 
     public InputProcesser() {
 
+    }
+
+    public void setStart() {
+        if(black.equals(opponent)) {
+            App.board.setStartPieces('x');
+        } else {
+            App.board.setStartPieces('o');
+        }
     }
 
     public Boolean isOK() {
@@ -64,17 +74,20 @@ public class InputProcesser {
 
         switch(serverMessage) {
             case "SVRGAMEMATCH":
+                App.board.clearBoard();
                 System.out.println("Game match start!");
                 this.matchMessage = setMessages(arr[3]);
                 setBlack();
                 setOpponent();
+                setStart();
                 System.out.println("The opponent of the game is: "+this.opponent);
                 System.out.println("The player that starts first is: "+this.black);
                 break;
             case "SVRGAMEYOURTURN":
                 System.out.println("It's your turn!");
                 this.turnMessage = setMessages(arr[3]);
-                // doe een move als het jouw beurt is
+                server.doMove(App.board.getRandomSet());
+                turn = true;
                 break;
             case "SVRGAMELOSS":
                 System.out.println("You have lost!");
@@ -85,10 +98,20 @@ public class InputProcesser {
                 this.winMessage = setMessages(arr[3]);
                 break;
             case "SVRGAMEMOVE":
-                System.out.println("Move set");
-                this.moveMessage = setMessages(arr[3]);
-                setMove();
-                System.out.println("Deze zet is gedaan: "+this.move);
+                System.out.print(App.board.getFreeSpacesX());
+                if(turn) {
+                    System.out.println("Move set");
+                    this.moveMessage = setMessages(arr[3]);
+                    setMove();
+                    System.out.println("Deze zet is gedaan: "+this.move);
+                    turn = false;
+                } else {
+                    System.out.println("Move set by opponent");
+                    this.moveMessage = setMessages(arr[3]);
+                    setMove();
+                    System.out.println("Deze zet is gedaan: "+this.move);
+                    App.board.setPieceOnBoard(move, 'x');
+                }
                 // zet move op het bord van diegene die move heeft gezet
         }
     }
