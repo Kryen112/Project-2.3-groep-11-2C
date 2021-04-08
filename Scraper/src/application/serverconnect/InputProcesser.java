@@ -11,11 +11,14 @@ public class InputProcesser {
     public String[] lossMessage;
     public String[] winMessage;
     public String[] moveMessage;
+    public String[] challengeMessage;
 
     public int move;
     public String opponent;
     public boolean turn;
     public String black;
+    public int challengeNumber;
+    public boolean challenge = false;
 
     public InputProcesser() {
 
@@ -27,6 +30,14 @@ public class InputProcesser {
         } else {
             App.board.setStartPieces('o');
         }
+    }
+
+    public boolean isSetChallengeNumber() {
+        return challenge;
+    }
+
+    public int getChallengeNumber() {
+        return this.challengeNumber;
     }
 
     public Boolean isOK() {
@@ -47,6 +58,10 @@ public class InputProcesser {
 
     public void setOpponent() {
         opponent = matchMessage[2].replace("OPPONENT: ", "").replace("\"", "");
+    }
+
+    public void setChallengeNumber() {
+        challengeNumber = Integer.parseInt(challengeMessage[1].replace("CHALLENGENUMBER: ", "").replace("\"", ""));
     }
 
     public String[] setMessages(String message) {
@@ -72,8 +87,11 @@ public class InputProcesser {
             serverMessage = arr[0]+arr[1]+arr[2];
         }
 
+        System.out.println(serverMessage);
+
         switch(serverMessage) {
             case "SVRGAMEMATCH":
+                challenge = false;
                 App.board.clearBoard();
                 System.out.println("Game match start!");
                 this.matchMessage = setMessages(arr[3]);
@@ -111,8 +129,14 @@ public class InputProcesser {
                     setMove();
                     System.out.println("Deze zet is gedaan: "+this.move);
                     App.board.setPieceOnBoard(move, 'x');
-                }
-                // zet move op het bord van diegene die move heeft gezet
+                }// zet move op het bord van diegene die move heeft gezet
+                break;
+            case "SVRGAMECHALLENGE":
+                this.challengeMessage = setMessages(arr[3]);
+                challenge = true;
+                setChallengeNumber();
+                System.out.println("Challenge received: "+challengeNumber);
+                break;
         }
     }
 }

@@ -164,4 +164,11 @@ public class Start {
         title.setText(( "AI Gaming [ " + user.getName() + " ]"));
         info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
     }
+
+    @FXML
+    public void acceptChallenge(ActionEvent actionEvent) {
+        if(title.getText().equals("Othello")) {
+            App.server.acceptChallenge();
+        }
+    }
 }
