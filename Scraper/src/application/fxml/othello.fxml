@@ -8,36 +8,36 @@
 
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="application.controllers.Othello">
-    <BorderPane fx:id="centerBox">
-        <left>
-            <VBox>
-                <Text fx:id="title" text="Othello"/>
-                <HBox>
-                    <Button text="Terug" onAction="#goBackHome"/>
-                    <!--    TODO speler kan andere speler verzoek sturen via server d.m.v. gebruikersnaam    -->
-                    <Button text="Nodig speler uit" translateX="600"/>
-                </HBox>
-                <HBox>
-                    <Label fx:id="info" text="Kies een speloptie"/>
-                    <RadioButton text="Lokaal tegen Computer" translateX="20"/>
-                    <RadioButton text="Lokaal met 2 Spelers" translateX="30"/>
-                    <RadioButton text="Online tegen Computer" translateX="40"/>
-                    <RadioButton text="Online tegen Willekeurige speler" translateX="50"/>
-                </HBox>
-            </VBox>
-        </left>
+<Group xmlns="http://javafx.com/javafx"
+       xmlns:fx="http://javafx.com/fxml"
+       fx:controller="application.fxml.Start" >
 
-        <center>
+    <VBox fx:id="centerGame">
+        <!--      todo
+                      terug/cancel button
+                      help button
+        -->
+        <fx:define>
+            <ToggleGroup fx:id="gameSettings"/>
+        </fx:define>
 
-        </center>
-    </BorderPane>
+        <HBox>
+            <RadioButton toggleGroup="$gameSettings" fx:id="localvsai" text="Lokaal tegen Computer"/>
+            <RadioButton toggleGroup="$gameSettings" fx:id="localvslocal" text="Lokaal met 2 Spelers"/>
+        </HBox>
 
-    <stylesheets>
-        <!-- note: The @ symbol before the name of the style sheet in the URL
-            indicates that the style sheet is in the same directory as the FXML file. -->
-        <URL value="@/application/styling/main.css" />
-    </stylesheets>
-</VBox>
+        <HBox>
+            <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsai" text="Online tegen Computer"/>
+            <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsrandom" text="Online tegen Willekeurige speler"/>
+        </HBox>
+
+        <HBox>
+            <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsplayer" text="Online tegen Speler"/>
+            <TextField fx:id="player2" minWidth="200"/>
+        </HBox>
+
+        <Button text="Start nieuw spel" onAction="#playNewGame"/>
+
+    </VBox>
+
+</Group>
