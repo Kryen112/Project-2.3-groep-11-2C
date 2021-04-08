@@ -25,7 +25,7 @@ root {
     -fx-font-family: "Roboto";
 }
 
-#message {
+#loginMessage {
     -fx-font-size: 12.5px;
     -fx-font-weight: bold;
     -fx-font-family: "Roboto";
@@ -39,8 +39,8 @@ root {
     -fx-background-color: rgba(24, 99, 85, 0.7);
 }
 
-#centerBox {
-    -fx-padding: 10 0 0 10;
+#mainPane {
+    -fx-padding: 30 0 0 30;
 }
 
 .button {
