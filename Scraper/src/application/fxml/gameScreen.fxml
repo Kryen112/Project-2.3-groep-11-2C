@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="application.controllers.GameScreen" fx:id="centerBox">
+    <Text fx:id="title" text="Welkom bij AI Gaming"/>
+    <Text fx:id="info" text="Kies je spel, speel tegen een computer, een vriend of online"/>
+
+    <HBox>
+        <Button text="Boter Kaas Eieren" onAction="#setUpBoterKaasEieren"/>
+        <Button text="Othello" onAction="#setUpOthello"/>
+<!--        <Button text="Game3"/>-->
+<!--        <Button text="Game4"/>-->
+<!--        <Button text="Game5"/>-->
+    </HBox>
+
+    <HBox>
+        <ImageView fitHeight="140" fitWidth="140"><Image url="@../images/gametypes/bke.jpg"/></ImageView>
+        <ImageView fitHeight="140" fitWidth="140"><Image url="@../images/gametypes/riversi.png"/></ImageView>
+<!--        <ImageView fitHeight="140" fitWidth="140"><Image url="@../images/gametypes/temp.png"/></ImageView>-->
+<!--        <ImageView fitHeight="140" fitWidth="140"><Image url="@../images/gametypes/temp.png"/></ImageView>-->
+<!--        <ImageView fitHeight="140" fitWidth="140"><Image url="@../images/gametypes/temp.png"/></ImageView>-->
+    </HBox>
+
+
+
+
+<!--  TODO
+        - user can select a game -> inschrijven speltype
+        - user can request all online players
+        - user can challenge a player
+        - user can recieve a challenge from another player
+        - user can accept challange request
+        - info laatst gespeelde match-->
+
+</VBox>

@@ -8,32 +8,8 @@
             "type": "java",
             "name": "Launch App",
             "request": "launch",
-            "mainClass": "App",
-            "projectName": "Project-2.3-groep-11-2C_2e1cbd2d",
-            "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
-        },
-        {
-            "type": "java",
-            "name": "Launch App",
-            "request": "launch",
             "mainClass": "groep11.App",
-            "projectName": "Project-2.3-groep-11-2C_2e1cbd2d",
-            "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
-        },
-        {
-            "type": "java",
-            "name": "Launch MenuUI",
-            "request": "launch",
-            "mainClass": "groep11.MenuUI",
-            "projectName": "Project-2.3-groep-11-2C_2e1cbd2d",
-            "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
-        },
-        {
-            "type": "java",
-            "name": "Launch MenuUI",
-            "request": "launch",
-            "mainClass": "MenuUI",
-            "projectName": "Project-2.3-groep-11-2C_2e1cbd2d",
+            "projectName": "Project-2.3-groep-11-2C_f206e776",
             "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
         }
     ]
