@@ -44,6 +44,18 @@ public class Server {
     }
 
     /**
+     *
+     */
+    public void acceptChallenge() {
+        if(inputProcesser.isSetChallengeNumber()) {
+            processCommand("challenge accept "+inputProcesser.getChallengeNumber());
+        } else {
+            System.out.println("There is no challenge");
+        }
+
+    }
+
+    /**
      * This method
      */
     public void doMove(int position) {
