@@ -2,7 +2,18 @@ package application.serverconnect;
 
 public class InputProcesser {
 
-    String answer;
+    public String answer;
+
+    public String[] matchMessage;
+    public String[] turnMessage;
+    public String[] lossMessage;
+    public String[] winMessage;
+    public String[] moveMessage;
+
+    public int move;
+    public String opponent;
+    public String turn;
+    public String black;
 
     public InputProcesser() {
 
@@ -16,16 +27,69 @@ public class InputProcesser {
         this.answer = answer;
     }
 
+    public void setMove() {
+        move = Integer.parseInt(moveMessage[1].replace("MOVE: ", "").replace("\"", ""));
+    }
+
+    public void setBlack() {
+        black = matchMessage[0].replace("PLAYERTOMOVE: ", "").replace("\"", "");
+    }
+
+    public void setOpponent() {
+        opponent = matchMessage[2].replace("OPPONENT: ", "").replace("\"", "");
+    }
+
+    public String[] setMessages(String message) {
+        return message.replace("{", "").replace("}", "").split(", ");
+    }
+
     public void processInput(String input, Server server) {
         switch(input) {
             case "OK":
             case "ERR Already logged in":
             case "ERR Duplicate name exists":
-                System.out.println("Setting answer to: "+input);
+            case "ERR Not logged in":
                 setAnswer(input);
                 server.setResult(input);
                 break;
             default: setAnswer("");
+        }
+
+        String[] arr = input.split(" ", 4);
+        String serverMessage = "";
+
+        if(arr.length >= 3) {
+            serverMessage = arr[0]+arr[1]+arr[2];
+        }
+
+        switch(serverMessage) {
+            case "SVRGAMEMATCH":
+                System.out.println("Game match start!");
+                this.matchMessage = setMessages(arr[3]);
+                setBlack();
+                setOpponent();
+                System.out.println("The opponent of the game is: "+this.opponent);
+                System.out.println("The player that starts first is: "+this.black);
+                break;
+            case "SVRGAMEYOURTURN":
+                System.out.println("It's your turn!");
+                this.turnMessage = setMessages(arr[3]);
+                // doe een move als het jouw beurt is
+                break;
+            case "SVRGAMELOSS":
+                System.out.println("You have lost!");
+                this.lossMessage = setMessages(arr[3]);
+                break;
+            case "SVRGAMEWIN":
+                System.out.println("You have won!");
+                this.winMessage = setMessages(arr[3]);
+                break;
+            case "SVRGAMEMOVE":
+                System.out.println("Move set");
+                this.moveMessage = setMessages(arr[3]);
+                setMove();
+                System.out.println("Deze zet is gedaan: "+this.move);
+                // zet move op het bord van diegene die move heeft gezet
         }
     }
 }

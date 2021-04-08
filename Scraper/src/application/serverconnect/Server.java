@@ -44,11 +44,10 @@ public class Server {
     }
 
     /**
-     * This method sends commands to the server
-     * @param command - The command
+     * This method
      */
-    public void sendCommand(String command) {
-        out.println(command);
+    public void doMove(int position) {
+        processCommand("move "+position);
     }
 
     /**
@@ -67,6 +66,16 @@ public class Server {
      */
     public boolean isOK() {
         return this.inputProcesser.isOK();
+    }
+
+    /**
+     * This method subscribes to a game
+     * @param game - The game
+     * @param callback - The callback
+     */
+    public void subscribe(String game, Consumer<String> callback) {
+        this.callback = callback;
+        processCommand("subscribe "+game);
     }
 
     /**
