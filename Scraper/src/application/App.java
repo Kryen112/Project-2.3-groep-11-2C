@@ -1,5 +1,6 @@
 package application;
 
+import application.games.attributes.Board;
 import application.serverconnect.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +32,10 @@ public class App extends Application {
     public static final String GAMENAME = "AI Gaming";
 
     /** The server */
-    public Server server;
+    public static Server server;
+
+    /** The board */
+    public static Board board;
 
     /**
      * The constructor
@@ -39,13 +43,13 @@ public class App extends Application {
     public App() {
         Connection connection = new Connection();
         server = connection.getServer();
-
-        server.login("test234", (result) -> {System.out.println(result);});
+        board = new Board();
+        board.execute();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/application/fxml/start.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../application/fxml/start.fxml"));
         appPrimaryStage = primaryStage;
         setPrimaryStageUI(primaryStage, root, GAMENAME, UIWIDTH, UIHEIGHT);
     }

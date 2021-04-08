@@ -51,16 +51,8 @@ public class Input implements Runnable {
         try {
             while(true) {
                 String input = bufferedReader.readLine();
-                if(input.equals("OK")) {
-                    inputProcesser.setAnswer("OK");
-                    System.out.println("Answer from server: "+input);
-                    server.setResult(input);
-                }
-                else if(input.equals("ERR Already logged in")) {
-                    inputProcesser.setAnswer("ERR");
-                    server.setResult(input);
-                }
-                //System.out.println(input);
+                System.out.println("Answer from server: "+input);
+                inputProcesser.processInput(input, server);
             }
         } catch (Exception e) {
             System.out.print("Something went wrong: " + e);

@@ -1,7 +1,15 @@
 package application.games.players;
 
 public class HumanPlayer extends Player {
-    
+
+    public HumanPlayer(String userName) {
+        name = userName;
+        score = 0;
+        wins = 0;
+        losses = 0;
+        setTypeOfPlayer();
+    }
+
     @Override
     public void doMove() {
         // TODO Auto-generated method stub

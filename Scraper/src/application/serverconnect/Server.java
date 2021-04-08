@@ -1,7 +1,5 @@
 package application.serverconnect;
 
-import application.serverconnect.InputProcesser;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -46,11 +44,22 @@ public class Server {
     }
 
     /**
-     * This method sends commands to the server
-     * @param command - The command
+     *
      */
-    public void sendCommand(String command) {
-        out.println(command);
+    public void acceptChallenge() {
+        if(inputProcesser.isSetChallengeNumber()) {
+            processCommand("challenge accept "+inputProcesser.getChallengeNumber());
+        } else {
+            System.out.println("There is no challenge");
+        }
+
+    }
+
+    /**
+     * This method
+     */
+    public void doMove(int position) {
+        processCommand("move "+position);
     }
 
     /**
@@ -61,7 +70,24 @@ public class Server {
         String command = "login "+name;
         this.callback = callback;
         processCommand(command);
-        //return this.inputProcesser.isOK();
+    }
+
+    /**
+     * This method returns a boolean if the command is ok or not
+     * @return - boolean
+     */
+    public boolean isOK() {
+        return this.inputProcesser.isOK();
+    }
+
+    /**
+     * This method subscribes to a game
+     * @param game - The game
+     * @param callback - The callback
+     */
+    public void subscribe(String game, Consumer<String> callback) {
+        this.callback = callback;
+        processCommand("subscribe "+game);
     }
 
     /**
@@ -69,13 +95,6 @@ public class Server {
      */
     public void getPlayerList() {
         out.println("get playerlist");
-    }
-
-    /**
-     * This method sends the help command to the server
-     */
-    public void help() {
-        out.println("help");
     }
 
     /**
