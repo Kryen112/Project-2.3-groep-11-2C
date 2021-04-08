@@ -17,14 +17,65 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="application.controllers.Start">
+            fx:controller="application.fxml.Start">
 
-    <!--
-        The BorderPane has a left section reserved for navigation / information purposes
-        The center section is reserved for the various game screens possible
-        The handling of the center
-    -->
-    <fx:include source="borderpane.fxml"/>
+    <BorderPane xmlns="http://javafx.com/javafx"
+                xmlns:fx="http://javafx.com/fxml" fx:id="mainPane">
+        <top>
+            <VBox>
+                <Text fx:id="title" text="Welkom bij AI Gaming"/>
+                <Text fx:id="info" text="Log in met je naam, Kies een spel, speel tegen een computer, een vriend of online"/>
+            </VBox>
+        </top>
+
+        <center>
+            <VBox fx:id="centerScreen">
+
+                <!--       LOGIN         -->
+                <Group fx:id="loginCenterBox">
+                    <HBox fx:id="loginBox">
+                        <!--  login  -->
+                        <Label text="Gebruikersnaam:" translateY="5"/>
+                        <TextField fx:id="userName" maxWidth="200" promptText=" jouw naam" translateX="10" minHeight="30"/>
+                        <Button text="Login" onAction="#handleLoginAction" translateX="20"/>
+                        <Button text="Speel Lokaal" onAction="#handleLocalPlay" translateX="40"/>
+                    </HBox>
+
+                    <VBox fx:id="loginMessageBox" translateY="20">
+                        <!--  error / succes message  -->
+                        <Text fx:id="loginMessage" translateY="30"/>
+                        <Button fx:id="verder" text="Ga Verder" onAction="#handleContinue" translateX="10" translateY="40" visible="false"/>
+                    </VBox>
+                </Group>
+
+                <!--       GAMESCREEN         -->
+                <Group fx:id="gameCenterBox" visible="false" >
+                    <HBox translateY="20">
+                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpBoterKaasEieren" translateY="20">
+                            <Image url="@../images/gametypes/bke.jpg"/>
+                        </ImageView>
+
+                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpOthello" translateX="20" translateY="20">
+                            <Image url="@../images/gametypes/riversi.png"/>
+                        </ImageView>
+                    </HBox>
+
+                </Group>
+
+                <!--       GAME TIC TAC TOE         -->
+                <Group fx:id="bke" visible="false">
+                    <fx:include source="boterkaaseieren.fxml" />
+                </Group>
+
+                <!--       GAME OTHELLO         -->
+                <Group fx:id="othello" visible="false">
+                    <fx:include source="othello.fxml" />
+                </Group>
+
+            </VBox>
+        </center>
+
+    </BorderPane>
 
     <stylesheets>
         <!-- note: The @ symbol before the name of the style sheet in the URL
