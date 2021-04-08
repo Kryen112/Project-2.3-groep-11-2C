@@ -17,14 +17,54 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="application.controllers.Start">
+            fx:controller="application.fxml.Start">
 
-    <!--
-        The BorderPane has a left section reserved for navigation / information purposes
-        The center section is reserved for the various game screens possible
-        The handling of the center
-    -->
-    <fx:include source="borderpane.fxml"/>
+    <BorderPane xmlns="http://javafx.com/javafx"
+                xmlns:fx="http://javafx.com/fxml" fx:id="mainPane">
+        <top>
+            <VBox>
+                <Text fx:id="title" text="Welkom bij AI Gaming"/>
+                <Text fx:id="info" text="Log in met je naam, Kies een spel, speel tegen een computer, een vriend of online"/>
+            </VBox>
+        </top>
+
+        <center>
+            <VBox>
+                <!--       LOGIN         -->
+                <fx:include source="login.fxml" fx:id="loginCenterBox"/>
+
+                <!--       GAMESCREEN         -->
+                <Group fx:id="gameCenterBox" visible="false" translateY="30">
+<!--                    <HBox>-->
+<!--                        <Button text="Boter Kaas Eieren" onAction="#setUpBoterKaasEieren"/>-->
+<!--                        <Button text="Othello" onAction="#setUpOthello" translateX="20"/>-->
+<!--                    </HBox>-->
+                    <HBox>
+                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpBoterKaasEieren">
+                            <Image url="@../images/gametypes/bke.jpg"/>
+                        </ImageView>
+
+                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpOthello" translateX="20">
+                            <Image url="@../images/gametypes/riversi.png"/>
+                        </ImageView>
+                    </HBox>
+<!--  TODO
+       - user can select a game -> inschrijven speltype
+       - user can request all online players
+       - user can challenge a player
+       - user can recieve a challenge from another player
+       - user can accept challange request
+       - info laatst gespeelde match
+-->
+                </Group>
+
+                <fx:include source="boterkaaseieren.fxml" visible="false" />
+                <fx:include source="othello.fxml" visible="false"/>
+
+            </VBox>
+        </center>
+
+    </BorderPane>
 
     <stylesheets>
         <!-- note: The @ symbol before the name of the style sheet in the URL

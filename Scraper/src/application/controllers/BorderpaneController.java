@@ -9,7 +9,6 @@ import javafx.scene.layout.VBox;
 
 public class BorderpaneController {
     @FXML public static BorderPane mainPane;
-    @FXML private static Button profile;
 
     /**
      * Method to handle the application.games button
@@ -20,7 +19,7 @@ public class BorderpaneController {
         String pathToHome = "../fxml/gameScreen.fxml";
 
         // display game screen / home pane
-        goToPaneView(pathToHome);
+        setCenter(pathToHome);
     }
 
     /**
@@ -35,7 +34,7 @@ public class BorderpaneController {
         System.out.println("Login button clicked");
 
         // go to login pane view
-        goToPaneView(pathToLogin);
+        setCenter(pathToLogin);
     }
 
     /**
@@ -52,7 +51,7 @@ public class BorderpaneController {
         System.out.println("Profile button clicked");
 
         // go to profile pane view
-        goToPaneView(pathToProfile);
+        setCenter(pathToProfile);
     }
 
     /**
@@ -67,7 +66,7 @@ public class BorderpaneController {
 //        System.out.println("Settings button clicked");
 
         // go to settings pane view
-        goToPaneView(pathToSettings);
+        setCenter(pathToSettings);
     }
 
     /**
@@ -82,7 +81,7 @@ public class BorderpaneController {
 //        System.out.println("Help button clicked");
 
         // gp to help pane view
-        goToPaneView(pathToHelp);
+        setCenter(pathToHelp);
 
         // TODO implementeer help functies
     }
@@ -99,20 +98,17 @@ public class BorderpaneController {
 //        System.out.println("About us button clicked");
 
         // go to About us pane view
-        goToPaneView(pathToAboutUs);
+        setCenter(pathToAboutUs);
     }
 
     /**
      * Method that handles the change of the BorderPane center section
      * @param pathToFile
      */
-    public static void goToPaneView(String pathToFile) {
+    @FXML
+    public static void setCenter(String pathToFile) {
         Loader l = new Loader();
         Pane view = l.getPageView(pathToFile);
         mainPane.setCenter(view);
-    }
-
-    public static Button getProfile() {
-        return profile;
     }
 }

@@ -8,11 +8,10 @@
 
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<VBox xmlns="http://javafx.com/javafx"
+<Group xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="application.controllers.Othello">
-    <BorderPane fx:id="centerBox">
-        <left>
+      fx:controller="application.fxml.Othello">
+
             <VBox>
                 <Text fx:id="title" text="Othello"/>
                 <HBox>
@@ -28,16 +27,5 @@
                     <RadioButton text="Online tegen Willekeurige speler" translateX="50"/>
                 </HBox>
             </VBox>
-        </left>
 
-        <center>
-
-        </center>
-    </BorderPane>
-
-    <stylesheets>
-        <!-- note: The @ symbol before the name of the style sheet in the URL
-            indicates that the style sheet is in the same directory as the FXML file. -->
-        <URL value="@/application/styling/main.css" />
-    </stylesheets>
-</VBox>
+</Group>

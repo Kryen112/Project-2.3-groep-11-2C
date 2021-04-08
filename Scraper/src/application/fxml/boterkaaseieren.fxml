@@ -8,12 +8,9 @@
 
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
-<AnchorPane xmlns="http://javafx.com/javafx"
+<Group xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="application.controllers.Boterkaaseieren" >
-
-    <BorderPane fx:id="centerBox">
-        <left>
+            fx:controller="application.fxml.Boterkaaseieren" >
 
             <VBox>
                 <Text fx:id="title" text="Boter, Kaas en Eieren" translateX="150"/>
@@ -33,14 +30,5 @@
                 <Button text="Help" onAction="#uitlegTicTacToe" translateY="-100"/>
 
             </VBox>
-        </left>
 
-
-    </BorderPane>
-
-    <stylesheets>
-        <!-- note: The @ symbol before the name of the style sheet in the URL
-            indicates that the style sheet is in the same directory as the FXML file. -->
-        <URL value="@/application/styling/main.css" />
-    </stylesheets>
-</AnchorPane>
+</Group>

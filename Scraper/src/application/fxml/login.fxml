@@ -7,18 +7,20 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Text?>
-<VBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="application.controllers.Login" fx:id="centerBox" >
+<Group xmlns="http://javafx.com/javafx"
+       xmlns:fx="http://javafx.com/fxml"
+       fx:controller="application.fxml.Start">
 
-    <Text fx:id="title" text="Welkom bij AI Gaming"/>
-    <Text fx:id="info" text="Log in met je naam, Kies een spel, speel tegen een computer, een vriend of online"/>
+        <!--  login  -->
+        <HBox fx:id="loginBox" translateY="40">
+            <Label text="Gebruikersnaam:" translateY="5"/>
+            <TextField fx:id="userName" maxWidth="200" promptText=" jouw naam" translateX="10" minHeight="30"/>
+            <Button text="Login" onAction="#handleLoginAction" translateX="20"/>
+        </HBox>
 
-    <!--  login  -->
-    <HBox fx:id="loginBox" translateY="20">
-        <Label text="Gebruikersnaam:" translateY="5"/>
-        <TextField fx:id="userName" maxWidth="200" promptText=" jouw naam" translateX="10" minHeight="30"/>
-        <Button text="Login" onAction="#handleLoginAction"  translateX="20"/>
-    </HBox>
-    <Text fx:id="message" translateY="25"/>
-</VBox>
+        <!--  error / succes message  -->
+        <VBox fx:id="loginMessageBox" translateY="20">
+            <Text fx:id="loginMessage" translateY="30"/>
+            <Button fx:id="verder" text="Ga Verder" onAction="#handleContinue" translateX="10" translateY="40" visible="false"/>
+        </VBox>
+</Group>
