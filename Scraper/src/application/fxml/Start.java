@@ -40,6 +40,8 @@ public class Start {
     @FXML protected Group loginCenterBox;
     @FXML protected HBox loginBox;
     @FXML protected TextField userName;
+    @FXML protected TextField enemyUserName;
+    @FXML protected Text challengeMessage;
     @FXML protected Text loginMessage;
     @FXML protected VBox loginMessageBox;
     @FXML protected Button verder;
@@ -69,11 +71,11 @@ public class Start {
                         verder.setVisible(true);    // enable continue button
                         break;
 
-                    case "ERR Already logged in":
+                    case "ERR already logged in":
                         showMessage(loginMessage, 1, "U bent al ingelogd");
                         break;
 
-                    case "ERR Duplicate name exists":
+                    case "ERR duplicate name exists":
                         showMessage(loginMessage, 1, "Deze gebruikersnaam bestaat al");
                         break;
                 }}); // end switch / login
@@ -135,19 +137,20 @@ public class Start {
     }
 
     @FXML
-    public void setUpOthello(MouseEvent actionEvent) throws IOException {
+    public void setUpReversi    (MouseEvent actionEvent) throws IOException {
         centerScreen.getChildren().remove(gameCenterBox);
         games.getChildren().add(centerGame);
         games.setVisible(true);
-        title.setText("Othello");
+        title.setText("Reversi");
     }
 
     @FXML
     public void playNewGame(ActionEvent actionEvent) {
+        App.server.forfeit();
         if(title.getText().equals("Boter, Kaas en Eieren")) {
             App.server.subscribe("Tic-tac-toe", (result) -> { System.out.println("Subscribed to Tic-tac-toe"); });
         }
-        if(title.getText().equals("Othello")) {
+        if(title.getText().equals("Reversi")) {
             App.server.subscribe("Reversi", (result) -> { System.out.println("Subscribed to Reversi"); });
         }
     }
@@ -167,8 +170,29 @@ public class Start {
 
     @FXML
     public void acceptChallenge(ActionEvent actionEvent) {
-        if(title.getText().equals("Othello")) {
+        if(title.getText().equals("Reversi")) {
             App.server.acceptChallenge();
         }
     }
+
+    @FXML
+    public void challengePlayer(ActionEvent actionEvent) {
+        if (!enemyUserName.getText().isEmpty() || !enemyUserName.getText().isBlank()) {
+            String enemyPlayer = enemyUserName.getText();
+            String gameName = title.getText();
+            App.server.challengePlayer(enemyPlayer, gameName, result -> { 
+                switch (result) {
+                    case "OK":
+                        showMessage(challengeMessage, 0, ("Je hebt deze speler uitgedaagd: " + enemyPlayer));
+                        break;
+                    case "ERR player not found":
+                        showMessage(challengeMessage, 0, ("Speler " + enemyPlayer + " niet gevonden."));
+                        break;
+                    case "ERRplayernot":
+                        showMessage(challengeMessage, 0, ("Speler " + enemyPlayer + " niet gevonden."));
+                        break;
+                    }
+            }); 
+        }
+    } 
 }
