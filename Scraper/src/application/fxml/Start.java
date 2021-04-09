@@ -146,6 +146,7 @@ public class Start {
 
     @FXML
     public void playNewGame(ActionEvent actionEvent) {
+        App.server.forfeit();
         if(title.getText().equals("Boter, Kaas en Eieren")) {
             App.server.subscribe("Tic-tac-toe", (result) -> { System.out.println("Subscribed to Tic-tac-toe"); });
         }

@@ -85,6 +85,10 @@ public class Server {
         return this.inputProcesser.isOK();
     }
 
+    public void forfeit() {
+        processCommand("forfeit");
+    }
+
     /**
      * This method subscribes to a game
      * @param game - The game
