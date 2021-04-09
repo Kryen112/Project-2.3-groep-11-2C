@@ -55,18 +55,18 @@
                             <Image url="@../images/gametypes/bke.jpg"/>
                         </ImageView>
 
-                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpOthello" translateX="20" translateY="20">
+                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpReversi" translateX="20" translateY="20">
                             <Image url="@../images/gametypes/riversi.png"/>
                         </ImageView>
                     </HBox>
                 </Group>
 
-                <!--       GAME OTHELLO         -->
+                <!--       GAME Reversi         -->
                 <Group fx:id="games" visible="false">
                     <VBox fx:id="centerGame">
                         <!--      todo
-                                      terug/cancel button
-                                      help button
+                                    terug/cancel button
+                                    help button
                         -->
                         <fx:define>
                             <ToggleGroup fx:id="gameSettings"/>
@@ -88,8 +88,12 @@
                         </HBox>
 
                         <Button text="Start nieuw spel" onAction="#playNewGame"/>
-                        <Button text="Accept Challenge" onAction="#acceptChallenge" />
-                        <Button text="Terug" onAction="#goBack" />
+                        <Button text="Accept Challenge" onAction="#acceptChallenge"/>
+                        <Label text="Gebruikersnaam om uit te dagen:" translateY="5"/>
+                        <TextField fx:id="enemyUserName" maxWidth="200" promptText=" vijand naam" translateX="10" minHeight="30"/>
+                        <Button text="Iemand Uitdagen" onAction="#challengePlayer"/>
+                        <Text fx:id="challengeMessage" translateY="30"/>
+                        <Button text="Terug" onAction="#goBack"/>
 
                     </VBox>
                 </Group>

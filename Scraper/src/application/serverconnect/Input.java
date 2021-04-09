@@ -51,7 +51,7 @@ public class Input implements Runnable {
         try {
             while(true) {
                 String input = bufferedReader.readLine();
-                System.out.println("Answer from server: "+input);
+                System.out.println("DEBUG Answer from server: "+input);
                 inputProcesser.processInput(input, server);
             }
         } catch (Exception e) {
