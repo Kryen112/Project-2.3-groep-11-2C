@@ -71,9 +71,9 @@ public class InputProcesser {
     public void processInput(String input, Server server) {
         switch(input) {
             case "OK":
-            case "ERR Already logged in":
-            case "ERR Duplicate name exists":
-            case "ERR Not logged in":
+            case "ERR already logged in":
+            case "ERR duplicate name exists":
+            case "ERR not logged in":
                 setAnswer(input);
                 server.setResult(input);
                 break;

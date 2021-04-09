@@ -69,11 +69,11 @@ public class Start {
                         verder.setVisible(true);    // enable continue button
                         break;
 
-                    case "ERR Already logged in":
+                    case "ERR already logged in":
                         showMessage(loginMessage, 1, "U bent al ingelogd");
                         break;
 
-                    case "ERR Duplicate name exists":
+                    case "ERR duplicate name exists":
                         showMessage(loginMessage, 1, "Deze gebruikersnaam bestaat al");
                         break;
                 }}); // end switch / login
@@ -144,6 +144,7 @@ public class Start {
 
     @FXML
     public void playNewGame(ActionEvent actionEvent) {
+        App.server.forfeit();
         if(title.getText().equals("Boter, Kaas en Eieren")) {
             App.server.subscribe("Tic-tac-toe", (result) -> { System.out.println("Subscribed to Tic-tac-toe"); });
         }
