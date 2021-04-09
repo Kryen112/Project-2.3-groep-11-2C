@@ -69,25 +69,29 @@ public class InputProcesser {
     }
 
     public void processInput(String input, Server server) {
+
         switch(input) {
             case "OK":
-            case "ERR Already logged in":
-            case "ERR Duplicate name exists":
-            case "ERR Not logged in":
+            case "ERR already logged in":
+            case "ERR duplicate name exists":
+            case "ERR not logged in":
                 setAnswer(input);
                 server.setResult(input);
                 break;
             default: setAnswer("");
         }
 
+
+
+
+        // TODO challenge CANCEL vangt niet
+        // TODO alles in 1 switch?
         String[] arr = input.split(" ", 4);
         String serverMessage = "";
 
         if(arr.length >= 3) {
             serverMessage = arr[0]+arr[1]+arr[2];
         }
-
-        System.out.println(serverMessage);
 
         switch(serverMessage) {
             case "SVRGAMEMATCH":

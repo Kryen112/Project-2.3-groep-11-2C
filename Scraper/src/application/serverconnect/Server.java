@@ -48,11 +48,16 @@ public class Server {
      */
     public void acceptChallenge() {
         if(inputProcesser.isSetChallengeNumber()) {
-            processCommand("challenge accept "+inputProcesser.getChallengeNumber());
+            processCommand("challenge accept "+ inputProcesser.getChallengeNumber());
         } else {
             System.out.println("There is no challenge");
         }
 
+    }
+
+    public void challengePlayer(String player, String game, Consumer<String> callback) {
+        this.callback = callback;
+        processCommand("challenge " + player + " " + game);
     }
 
     /**
@@ -78,6 +83,10 @@ public class Server {
      */
     public boolean isOK() {
         return this.inputProcesser.isOK();
+    }
+
+    public void forfeit() {
+        processCommand("forfeit");
     }
 
     /**
