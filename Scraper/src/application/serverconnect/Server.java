@@ -47,7 +47,7 @@ public class Server {
      *
      */
     public void acceptChallenge() {
-        if(inputProcesser.isSetChallengeNumber()) {
+        if(inputProcesser.getChallengeNumber() != 0) {
             processCommand("challenge accept "+ inputProcesser.getChallengeNumber());
         } else {
             System.out.println("There is no challenge");
@@ -102,7 +102,8 @@ public class Server {
     /**
      * This method gets the playerlist from the server
      */
-    public void getPlayerList() {
+    public void getPlayerList(Consumer<String> callback) {
+        this.callback = callback;
         out.println("get playerlist");
     }
 

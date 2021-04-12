@@ -31,7 +31,7 @@
         <center>
             <VBox fx:id="centerScreen">
 
-                <!--       LOGIN         -->
+                <!--       LOGIN            -->
                 <Group fx:id="loginCenterBox">
                     <HBox fx:id="loginBox">
                         <!--  login  -->
@@ -56,45 +56,44 @@
                         </ImageView>
 
                         <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpReversi" translateX="20" translateY="20">
-                            <Image url="@../images/gametypes/riversi.png"/>
+                            <Image url="@../images/gametypes/reversi.png"/>
                         </ImageView>
                     </HBox>
                 </Group>
 
-                <!--       GAME Reversi         -->
+                <!--       GAMES             -->
                 <Group fx:id="games" visible="false">
-                    <VBox fx:id="centerGame">
-                        <!--      todo
-                                    terug/cancel button
-                                    help button
+
+                    <!--       GAMES LOCAL        -->
+                    <VBox fx:id="centerGameLocal">
+                        <!-- todo
+                        help button
                         -->
-                        <fx:define>
-                            <ToggleGroup fx:id="gameSettings"/>
-                        </fx:define>
+                        <Button text="Tegen computer" onAction="#playLocalvsAI" translateY="20"/>
+                        <Button text="Tegen elkaar" onAction="#playLocalvs" translateY="40"/>
+                        <Button text="Terug" onAction="#goBackLocal" translateY="60"/>
+                    </VBox>
 
-                        <HBox>
-                            <RadioButton toggleGroup="$gameSettings" fx:id="localvsai" text="Lokaal tegen Computer"/>
-                            <RadioButton toggleGroup="$gameSettings" fx:id="localvslocal" text="Lokaal met 2 Spelers"/>
-                        </HBox>
+                    <!--       GAMES Online         --> 
+                    <VBox fx:id="centerGameOnline">
+                        <!-- todo       
+                        help button
+                        playerlist
+                        -->
 
-                        <HBox>
-                            <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsai" text="Online tegen Computer"/>
-                            <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsrandom" text="Online tegen Willekeurige speler"/>
-                        </HBox>
-
-                        <HBox>
-                            <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsplayer" text="Online tegen Speler"/>
-                            <TextField fx:id="player2" minWidth="200"/>
-                        </HBox>
-
-                        <Button text="Start nieuw spel" onAction="#playNewGame"/>
-                        <Button text="Accept Challenge" onAction="#acceptChallenge"/>
-                        <Label text="Gebruikersnaam om uit te dagen:" translateY="5"/>
-                        <TextField fx:id="enemyUserName" maxWidth="200" promptText=" vijand naam" translateX="10" minHeight="30"/>
-                        <Button text="Iemand Uitdagen" onAction="#challengePlayer"/>
-                        <Text fx:id="challengeMessage" translateY="30"/>
-                        <Button text="Terug" onAction="#goBack"/>
-
+                        <Button text="Speel online tegen een andere speler" onAction="#playNewGame" translateY="20"/>
+                        <Button text="Speel tegen computer" onAction="#playLocalvsAI" translateY="40"/>
+                        <Button text="Uitdaging accepteren" onAction="#acceptChallenge" translateY="60"/>
+                        <Label text="Gebruikersnaam om uit te dagen:" translateY="80"/>
+                        <TextField fx:id="enemyUserName" maxWidth="200" promptText=" vijand naam" minHeight="30" translateY="90"/>
+                        <Button text="Iemand Uitdagen" onAction="#challengePlayer" translateY="100"/>
+                        <Text fx:id="challengeMessage" translateY="120"/>
+                        <Button text="Terug" onAction="#goBackOnline" translateY="140"/>
+                    </VBox>
+                    
+                    <VBox fx:id="playerList" visible="false" translateX="300" translateY="20">
+                        <Button text="Krijg spelerlijst" onAction="#getPlayerList"/>
+                        <Text fx:id="playerListList" translateY="30"/>
                     </VBox>
                 </Group>
 

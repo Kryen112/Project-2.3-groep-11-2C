@@ -9,17 +9,15 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.awt.*;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Class Starts handles the Logic behind the FXML Start page
@@ -42,26 +40,35 @@ public class Start {
     @FXML protected TextField userName;
     @FXML protected TextField enemyUserName;
     @FXML protected Text challengeMessage;
+    @FXML protected Text playerListList;
     @FXML protected Text loginMessage;
     @FXML protected VBox loginMessageBox;
     @FXML protected Button verder;
 
-    public static HumanPlayer user;
+    public HumanPlayer user;
 
     // gameCenter
     @FXML protected Group gameCenterBox;
     @FXML protected Group games;
-    @FXML protected VBox centerGame;
+    @FXML protected VBox centerGameLocal;
+    @FXML protected VBox centerGameOnline;
+    @FXML protected VBox playerList;
 
     @FXML
     protected void handleLoginAction(ActionEvent event) {
-        games.getChildren().remove(centerGame);
+        games.getChildren().remove(centerGameLocal);
+        games.getChildren().remove(centerGameOnline);
 
-        // username can not be empty
-        if (!userName.getText().isEmpty() || !userName.getText().isBlank()) {
+        // player name may not be "Gebruiker"
+        if (userName.getText().equals("Gebruiker")) {
+            showMessage(loginMessage, 1, "U mag deze gebruikersnaam niet gebruiken");
+        }
+        // username cannot be empty 
+        else if (!userName.getText().isEmpty() || !userName.getText().isBlank()) {
             String player = userName.getText();
 
-            App.server.login(player, (result) -> {
+
+            App.server.login(player, result -> {
                 switch (result) {
                     case "OK":
                         // create player and set name
@@ -78,6 +85,10 @@ public class Start {
                     case "ERR duplicate name exists":
                         showMessage(loginMessage, 1, "Deze gebruikersnaam bestaat al");
                         break;
+
+                    default:
+                        showMessage(loginMessage, 1, "Er is iets fout gegaan, probeer het opnieuw.");
+                        break;
                 }}); // end switch / login
         } else {
             showMessage(loginMessage, 1, "Gebruikersnaam kan niet leeg zijn");
@@ -86,11 +97,13 @@ public class Start {
 
     public void handleLocalPlay(ActionEvent actionEvent) {
         user = new HumanPlayer("Gebruiker");
+        games.getChildren().remove(centerGameLocal);
+        games.getChildren().remove(centerGameOnline);
         loginCenterBox.getChildren().remove(loginBox);
         loginCenterBox.getChildren().remove(loginMessageBox);
 
         title.setText(( "AI Gaming [ " + user.getName() + " ]"));
-        info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
+        info.setText("Kies een spel, speel tegen de computer of een vriend");
 
         gameCenterBox.setVisible(true);
     }
@@ -129,29 +142,71 @@ public class Start {
     }
 
     @FXML
-    public void setUpBoterKaasEieren(MouseEvent actionEvent) throws IOException {
-        centerScreen.getChildren().remove(gameCenterBox);
-        games.getChildren().add(centerGame);
-        title.setText("Boter, Kaas en Eieren");
-        games.setVisible(true);
+    public void setUpBoterKaasEieren(MouseEvent actionEvent) {
+        // Local play
+        if (user.getName().equals("Gebruiker")) {
+            centerScreen.getChildren().remove(gameCenterBox);
+            games.getChildren().add(centerGameLocal);
+            title.setText("Boter, Kaas en Eieren");
+            games.setVisible(true);
+        } 
+        // Online play
+        else {
+            centerScreen.getChildren().remove(gameCenterBox);
+            games.getChildren().add(centerGameOnline);
+            title.setText("Boter, Kaas en Eieren");
+            playerList.setVisible(true);
+            games.setVisible(true);
+        }
     }
 
     @FXML
-    public void setUpReversi    (MouseEvent actionEvent) throws IOException {
-        centerScreen.getChildren().remove(gameCenterBox);
-        games.getChildren().add(centerGame);
-        games.setVisible(true);
-        title.setText("Reversi");
+    public void setUpReversi(MouseEvent actionEvent) {
+        // Local play
+        if (user.getName().equals("Gebruiker")) {
+            centerScreen.getChildren().remove(gameCenterBox);
+            games.getChildren().add(centerGameLocal);
+            title.setText("Reversi");
+            games.setVisible(true);
+        }
+        // Online play
+        else {
+            centerScreen.getChildren().remove(gameCenterBox);
+            games.getChildren().add(centerGameOnline);
+            title.setText("Reversi");
+            playerList.setVisible(true);
+            games.setVisible(true);
+        }
     }
 
     @FXML
     public void playNewGame(ActionEvent actionEvent) {
         App.server.forfeit();
         if(title.getText().equals("Boter, Kaas en Eieren")) {
-            App.server.subscribe("Tic-tac-toe", (result) -> { System.out.println("Subscribed to Tic-tac-toe"); });
+            App.server.subscribe("Tic-tac-toe", result ->  System.out.println("Subscribed to Tic-tac-toe") );
         }
         if(title.getText().equals("Reversi")) {
-            App.server.subscribe("Reversi", (result) -> { System.out.println("Subscribed to Reversi"); });
+            App.server.subscribe("Reversi", result ->  System.out.println(result) );
+        }
+    }
+
+    @FXML
+    public void playLocalvsAI(ActionEvent actionEvent) {
+        if(title.getText().equals("Boter, Kaas en Eieren")) {
+            //TODO BKE GUI en spelen tegen AI
+        }
+        if(title.getText().equals("Reversi")) {
+            //TODO Reversi GUI en spelen tegen AI
+        }
+    }
+
+    @FXML
+    public void playLocalvs(ActionEvent actionEvent) {
+        if(title.getText().equals("Boter, Kaas en Eieren")) {
+            //TODO BKE GUI en spelen tegen elkaar
+        }
+        if(title.getText().equals("Reversi")) {
+            //TODO Reversi GUI en spelen tegen elkaar
         }
     }
 
@@ -161,9 +216,18 @@ public class Start {
     }
 
     @FXML
-    public void goBack(ActionEvent actionEvent) {
-        games.getChildren().remove(centerGame);
+    public void goBackLocal(ActionEvent actionEvent) {
+        games.getChildren().remove(centerGameLocal);
         centerScreen.getChildren().add(gameCenterBox);
+        title.setText(( "AI Gaming [ " + user.getName() + " ]"));
+        info.setText("Kies een spel, speel tegen de computer of een vriend");
+    }
+
+    @FXML
+    public void goBackOnline(ActionEvent actionEvent) {
+        games.getChildren().remove(centerGameOnline);
+        centerScreen.getChildren().add(gameCenterBox);
+        playerList.setVisible(false);
         title.setText(( "AI Gaming [ " + user.getName() + " ]"));
         info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
     }
@@ -181,18 +245,36 @@ public class Start {
             String enemyPlayer = enemyUserName.getText();
             String gameName = title.getText();
             App.server.challengePlayer(enemyPlayer, gameName, result -> { 
+                if (result.contains("SVR GAME CHALLENGE CANCELLED")) {
+                    showMessage(challengeMessage, 1, "De huidige uitdaging is geannuleerd");
+                } else if (result.contains("SVR GAME CHALLENGE")) { //TODO bericht als je uitgedaagd bent (LISTVIEW)
+                    showMessage(challengeMessage, 0, "U bent uitgedaagd!");
+                } else {
                 switch (result) {
                     case "OK":
                         showMessage(challengeMessage, 0, ("Je hebt deze speler uitgedaagd: " + enemyPlayer));
                         break;
                     case "ERR player not found":
-                        showMessage(challengeMessage, 0, ("Speler " + enemyPlayer + " niet gevonden."));
+                        showMessage(challengeMessage, 1, ("Speler " + enemyPlayer + " niet gevonden."));
                         break;
-                    case "ERRplayernot":
-                        showMessage(challengeMessage, 0, ("Speler " + enemyPlayer + " niet gevonden."));
+                    default:
+                        showMessage(challengeMessage, 1, "Er is iets fout gegaan, probeer het opnieuw.");
                         break;
                     }
+                }
             }); 
+        } else {
+            showMessage(challengeMessage, 1, "Spelernaam kan niet leeg zijn.");
         }
+    }
+    
+    @FXML
+    public void getPlayerList(ActionEvent actionEvent) {
+        App.server.getPlayerList( result -> {
+            String[] arr = result.replace("[", "").replace("]", "").replace("\"", "").replace("SVR PLAYERLIST ", "").split(", ");
+            if (result.contains("PLAYERLIST")) {
+                showMessage(playerListList, 0, Arrays.toString(arr));
+            }
+        });
     } 
 }
