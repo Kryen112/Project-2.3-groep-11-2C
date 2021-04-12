@@ -4,22 +4,16 @@ import application.App;
 import application.games.players.HumanPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.Locale;
-import java.util.Random;
 
 /**
  * Class Starts handles the Logic behind the FXML Start page
@@ -41,12 +35,13 @@ public class Start {
     @FXML protected Text info;              // Subtitle/info
     @FXML protected VBox centerScreen;      // Center of borderpane
 
+    // HOME
+    @FXML protected Group homeScreen;
+    @FXML protected Button backButtonLocal;
+
     // LOGIN
     @FXML protected Group loginCenterBox;   // Group that holds all of the login items
     @FXML protected HBox loginBox;
-    @FXML protected TextField enemyUserName;
-    @FXML protected Text challengeMessage;
-    @FXML protected Text playerListList;
     @FXML protected HBox loginMessageBox;
     @FXML protected Text loginMessage;
     @FXML protected TextField userName;
@@ -57,6 +52,12 @@ public class Start {
     @FXML protected VBox centerGameLocal;
     @FXML protected VBox centerGameOnline;
     @FXML protected VBox playerList;
+    @FXML protected VBox challengesListView;
+    @FXML protected Text playerListList;
+    @FXML protected TextField enemyUserName;
+    @FXML protected Text challengeMessage;
+    @FXML protected ListView<String> listView;
+
     // GAMECENTER
     @FXML protected Group gameCenterBox; // Group that holds all of the game items
     @FXML protected HBox gameSelection;  // Box to show games that can be played
@@ -70,6 +71,9 @@ public class Start {
      */
     @FXML
     protected void handleLoginAction(ActionEvent event) {
+        //Make connection with server
+        App.makeConnectionWithServer();
+        
         games.getChildren().remove(centerGameLocal);
         games.getChildren().remove(centerGameOnline);
 
@@ -86,6 +90,7 @@ public class Start {
                     case "OK":  // Login succes
                         user = new HumanPlayer(player);
                         showMessage(loginMessage, 0, ("Inloggen gelukt, Welkom " + player + "!") );
+                        App.server.setLoggedIn(true);
                         loginBox.setVisible(false);     // hide login
                         verder.setVisible(true);        // enable continue button
                         break;
@@ -107,17 +112,74 @@ public class Start {
         }
     }
 
-    public void handleLocalPlay(ActionEvent actionEvent) {
+    /**
+     * Player clicked local play
+     * Set username to something useful
+     * Proceed to game selection screen
+     */
+    @FXML
+    public void handleLocalPlay() {
+        //Local user is a user with name "Gebruiker"
         user = new HumanPlayer("Gebruiker");
+
+        //Set title and infotext
+        title.setText(("AI Gaming"));
+        info.setText("Kies een spel, speel tegen de computer of een vriend");
+
+        //Handle screen transitions
         games.getChildren().remove(centerGameLocal);
         games.getChildren().remove(centerGameOnline);
         loginCenterBox.getChildren().remove(loginBox);
         loginCenterBox.getChildren().remove(loginMessageBox);
+        homeScreen.setVisible(false);
+        backButtonLocal.setVisible(true);
+        gameCenterBox.setVisible(true); 
+    }
 
-        title.setText(( "AI Gaming [ " + user.getName() + " ]"));
-        info.setText("Kies een spel, speel tegen de computer of een vriend");
+    /**
+     * Player clicked online play
+     * Proceed to connect to server and login actions
+     */
+    @FXML
+    public void handleOnlinePlay() {
+        //Set title and infotext
+        title.setText(("AI Gaming Login"));
+        info.setText("Voer een gebruikersnaam in en login!");
 
-        gameCenterBox.setVisible(true);        // enable continue button
+        //Handle screen transitions
+        loginCenterBox.setVisible(true);
+        homeScreen.setVisible(false);
+    }
+
+    /**
+     * Method for the back button in the login screen
+     * Goes back to the homeScreen
+     */
+    @FXML
+    public void backToHomeScreenFromLogin() {
+        loginCenterBox.setVisible(false);
+
+        title.setText(("AI Gaming Home"));
+        info.setText("Wil je online of lokaal spelen?");
+        homeScreen.setVisible(true);
+    }
+
+    /**
+     * Method for the back button in the local play screen
+     * Goes back to the homeScreen
+     */
+    @FXML
+    public void backToHomeScreenFromLocal() {
+        //Set title and infotext
+        title.setText(("AI Gaming Home"));
+        info.setText("Wil je online of lokaal spelen?");
+
+        //Handle screen transitions
+        gameCenterBox.setVisible(false);
+        backButtonLocal.setVisible(false);
+        loginCenterBox.getChildren().add(loginBox);
+        loginCenterBox.getChildren().add(loginMessageBox);
+        homeScreen.setVisible(true);
     }
 
     /**
@@ -129,7 +191,7 @@ public class Start {
         loginCenterBox.getChildren().remove(loginBox);
         loginCenterBox.getChildren().remove(loginMessageBox);
 
-        title.setText(( "AI Gaming [ " + user.getName() + " ]"));
+        title.setText(( "AI Gaming - " + user.getName()));
         info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
 
         gameCenterBox.getChildren().remove(gameSettingsBox);
@@ -181,6 +243,7 @@ public class Start {
             games.getChildren().add(centerGameOnline);
             title.setText("Reversi");
             playerList.setVisible(true);
+            challengesListView.setVisible(true);
             games.setVisible(true);
         }
     }
@@ -225,7 +288,7 @@ public class Start {
     public void goBackLocal(ActionEvent actionEvent) {
         games.getChildren().remove(centerGameLocal);
         centerScreen.getChildren().add(gameCenterBox);
-        title.setText(( "AI Gaming [ " + user.getName() + " ]"));
+        title.setText(( "AI Gaming - " + user.getName()));
         info.setText("Kies een spel, speel tegen de computer of een vriend");
     }
 
@@ -234,7 +297,7 @@ public class Start {
         games.getChildren().remove(centerGameOnline);
         centerScreen.getChildren().add(gameCenterBox);
         playerList.setVisible(false);
-        title.setText(( "AI Gaming [ " + user.getName() + " ]"));
+        title.setText(( "AI Gaming - " + user.getName()));
         info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
     }
 
@@ -283,8 +346,6 @@ public class Start {
             }
         });
     } 
-
-
 
     /**
      * Method to check if javaFx textField is not Empty or Blank

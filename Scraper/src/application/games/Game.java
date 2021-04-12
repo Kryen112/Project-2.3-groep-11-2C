@@ -1,6 +1,5 @@
 package application.games;
 
-import application.games.attributes.Board;
 import application.games.players.Player;
 
 

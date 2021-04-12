@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Board implements Boards {
+public class Board {
     public int rows;
     public int cols;
     public int totalSpaces;
@@ -16,7 +16,6 @@ public class Board implements Boards {
     public char[][] board;
     public int height = 8;
 
-    @Override
     public Board execute() {
         createBoard();
         return null;
@@ -75,11 +74,6 @@ public class Board implements Boards {
             setStartPieceOnBoard(36,'o');
         }
 
-    }
-
-    @Override
-    public String title() {
-        return null;
     }
 
     /*    public void markPlaceOnBoard(int space, String marker) {

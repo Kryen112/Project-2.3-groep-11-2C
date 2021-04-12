@@ -15,7 +15,7 @@ import javafx.stage.Stage;
  *
  * @author Anouk
  */
-public class App extends Application {
+public class App extends Application implements AutoCloseable {
     /** The primary stage */
     public static Stage appPrimaryStage;
 
@@ -41,16 +41,28 @@ public class App extends Application {
      * The constructor
      */
     public App() {
-        Connection connection = new Connection();
-        server = connection.getServer();
+        //TODO board maken bij aanroep spel
         board = new Board();
         board.execute();
+    }
+
+    public static void makeConnectionWithServer() {
+        Connection connection = new Connection();
+        server = connection.getServer();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../application/fxml/start.fxml"));
         appPrimaryStage = primaryStage;
+        appPrimaryStage.setOnCloseRequest(event -> {
+            try {
+                Input.closeApp();
+                if (server.isLoggedIn()) {
+                    server.logout();
+                }
+            } catch (Exception e) { }
+        });
         setPrimaryStageUI(primaryStage, root, GAMENAME, UIWIDTH, UIHEIGHT);
     }
 
@@ -72,6 +84,11 @@ public class App extends Application {
         primaryStage.setScene(homeScene);
         primaryStage.setResizable(true);    // stage is not resizable
         primaryStage.show();
+    }
+
+    @Override
+    public void close() throws Exception {
+        System.exit(0);
     }
 }
 
