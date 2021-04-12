@@ -22,11 +22,14 @@ public class Server {
     /** Consumer String */
     private Consumer<String> callback;
 
+    private boolean isLoggedIn;
+
     /**
      * The constructor
      * @param socket - The socket
      */
     public Server(Socket socket, InputProcesser inputP) {
+        isLoggedIn = false;
         this.socket = socket;
         inputProcesser = inputP;
         setPrintWriter();
@@ -104,7 +107,7 @@ public class Server {
      */
     public void getPlayerList(Consumer<String> callback) {
         this.callback = callback;
-        out.println("get playerlist");
+        processCommand("get playerlist");
     }
 
     /**
@@ -114,12 +117,24 @@ public class Server {
         out.println(command);
     }
 
+    public void logout() {
+        processCommand("logout");
+    }
+
     /**
      * This method sets the result
      * @param result - The result
      */
     public void setResult(String result) {
         callback.accept(result);
+    }
+
+    public boolean isLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public void setLoggedIn(boolean isLoggedIn) {
+        this.isLoggedIn = isLoggedIn;
     }
 }
 

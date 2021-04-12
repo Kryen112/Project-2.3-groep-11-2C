@@ -24,21 +24,28 @@
         <top>
             <VBox>
                 <Text fx:id="title" text="Welkom bij AI Gaming"/>
-                <Text fx:id="info" text="Log in met je naam, Kies een spel, speel tegen een computer, een vriend of online"/>
+                <Text fx:id="info" text="Wil je online of lokaal spelen?"/>
             </VBox>
         </top>
 
         <center>
             <VBox fx:id="centerScreen">
 
+                <Group fx:id="homeScreen">
+                    <HBox>
+                        <Button text="Speel Online" onAction="#handleOnlinePlay"/>
+                        <Button text="Speel Lokaal" onAction="#handleLocalPlay" translateX="20"/>
+                    </HBox>
+                </Group>
+
                 <!--       LOGIN            -->
-                <Group fx:id="loginCenterBox">
+                <Group fx:id="loginCenterBox" visible="false">
                     <HBox fx:id="loginBox">
                         <!--  login  -->
                         <Label text="Gebruikersnaam:" translateY="5"/>
                         <TextField fx:id="userName" maxWidth="200" promptText=" jouw naam" translateX="10" minHeight="30"/>
                         <Button text="Login" onAction="#handleLoginAction" translateX="20"/>
-                        <Button text="Speel Lokaal" onAction="#handleLocalPlay" translateX="40"/>
+                        <Button text="Terug" onAction="#backToHomeScreenFromLogin" translateX="40"/>
                     </HBox>
 
                     <HBox fx:id="loginMessageBox" translateY="20">
@@ -60,6 +67,8 @@
                             <!--    todo change img to bke gamescreenshot -->
                             <Image url="@../images/gametypes/reversi.png"/>
                         </ImageView>
+
+                        <Button fx:id="backButtonLocal" text="Terug" onAction="#backToHomeScreenFromLocal" translateX="40" visible="false"/>
                     </HBox>
                 </Group>
 
@@ -91,8 +100,12 @@
                         <Text fx:id="challengeMessage" translateY="120"/>
                         <Button text="Terug" onAction="#goBackOnline" translateY="140"/>
                     </VBox>
+
+                    <VBox fx:id="challengesListView" visible="false" translateX="300" translateY="20">
+                        <Label text="Bestaande uitdagingen:"/>
+                    </VBox>
                     
-                    <VBox fx:id="playerList" visible="false" translateX="300" translateY="20">
+                    <VBox fx:id="playerList" visible="false" translateX="550" translateY="20">
                         <Button text="Krijg spelerlijst" onAction="#getPlayerList"/>
                         <Text fx:id="playerListList" translateY="30"/>
                     </VBox>

@@ -1,6 +1,5 @@
 package application.games;
 
-import application.games.attributes.Board;
 import application.games.players.Player;
 import java.util.ArrayList;
 import java.util.Random;
