@@ -3,8 +3,10 @@ package application.games.attributes;
 import application.App;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+<<<<<<< Updated upstream
 
 public class Board implements Boards {
     public int rows;
@@ -14,6 +16,20 @@ public class Board implements Boards {
     public List<String> spaces;
     public char[][] board;
     public int height = 8;
+=======
+
+import javax.sound.midi.SysexMessage;
+
+
+
+
+public class Board implements Boards {
+    int xPoints;
+    int oPoints;
+    char gameBoard[][];
+    final int height = 8;// dit kan veranderd worden bij boterkaas en eieren 
+    Random rand = new Random();
+>>>>>>> Stashed changes
 
     @Override
     public Board execute() {
@@ -49,10 +65,11 @@ public class Board implements Boards {
     }
 
     @Override
-    public String title() {
-        return null;
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
+<<<<<<< Updated upstream
     /*    public void markPlaceOnBoard(int space, String marker) {
 
         }
@@ -100,15 +117,76 @@ public class Board implements Boards {
         }
 
 
+=======
+    public int getxPoints() {
+        return xPoints;
+    }
+
+    public void setxPoints(int xPoints) {
+        this.xPoints = xPoints;
+    }
+
+    public int getoPoints() {
+        return oPoints;
+    }
+
+    public void setoPoints(int oPoints) {
+        this.oPoints = oPoints;
+    }
+
+    public void createBoard() {
+        gameBoard = new char[height][height];
+        for (int x = 0; x < height; x++) 
+        {
+            for (int y = 0; y < height; y++) 
+            {
+                gameBoard[x][y] = '.';
+            }
+        }
+    }
+
+    public char[][] getBoard() {
+        return gameBoard;
+    }
+
+    public void setBoard(char[][] gameBoard) {
+        this.gameBoard = gameBoard;
+    }
+
+    @Override
+    public String title() {
+        return null;
+    }
+
+/*    public void markPlaceOnBoard(int space, String marker) {
+
+    }
+*/
+    public void setStartPieceOnBoard(int space, char pieceToPlace) {
+        gameBoard[getRow(space)][getCollum(space)] = pieceToPlace;
+    }
+
+
+    
+  /*  public ArrayList<ArrayList<String>> getColumns() {
+        return null;
+>>>>>>> Stashed changes
     }
     /*  public ArrayList<ArrayList<String>> getColumns() {
           return null;
       }
 
+<<<<<<< Updated upstream
       public ArrayList<ArrayList<String>> getRows() {
           return null;
       }
   */
+=======
+    public ArrayList<ArrayList<String>> getRows() {
+        return null;
+    }
+*/
+>>>>>>> Stashed changes
     public ArrayList<ArrayList<String>> getLeftDiagonal() {
         return null;
     }
@@ -117,6 +195,7 @@ public class Board implements Boards {
         return null;
     }
 
+<<<<<<< Updated upstream
     public void clearBoard() {
         for(int i = 0; i < height; i++) {
             for(int j = 0; j < height; j++) {
@@ -170,23 +249,59 @@ public class Board implements Boards {
             return null;
         }
         return list;
+=======
+    public void pirntBoard(){
+        for(int i = 0; i< height; i++){
+            System.out.println(gameBoard[i]);
+        }
+        System.out.println("&&&&&&&&");
     }
 
+    public char getSpaceValue(int space) {
+        if (space == height*height){
+            return 'z';
+        }
+        return gameBoard[getRow(space)][getCollum(space)];
+    }
+
+    public int getRow(int space) {
+        int row = space/height;
+        return row;
+>>>>>>> Stashed changes
+    }
+
+    public int getCollum(int space) {
+        int cullum = space%height;
+        return cullum;
+    }
+
+    
     public Boolean isValidSpace(int space) {
         if(space <= (height*height-1) && space >= 0){
+<<<<<<< Updated upstream
             return isSpaceAvailabe(space);
+=======
+            if(isSpaceAvailabe(space)){
+                return true;
+            }
+>>>>>>> Stashed changes
         }
         return false;
     }
 
     public Boolean isSpaceAvailabe(int space) {
+<<<<<<< Updated upstream
         if(board[getRow(space)][getCollum(space)] == '.'){
+=======
+        if(gameBoard[getRow(space)][getCollum(space)] == '.'){
+>>>>>>> Stashed changes
             return true;
         }
         else{
             return false;
         }
 
+<<<<<<< Updated upstream
     }
 
     public int getSpace(int row, int collum){
@@ -256,10 +371,27 @@ public class Board implements Boards {
         return move;
     }
 
+=======
+    }
+
+    public int getSpace(int row, int collum){
+        int space = height*height;
+        if(row >= 0 && collum >= 0 && row < height && collum < height){
+            space = row*height + collum;
+            //System.out.println("d");
+        }
+        return space;
+    }
+
+    
+
+
+>>>>>>> Stashed changes
     public int getNeighbor(int direction, int space, int steps){
         int value = height*height;
         switch(direction) {
             case 0:
+<<<<<<< Updated upstream
                 value = getSpace(getRow(space)-steps,getCollum(space)-steps);
                 break;
             case 1:
@@ -283,7 +415,36 @@ public class Board implements Boards {
             case 7:
                 value = getSpace(getRow(space),getCollum(space)-steps);
                 break;
+=======
+                value = getSpace(getRow(space)-1*steps,getCollum(space)-1*steps);
+                break;
+            case 1:
+                value = getSpace(getRow(space)-1*steps,getCollum(space));
+                break;               
+            case 2:
+                value = getSpace(getRow(space)-1*steps,getCollum(space)+1*steps);
+                break;
+            case 3:
+                value = getSpace(getRow(space),getCollum(space)+1*steps);
+                break;
+            case 4:                
+                value = getSpace(getRow(space)+1*steps,getCollum(space)+1*steps);
+                break;                
+            case 5:
+                value = getSpace(getRow(space)+1*steps,getCollum(space));
+                break;
+            case 6:
+                value = getSpace(getRow(space)+1*steps,getCollum(space)-1*steps);
+                break;
+            case 7:
+                value = getSpace(getRow(space),getCollum(space)-1*steps);                    
+                break;
+                
+                
+>>>>>>> Stashed changes
         }
         return value;
     }
+
+    
 }
