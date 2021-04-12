@@ -1,6 +1,5 @@
 package application.fxml;
 
-import application.fxml.Start;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import java.net.URL;

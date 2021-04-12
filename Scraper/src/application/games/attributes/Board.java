@@ -83,17 +83,17 @@ public class Board implements Boards {
     }
 
     /*    public void markPlaceOnBoard(int space, String marker) {
-
+        
         }
     */
     public void setStartPieceOnBoard(int space, char pieceToPlace) {
-        board[getRow(space)][getCollum(space)] = pieceToPlace;
-        pirntBoard();
+        board[getRow(space)][getColumn(space)] = pieceToPlace;
+        printBoard();
     }
 
     public void setPieceOnBoard(int space, char pieceToPlace) {
         //getNeighbor(int direction, int space, int steps);
-        board[getRow(space)][getCollum(space)] = pieceToPlace;
+        board[getRow(space)][getColumn(space)] = pieceToPlace;
         char pieceToBeat;
         if(pieceToPlace == 'o'){
             pieceToBeat ='x';
@@ -154,7 +154,7 @@ public class Board implements Boards {
         }
     }
 
-    public void pirntBoard(){
+    public void printBoard(){
         for(int i = 0; i< height; i++){
             System.out.println(board[i]);
         }
@@ -165,14 +165,14 @@ public class Board implements Boards {
         if (space == height*height){
             return 'z';
         }
-        return board[getRow(space)][getCollum(space)];
+        return board[getRow(space)][getColumn(space)];
     }
 
     public int getRow(int space) {
         return space/height;
     }
 
-    public int getCollum(int space) {
+    public int getColumn(int space) {
         return space%height;
     }
 
@@ -211,7 +211,7 @@ public class Board implements Boards {
     }
 
     public Boolean isSpaceAvailabe(int space) {
-        if(board[getRow(space)][getCollum(space)] == '.'){
+        if(board[getRow(space)][getColumn(space)] == '.'){
             return true;
         }
         else{
@@ -220,10 +220,10 @@ public class Board implements Boards {
 
     }
 
-    public int getSpace(int row, int collum){
+    public int getSpace(int row, int column){
         int space = height*height;
-        if(row >= 0 && collum >= 0 && row < height && collum < height){
-            space = row*height + collum;
+        if(row >= 0 && column >= 0 && row < height && column < height){
+            space = row*height + column;
             //System.out.println("d");
         }
         return space;
@@ -291,28 +291,28 @@ public class Board implements Boards {
         int value = height*height;
         switch(direction) {
             case 0:
-                value = getSpace(getRow(space)-steps,getCollum(space)-steps);
+                value = getSpace(getRow(space)-steps,getColumn(space)-steps);
                 break;
             case 1:
-                value = getSpace(getRow(space)-steps,getCollum(space));
+                value = getSpace(getRow(space)-steps,getColumn(space));
                 break;
             case 2:
-                value = getSpace(getRow(space)-steps,getCollum(space)+steps);
+                value = getSpace(getRow(space)-steps,getColumn(space)+steps);
                 break;
             case 3:
-                value = getSpace(getRow(space),getCollum(space)+steps);
+                value = getSpace(getRow(space),getColumn(space)+steps);
                 break;
             case 4:
-                value = getSpace(getRow(space)+steps,getCollum(space)+steps);
+                value = getSpace(getRow(space)+steps,getColumn(space)+steps);
                 break;
             case 5:
-                value = getSpace(getRow(space)+steps,getCollum(space));
+                value = getSpace(getRow(space)+steps,getColumn(space));
                 break;
             case 6:
-                value = getSpace(getRow(space)+steps,(getCollum(space)-steps));
+                value = getSpace(getRow(space)+steps,(getColumn(space)-steps));
                 break;
             case 7:
-                value = getSpace(getRow(space),getCollum(space)-steps);
+                value = getSpace(getRow(space),getColumn(space)-steps);
                 break;
         }
         return value;
