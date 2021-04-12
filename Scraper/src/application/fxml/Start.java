@@ -286,8 +286,8 @@ public class Start {
             // GAMEBOARD
             GridPane bkeBoard = new GridPane();
 
-            for ( int x = 0; x < bke.height; x++ ) {
-                for (int y = 0; y < bke.height; y++ ) {
+            for ( int x = 0; x < bke.getHeight(); x++ ) {
+                for (int y = 0; y < bke.getHeight(); y++ ) {
                     bkeBoard.add(
                             new Pane( new Text("hello") )
                             , (y + 2) , (x + 2));

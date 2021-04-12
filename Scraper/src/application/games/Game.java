@@ -1,10 +1,11 @@
 package application.games;
 
 import application.games.players.Player;
+import application.games.Board;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Game extends Board {
+public class Game {
     Random r = new Random();
     String gameTitle;
     Board board;
