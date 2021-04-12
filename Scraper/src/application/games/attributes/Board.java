@@ -14,7 +14,7 @@ public class Board implements Boards {
     public int offset;
     public List<String> spaces;
     public char[][] board;
-    public int height = 8;
+    public int height = 3;
 
     @Override
     public Board execute() {

@@ -1,7 +1,12 @@
 package application.fxml;
 
 import application.App;
+import application.games.attributes.Board;
+import application.games.players.ComputerPlayer;
 import application.games.players.HumanPlayer;
+import application.games.Game;
+
+import application.games.players.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,11 +14,10 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -29,14 +33,13 @@ import java.util.Random;
 public class Start {
     public static final boolean DEBUG = true; // change to false to hide debug messages
     public static HumanPlayer user;           // the user who uses the application
+    public static ComputerPlayer ai = new ComputerPlayer(); // the ai
     public static String gameType;            // the gameType the user chose
     public static final String BKE = "BOTERKAASENEIEREN";
     public static final String REV = "REVERSI";
 
-//    @FXML protected static BorderPane mainPane;    // the mainPane of application
-//    @FXML public Group start;
-
     // PANE VIEW
+    @FXML protected BorderPane mainPane;    // the mainPane of application
     @FXML protected Text title;             // Title
     @FXML protected Text info;              // Subtitle/info
     @FXML protected VBox centerScreen;      // Center of borderpane
@@ -57,12 +60,15 @@ public class Start {
     @FXML protected VBox centerGameLocal;
     @FXML protected VBox centerGameOnline;
     @FXML protected VBox playerList;
+
     // GAMECENTER
     @FXML protected Group gameCenterBox; // Group that holds all of the game items
     @FXML protected HBox gameSelection;  // Box to show games that can be played
     @FXML protected VBox gameSettingsBox;
     @FXML protected VBox centerGame;
 
+    // ACTIVE GAME
+    @FXML protected Group activeGame;
 
     // LOGIN SCREEN METHODS
     /**
@@ -199,6 +205,35 @@ public class Start {
     @FXML
     public void playLocalvsAI(ActionEvent actionEvent) {
         if(title.getText().equals("Boter, Kaas en Eieren")) {
+            mainPane.getChildren().remove(centerScreen);
+
+            Board bke =  new Board();
+
+            Game thisGame = new Game("Boter, Kaas en Eieren", bke, user, ai);
+            Player p1 = thisGame.getPlayer1();
+            Player p2 = thisGame.getPlayer2();
+
+            title.setText(thisGame.getGameTitle() + " - " + p1.getName() + " VS " + p2.getName());
+
+            // turnbox
+            info.setText(thisGame.getCurrentPlayer().getName() + " is aan zet");
+
+            // GAMEBOARD
+            GridPane bkeBoard = new GridPane();
+
+            for ( int x = 0; x < bke.height; x++ ) {
+                for (int y = 0; y < bke.height; y++ ) {
+                    bkeBoard.add(
+                            new Pane( new Text("hello") )
+                            , (y + 2) , (x + 2));
+                }
+            }
+            VBox holder = new VBox(bkeBoard);
+            mainPane.setCenter(holder);
+            System.out.println(mainPane.getChildren().toString());
+//            mainPane.getChildren().get().add(bkeBoard);
+
+
             //TODO BKE GUI en spelen tegen AI
         }
         if(title.getText().equals("Reversi")) {
