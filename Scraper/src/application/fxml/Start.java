@@ -85,7 +85,10 @@ public class Start {
             App.server.login(player, result -> {
                 switch (result) {
                     case "OK":  // Login succes
-                        handleContinue();
+                        user = new HumanPlayer(player);
+                        showMessage(loginMessage, 0, ("Inloggen gelukt, Welkom " + player + "!") );
+                        loginBox.setVisible(false);     // hide login
+                        verder.setVisible(true);        // enable continue button
                         break;
                     // Login not success
                     case "ERR already logged in":
@@ -115,8 +118,7 @@ public class Start {
         title.setText(( "AI Gaming [ " + user.getName() + " ]"));
         info.setText("Kies een spel, speel tegen de computer of een vriend");
 
-        loginBox.setVisible(false);     // hide login
-        verder.setVisible(true);        // enable continue button
+        gameCenterBox.setVisible(true);        // enable continue button
     }
 
     /**
