@@ -20,57 +20,65 @@ import javafx.scene.text.Text;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.Random;
 
 /**
  * Class Starts handles the Logic behind the FXML Start page
- * This class includes buttons that change the mainPane BorderPane
  *
  * @author Anouk,
  */
 public class Start {
+    public static final boolean DEBUG = true; // change to false to hide debug messages
+    public static HumanPlayer user;           // the user who uses the application
+    public static String gameType;            // the gameType the user chose
+    public static final String BKE = "BOTERKAASENEIEREN";
+    public static final String REV = "REVERSI";
 
-    @FXML protected static BorderPane mainPane;    // the mainPane of application
-    @FXML public Group start;
+//    @FXML protected static BorderPane mainPane;    // the mainPane of application
+//    @FXML public Group start;
 
-    @FXML protected Text title;             // title of pane view
-    @FXML protected Text info;              // info of pane view
-    @FXML protected VBox centerScreen;
+    // PANE VIEW
+    @FXML protected Text title;             // Title
+    @FXML protected Text info;              // Subtitle/info
+    @FXML protected VBox centerScreen;      // Center of borderpane
 
-    // login
-    @FXML protected Group loginCenterBox;
+    // LOGIN
+    @FXML protected Group loginCenterBox;   // Group that holds all of the login items
     @FXML protected HBox loginBox;
-    @FXML protected TextField userName;
-    @FXML protected TextField enemyUserName;
-    @FXML protected Text challengeMessage;
+    @FXML protected HBox loginMessageBox;
     @FXML protected Text loginMessage;
-    @FXML protected VBox loginMessageBox;
+    @FXML protected TextField userName;
     @FXML protected Button verder;
 
-    public static HumanPlayer user;
-
-    // gameCenter
-    @FXML protected Group gameCenterBox;
-    @FXML protected Group games;
+    // GAMECENTER
+    @FXML protected Group gameCenterBox; // Group that holds all of the game items
+    @FXML protected HBox gameSelection;  // Box to show games that can be played
+    @FXML protected VBox gameSettingsBox;
     @FXML protected VBox centerGame;
 
+    @FXML protected TextField enemyUserName;
+    @FXML protected Text challengeMessage;
+
+    // LOGIN SCREEN METHODS
+    /**
+     * Method to handle the login button being pushed
+     */
     @FXML
-    protected void handleLoginAction(ActionEvent event) {
-        games.getChildren().remove(centerGame);
+    protected void handleLoginAction() {
+//        games.getChildren().remove(centerGame);
 
         // username can not be empty
-        if (!userName.getText().isEmpty() || !userName.getText().isBlank()) {
-            String player = userName.getText();
+        if (textFieldNotEmptyOrBlank(userName)) {
+            String player = userName.getText().toLowerCase();
 
+            // Login User
             App.server.login(player, (result) -> {
                 switch (result) {
-                    case "OK":
-                        // create player and set name
-                        user = new HumanPlayer(player);
-                        showMessage(loginMessage, 0, ("Inloggen gelukt, Welkom " + player + "!") );
-                        loginBox.setVisible(false); // hide login
-                        verder.setVisible(true);    // enable continue button
+                    case "OK":  // Login succes
+                        loginUserAndContinue(player);
                         break;
-
+                    // Login not success
                     case "ERR already logged in":
                         showMessage(loginMessage, 1, "U bent al ingelogd");
                         break;
@@ -84,73 +92,106 @@ public class Start {
         }
     }
 
-    public void handleLocalPlay(ActionEvent actionEvent) {
-        user = new HumanPlayer("Gebruiker");
-        loginCenterBox.getChildren().remove(loginBox);
-        loginCenterBox.getChildren().remove(loginMessageBox);
-
-        title.setText(( "AI Gaming [ " + user.getName() + " ]"));
-        info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
-
-        gameCenterBox.setVisible(true);
-    }
-
+    /**
+     * Method to handle localPlay button being pushed
+     * controleert of de gebruiker een naam heeft ingevuld.
+     * ja  -> gebruik die naam als gebruikersnaam
+     * nee -> gebruik random generated gebruikernaam
+     */
     @FXML
-    protected void handleContinue(ActionEvent event) {
-        loginCenterBox.getChildren().remove(loginBox);
-        loginCenterBox.getChildren().remove(loginMessageBox);
-
-        title.setText(( "AI Gaming [ " + user.getName() + " ]"));
-        info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
-
-        gameCenterBox.setVisible(true);
+    public void handleLocalPlay() {
+        if (textFieldNotEmptyOrBlank(userName)) {   // user heeft naam ingevuld
+            String player = userName.getText().toLowerCase();
+            loginUserAndContinue(player);
+        } else {                                    // user heeft geen naam ingevuld
+            Random r = new Random();
+            String player = "gebruiker" + r.nextInt(100);
+            loginUserAndContinue(player);
+        }
     }
 
     /**
-     *
-     * @param textBox Text javafx field to place the message
-     * @param type 0 = succes / 1 = error
-     * @param msg message to show
+     * Method to login user with specified name and create continue screen
+     * @param userName the name of the player
+     */
+    public void loginUserAndContinue(String userName) {
+        user = new HumanPlayer(userName); // create player and set name
+        // show message succes
+        showMessage(loginMessage, 0, ("Inloggen gelukt, Welkom " + userName + "!") );
+
+        loginBox.setVisible(false);     // hide login
+        verder.setVisible(true);        // enable continue button
+    }
+
+    /**
+     * Method to hide loginScreen and show the GameScreen
+     * when the continue button is pushed
      */
     @FXML
-    public void showMessage(Text textBox, int type, String msg) {
-        if (type == 1) {
-            textBox.setStyle("-fx-fill: RED;");
-        } else {
-            textBox.setStyle("-fx-fill: GREEN;");
+    protected void handleContinue() {
+        loginCenterBox.getChildren().remove(loginBox);
+        loginCenterBox.getChildren().remove(loginMessageBox);
+
+        title.setText(( "AI Gaming [ " + user.getName() + " ]"));
+        info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
+
+        gameCenterBox.getChildren().remove(gameSettingsBox);
+        gameCenterBox.setVisible(true);
+    }
+
+//    public static void setAndShowNewGameScreen(String resourceName) throws IOException {
+//        Parent root = FXMLLoader.load(Start.class.getResource(resourceName));
+//        application.App.appPrimaryStage.setScene(new Scene(root, application.App.UIWIDTH, application.App.UIHEIGHT));
+//        application.App.appPrimaryStage.show();
+//    }
+
+    // GAME CENTER METHODS
+    /**
+     * Method to open game Settings depending on which game the user wants to play
+     * @param actionEvent the event id defines which game should be played
+     */
+    @FXML
+    public void setUpGameSettings(MouseEvent actionEvent) {
+        if (actionEvent.getTarget().toString().contains("id=bke")) {
+            title.setText("Boter, Kaas en Eieren");
+            gameType = BKE;
+            openSettings();
+
+        } else if ((actionEvent.getTarget().toString().contains("id=rev"))) {
+            title.setText("Reversi");
+            gameType = REV;
+            openSettings();
         }
-        textBox.setText(msg);
+
     }
 
-    public static void setAndShowNewGameScreen(String resourceName) throws IOException {
-        Parent root = FXMLLoader.load(Start.class.getResource(resourceName));
-        application.App.appPrimaryStage.setScene(new Scene(root, application.App.UIWIDTH, application.App.UIHEIGHT));
-        application.App.appPrimaryStage.show();
+    /**
+     * Method that handles javaFx gameScreen change from gameCenter to settings
+     */
+    public void openSettings(){
+        gameCenterBox.getChildren().remove(gameSelection);
+        gameCenterBox.getChildren().add(gameSettingsBox);
+        gameSettingsBox.setVisible(true);
     }
 
+    /**
+     * Method that handles javaFx gameScreen change from settings to gameCenter
+     */
     @FXML
-    public void setUpBoterKaasEieren(MouseEvent actionEvent) throws IOException {
-        centerScreen.getChildren().remove(gameCenterBox);
-        games.getChildren().add(centerGame);
-        title.setText("Boter, Kaas en Eieren");
-        games.setVisible(true);
-    }
-
-    @FXML
-    public void setUpReversi    (MouseEvent actionEvent) throws IOException {
-        centerScreen.getChildren().remove(gameCenterBox);
-        games.getChildren().add(centerGame);
-        games.setVisible(true);
-        title.setText("Reversi");
+    public void goBackToGameCenter() {
+        gameCenterBox.getChildren().remove(gameSettingsBox);
+        gameCenterBox.getChildren().add(gameSelection);
+        title.setText(( "AI Gaming [ " + user.getName() + " ]"));
+        info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
     }
 
     @FXML
     public void playNewGame(ActionEvent actionEvent) {
         App.server.forfeit();
-        if(title.getText().equals("Boter, Kaas en Eieren")) {
+        if(gameType.equals(BKE)) {
             App.server.subscribe("Tic-tac-toe", (result) -> { System.out.println("Subscribed to Tic-tac-toe"); });
         }
-        if(title.getText().equals("Reversi")) {
+        if(gameType.equals(REV)) {
             App.server.subscribe("Reversi", (result) -> { System.out.println("Subscribed to Reversi"); });
         }
     }
@@ -160,13 +201,7 @@ public class Start {
         System.out.println("uitleg");
     }
 
-    @FXML
-    public void goBack(ActionEvent actionEvent) {
-        games.getChildren().remove(centerGame);
-        centerScreen.getChildren().add(gameCenterBox);
-        title.setText(( "AI Gaming [ " + user.getName() + " ]"));
-        info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
-    }
+
 
     @FXML
     public void acceptChallenge(ActionEvent actionEvent) {
@@ -194,5 +229,34 @@ public class Start {
                     }
             }); 
         }
-    } 
+    }
+
+
+
+    /**
+     * Method to check if javaFx textField is not Empty or Blank
+     * @param textField the javaFx textField to check
+     * @return true if textField is not empty or blank
+     */
+    public boolean textFieldNotEmptyOrBlank(TextField textField) {
+        return !textField.getText().isEmpty() || !textField.getText().isBlank();
+    }
+
+    /**
+     * Method to show succes / error messages to javaFx Text and terminal for Debug
+     * @param textBox Text javafx field to place the message
+     * @param type 0 = succes / 1 = error
+     * @param msg message to show
+     */
+    @FXML
+    public void showMessage(Text textBox, int type, String msg) {
+        if (type == 1) {
+            textBox.setStyle("-fx-fill: RED;");
+            if (DEBUG){ System.out.println("DEBUG ERROR " + msg); }
+        } else {
+            textBox.setStyle("-fx-fill: GREEN;");
+            if (DEBUG){ System.out.println("DEBUG SUCCESS " + msg); }
+        }
+        textBox.setText(msg);
+    }
 }

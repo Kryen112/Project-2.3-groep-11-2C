@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  *
  * application.App zorgt voor de primaryStage, Start.application.fxml dient als root van de application.App
  *
- * @author Anouk
+ * @author Anouk,
  */
 public class App extends Application {
     /** The primary stage */

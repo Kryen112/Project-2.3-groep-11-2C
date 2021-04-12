@@ -41,33 +41,27 @@
                         <Button text="Speel Lokaal" onAction="#handleLocalPlay" translateX="40"/>
                     </HBox>
 
-                    <VBox fx:id="loginMessageBox" translateY="20">
+                    <HBox fx:id="loginMessageBox" translateY="20">
                         <!--  error / succes message  -->
                         <Text fx:id="loginMessage" translateY="30"/>
-                        <Button fx:id="verder" text="Ga Verder" onAction="#handleContinue" translateX="10" translateY="40" visible="false"/>
-                    </VBox>
-                </Group>
-
-                <!--       GAMESCREEN         -->
-                <Group fx:id="gameCenterBox" visible="false" >
-                    <HBox translateY="20">
-                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpBoterKaasEieren" translateY="20">
-                            <Image url="@../images/gametypes/bke.jpg"/>
-                        </ImageView>
-
-                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpReversi" translateX="20" translateY="20">
-                            <Image url="@../images/gametypes/riversi.png"/>
-                        </ImageView>
+                        <Button fx:id="verder" text="Ga Verder" onAction="#handleContinue" translateX="10" translateY="20" visible="false"/>
                     </HBox>
                 </Group>
 
-                <!--       GAME Reversi         -->
-                <Group fx:id="games" visible="false">
-                    <VBox fx:id="centerGame">
-                        <!--      todo
-                                    terug/cancel button
-                                    help button
-                        -->
+                <!--       GAME CENTER         -->
+                <Group fx:id="gameCenterBox" visible="false">
+                    <HBox translateY="20" fx:id="gameSelection">
+                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpGameSettings" fx:id="bke" translateY="20">
+                            <!--    todo change img to bke gamescreenshot -->
+                            <Image url="@../images/gametypes/bke.jpg"/>
+                        </ImageView>
+                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpGameSettings" fx:id="rev" translateX="20" translateY="20">
+                            <!--    todo change img to reversi gamescreenshot -->
+                            <Image url="@../images/gametypes/riversi.png"/>
+                        </ImageView>
+                    </HBox>
+
+                    <VBox fx:id="gameSettingsBox" visible="false">
                         <fx:define>
                             <ToggleGroup fx:id="gameSettings"/>
                         </fx:define>
@@ -76,12 +70,10 @@
                             <RadioButton toggleGroup="$gameSettings" fx:id="localvsai" text="Lokaal tegen Computer"/>
                             <RadioButton toggleGroup="$gameSettings" fx:id="localvslocal" text="Lokaal met 2 Spelers"/>
                         </HBox>
-
                         <HBox>
                             <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsai" text="Online tegen Computer"/>
                             <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsrandom" text="Online tegen Willekeurige speler"/>
                         </HBox>
-
                         <HBox>
                             <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsplayer" text="Online tegen Speler"/>
                             <TextField fx:id="player2" minWidth="200"/>
@@ -93,8 +85,7 @@
                         <TextField fx:id="enemyUserName" maxWidth="200" promptText=" vijand naam" translateX="10" minHeight="30"/>
                         <Button text="Iemand Uitdagen" onAction="#challengePlayer"/>
                         <Text fx:id="challengeMessage" translateY="30"/>
-                        <Button text="Terug" onAction="#goBack"/>
-
+                        <Button text="Terug" onAction="#goBackToGameCenter"/>
                     </VBox>
                 </Group>
 
