@@ -1,6 +1,4 @@
-package application.games.attributes;
-
-import application.App;
+package application.games;
 
 import java.util.ArrayList;
 import java.util.Collections;
