@@ -55,7 +55,7 @@ public class Connection {
             InetAddress ip = InetAddress.getByName(IPSCHOOL);
             socket = new Socket(ip.getHostAddress(), PORT);
         } catch(IOException e) {
-            System.out.println("Uknown host exception" + e);
+            System.out.println("Unknown host exception" + e);
         }
     }
 
