@@ -6,22 +6,22 @@ import java.net.Socket;
 
 public class Connection {
     /** The server port */
-    public static final int PORT = 7789;
+    protected static final int PORT = 7789;
 
     /** The server ip */
-    public static final String IPSCHOOL = "145.33.225.170";
+    protected static final String IPSCHOOL = "145.33.225.170";
 
     /** The socket */
-    private Socket socket;
+    protected Socket socket;
 
     /** The Server class */
-    private Server server;
+    protected Server server;
 
     /** The Input class */
-    private Input input;
+    protected Input input;
 
     /** The input processer */
-    private final InputProcesser inputProcesser;
+    protected final InputProcesser inputProcesser;
 
     /**
      * The constructor of ServerListener

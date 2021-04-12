@@ -10,28 +10,30 @@ import java.net.Socket;
  */
 public class Input implements Runnable {
     /** The socket */
-    private final Socket socket;
+    protected final Socket socket;
 
-    private final InputProcesser inputProcesser;
+    /** The inputProcessor */
+    protected final InputProcesser inputProcesser;
 
-    private final Server server;
+    /** The server */
+    protected final Server server;
 
-    public static boolean temp;
+    /** Boolean to check if the app is still on */
+    protected static boolean connected;
 
-    /** The constructor
-     * @param socket - The socket
+    /**
+     * Constructor
+     * @param socket            The socket to connect to
+     * @param inputProcessor    The inputprocessor to set
+     * @param server            The server to connect to
      */
-    public Input(Socket socket, InputProcesser inputP, Server s) {
+    public Input(Socket socket, InputProcesser inputProcessor, Server server) {
         this.socket = socket;
-        server = s;
-        temp = true;
-        inputProcesser = inputP;
+        this.server = server;
+        inputProcesser = inputProcessor;
+        setConnected();
         Thread thread = new Thread(this);
         thread.start();
-    }
-
-    public static void closeApp() {
-        temp=false;
     }
 
     /**
@@ -40,11 +42,25 @@ public class Input implements Runnable {
     @Override
     public void run() {
         try (BufferedReader bf = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-            while(temp) {
+            while(connected) { //Read the incoming line and process the input
                 String input = bf.readLine();
                 System.out.println("DEBUG Answer from server: " + input);
                 inputProcesser.processInput(input, server);
             }
-        } catch (Exception e) { }
+        } catch (Exception e) { System.out.print("Something went wrong: " + e); e.printStackTrace(); }
+    }
+
+    /**
+     * Set connected to true
+     */
+    public static void setConnected() {
+        connected = true;
+    }
+
+    /**
+     * Set connected to false
+     */
+    public static void closeApp() {
+        connected=false;
     }
 }

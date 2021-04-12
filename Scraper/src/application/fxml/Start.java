@@ -16,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
@@ -25,7 +24,7 @@ import java.util.Arrays;
 /**
  * Class Starts handles the Logic behind the FXML Start page
  *
- * @author Anouk,
+ * @author Anouk, Stefan
  */
 public class Start {
     public static final boolean DEBUG = true; // change to false to hide debug messages
@@ -63,6 +62,7 @@ public class Start {
     @FXML protected TextField enemyUserName;
     @FXML protected Text challengeMessage;
     @FXML protected ListView<String> listView;
+    @FXML protected Button logOutButton;
 
     // GAMECENTER
     @FXML protected Group gameCenterBox; // Group that holds all of the game items
@@ -99,8 +99,9 @@ public class Start {
                         user = new HumanPlayer(player);
                         showMessage(loginMessage, 0, ("Inloggen gelukt, Welkom " + player + "!") );
                         App.server.setLoggedIn(true);
-                        loginBox.setVisible(false);     // hide login
-                        verder.setVisible(true);        // enable continue button
+                        loginBox.setVisible(false);       // hide login
+                        loginMessageBox.setVisible(true); //enable loginmessagebox
+                        verder.setVisible(true);          // enable continue button
                         break;
                     // Login not success
                     case "ERR already logged in":
@@ -155,7 +156,9 @@ public class Start {
         info.setText("Voer een gebruikersnaam in en login!");
 
         //Handle screen transitions
+        loginBox.setVisible(true);
         loginCenterBox.setVisible(true);
+        loginMessageBox.setVisible(false);
         homeScreen.setVisible(false);
     }
 
@@ -191,6 +194,30 @@ public class Start {
     }
 
     /**
+     * The logout button
+     */
+    @FXML
+    public void logOut() {
+        //Set variables
+        App.server.logout();
+        App.server.setLoggedIn(false);
+
+        //Set title, infotext and username
+        title.setText(("AI Gaming Home"));
+        info.setText("Wil je online of lokaal spelen?");
+        userName.setText("");
+
+        //Handle screen transitions
+        loginCenterBox.getChildren().add(loginBox);
+        loginCenterBox.getChildren().add(loginMessageBox);
+        homeScreen.setVisible(true);
+        loginCenterBox.setVisible(false);
+        gameCenterBox.setVisible(false);
+        logOutButton.setVisible(false);
+
+    }
+
+    /**
      * Method to hide loginScreen and show the GameScreen
      * when the continue button is pushed
      */
@@ -204,6 +231,7 @@ public class Start {
 
         gameCenterBox.getChildren().remove(gameSettingsBox);
         gameCenterBox.setVisible(true);
+        logOutButton.setVisible(true);
     }
 
     @FXML
@@ -339,9 +367,15 @@ public class Start {
     }
 
     @FXML
-    public void acceptChallenge(ActionEvent actionEvent) {
+    public void acceptChallenge(ActionEvent actionEvent) { //TODO REVERSIGAME START OR TICTACTOEGAME START
         if(title.getText().equals("Reversi")) {
-            App.server.acceptChallenge();
+            App.server.acceptChallenge(event ->
+                showMessage(challengeMessage, 1, "Je hebt nog geen open uitdagingen staan")
+            );
+        } else if (title.getText().equals("Boter, Kaas en Eieren")) {
+            //App.server.acceptChallenge();
+        } else {
+            showMessage(challengeMessage, 1, "Geen spel geselecteerd");
         }
     }
 

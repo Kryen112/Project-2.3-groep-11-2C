@@ -6,32 +6,9 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Run",
-            "request": "launch",
-            "mainClass": "RandomIT.Run",
-            "projectName": ""
-        },
-        {
-            "type": "java",
-            "name": "Launch TicTacToeAI",
-            "request": "launch",
-            "mainClass": "application.TicTacToeAI",
-            "projectName": "Project-2.3-groep-11-2C_2e1cbd2d",
-            "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
-        },
-        {
-            "type": "java",
             "name": "Launch App",
             "request": "launch",
             "mainClass": "application.App",
-            "projectName": "Project-2.3-groep-11-2C_2e1cbd2d",
-            "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
-        },
-        {
-            "type": "java",
-            "name": "Launch App",
-            "request": "launch",
-            "mainClass": "groep11.App",
             "projectName": "Project-2.3-groep-11-2C_f206e776",
             "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
         }

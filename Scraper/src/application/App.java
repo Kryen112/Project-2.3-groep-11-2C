@@ -15,7 +15,7 @@ import javafx.stage.Stage;
  *
  * @author Anouk
  */
-public class App extends Application implements AutoCloseable {
+public class App extends Application {
     /** The primary stage */
     public static Stage appPrimaryStage;
 
@@ -38,7 +38,7 @@ public class App extends Application implements AutoCloseable {
     public static Board board;
 
     /**
-     * The constructor
+     * Constructor
      */
     public App() {
         //TODO board maken bij aanroep spel
@@ -46,15 +46,28 @@ public class App extends Application implements AutoCloseable {
         board.execute();
     }
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    /**
+     * Method to make connection with the server
+     */
     public static void makeConnectionWithServer() {
         Connection connection = new Connection();
         server = connection.getServer();
     }
 
+    /**
+     * Method to start the GUI application
+     * @param primaryStage the stage to set
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../application/fxml/start.fxml"));
         appPrimaryStage = primaryStage;
+
+        //Set close conditions
         appPrimaryStage.setOnCloseRequest(event -> {
             try {
                 Input.closeApp();
@@ -66,9 +79,6 @@ public class App extends Application implements AutoCloseable {
         setPrimaryStageUI(primaryStage, root, GAMENAME, UIWIDTH, UIHEIGHT);
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 
     /**
      * Method to set the primary stage for the UI
@@ -82,13 +92,8 @@ public class App extends Application implements AutoCloseable {
         primaryStage.setTitle(title);
         homeScene = new Scene(root, uiWidth, uiHeight);
         primaryStage.setScene(homeScene);
-        primaryStage.setResizable(true);    // stage is not resizable
+        primaryStage.setResizable(false);    // stage is not resizable
         primaryStage.show();
-    }
-
-    @Override
-    public void close() throws Exception {
-        System.exit(0);
     }
 }
 

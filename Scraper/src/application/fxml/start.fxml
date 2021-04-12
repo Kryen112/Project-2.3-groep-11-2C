@@ -69,6 +69,7 @@
                         </ImageView>
 
                         <Button fx:id="backButtonLocal" text="Terug" onAction="#backToHomeScreenFromLocal" translateX="40" visible="false"/>
+                        <Button fx:id="logOutButton" text="Log uit" onAction="#logOut" translateY="20" translateX="40" visible="false"/>
                     </HBox>
                 </Group>
 

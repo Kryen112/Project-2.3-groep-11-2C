@@ -1,7 +1,5 @@
 package application.serverconnect;
 
-import java.util.Arrays;
-
 import application.App;
 
 public class InputProcesser {
@@ -73,6 +71,7 @@ public class InputProcesser {
                 case "ERR duplicate name exists":
                 case "ERR not logged in":
                 case "ERR player not found":
+                case "ERR invalid challenge":
                     setAnswer(input);
                     server.setResult(input);
                     break;                

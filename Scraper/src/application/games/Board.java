@@ -12,7 +12,7 @@ public class Board {
     public int offset;
     public List<String> spaces;
     public char[][] board;
-    public int height = 3;
+    public int height = 8;
 
     public Board execute() {
         createBoard();
