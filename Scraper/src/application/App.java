@@ -1,6 +1,6 @@
 package application;
 
-import application.games.attributes.Board;
+import application.games.Board;
 import application.serverconnect.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
