@@ -79,8 +79,7 @@ public class Start {
         }
         // username cannot be empty 
         else if (!userName.getText().isEmpty() || !userName.getText().isBlank()) {
-            String player = userName.getText();
-
+            String player = userName.getText().toLowerCase();
 
             App.server.login(player, result -> {
                 switch (result) {

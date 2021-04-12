@@ -88,7 +88,7 @@ public class Board implements Boards {
     */
     public void setStartPieceOnBoard(int space, char pieceToPlace) {
         board[getRow(space)][getColumn(space)] = pieceToPlace;
-        pirntBoard();
+        printBoard();
     }
 
     public void setPieceOnBoard(int space, char pieceToPlace) {
@@ -154,7 +154,7 @@ public class Board implements Boards {
         }
     }
 
-    public void pirntBoard(){
+    public void printBoard(){
         for(int i = 0; i< height; i++){
             System.out.println(board[i]);
         }
