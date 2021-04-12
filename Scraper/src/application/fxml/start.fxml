@@ -41,25 +41,26 @@
                         <Button text="Speel Lokaal" onAction="#handleLocalPlay" translateX="40"/>
                     </HBox>
 
-                    <VBox fx:id="loginMessageBox" translateY="20">
+                    <HBox fx:id="loginMessageBox" translateY="20">
                         <!--  error / succes message  -->
                         <Text fx:id="loginMessage" translateY="30"/>
-                        <Button fx:id="verder" text="Ga Verder" onAction="#handleContinue" translateX="10" translateY="40" visible="false"/>
-                    </VBox>
+                        <Button fx:id="verder" text="Ga Verder" onAction="#handleContinue" translateX="10" translateY="20" visible="false"/>
+                    </HBox>
                 </Group>
 
-                <!--       GAMESCREEN         -->
-                <Group fx:id="gameCenterBox" visible="false" >
-                    <HBox translateY="20">
-                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpBoterKaasEieren" translateY="20">
+                <!--       GAME CENTER         -->
+                <Group fx:id="gameCenterBox" visible="false">
+                    <HBox translateY="20" fx:id="gameSelection">
+                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpGameSettings" fx:id="bke" translateY="20">
+                            <!--    todo change img to bke gamescreenshot -->
                             <Image url="@../images/gametypes/bke.jpg"/>
                         </ImageView>
 
                         <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpReversi" translateX="20" translateY="20">
+                            <!--    todo change img to bke gamescreenshot -->
                             <Image url="@../images/gametypes/reversi.png"/>
                         </ImageView>
                     </HBox>
-                </Group>
 
                 <!--       GAMES             -->
                 <Group fx:id="games" visible="false">
@@ -78,7 +79,6 @@
                     <VBox fx:id="centerGameOnline">
                         <!-- todo       
                         help button
-                        playerlist
                         -->
 
                         <Button text="Speel online tegen een andere speler" onAction="#playNewGame" translateY="20"/>
