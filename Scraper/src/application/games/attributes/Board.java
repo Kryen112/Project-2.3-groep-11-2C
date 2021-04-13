@@ -12,7 +12,7 @@ import javax.sound.midi.SysexMessage;
 
 
 
-public class Board implements Boards,Cloneable {
+public class Board implements Cloneable {
     int lastSet;
     int xPoints;
     int oPoints;
@@ -20,7 +20,7 @@ public class Board implements Boards,Cloneable {
     final int height = 8;// dit kan veranderd worden bij boterkaas en eieren 
     Random rand = new Random();
 
-    @Override
+
     public Board execute() {
         createBoard();
         return null;
@@ -110,10 +110,6 @@ public class Board implements Boards,Cloneable {
     }
 
 
-    @Override
-    public String title() {
-        return null;
-    }
 
 /*    public void markPlaceOnBoard(int space, String marker) {
 
