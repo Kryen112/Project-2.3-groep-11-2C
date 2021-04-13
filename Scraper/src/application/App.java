@@ -17,7 +17,7 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
     /** The primary stage */
-    public static Stage appPrimaryStage;
+    public Stage appPrimaryStage;
 
     /** The scene */
     public static Scene homeScene;

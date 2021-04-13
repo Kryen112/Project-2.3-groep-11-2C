@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -28,12 +27,12 @@ import javafx.scene.text.Text;
  * @author Anouk, Stefan
  */
 public class Start {
-    public static final boolean DEBUG = true; // change to false to hide debug messages
-    public static HumanPlayer user;           // the user who uses the application
-    public static ComputerPlayer ai = new ComputerPlayer(); // the ai
-    public static String gameType;            // the gameType the user chose
-    public static final String BKE = "BOTERKAASENEIEREN";
-    public static final String REV = "REVERSI";
+    public final boolean DEBUG = true; // change to false to hide debug messages
+    public HumanPlayer user;           // the user who uses the application
+    public ComputerPlayer ai = new ComputerPlayer(); // the ai
+    public String gameType;            // the gameType the user chose
+    public final String BKE = "BOTERKAASENEIEREN";
+    public final String REV = "REVERSI";
     public String toAdd = "";
 
     //List views
