@@ -105,7 +105,12 @@
                         <TextField fx:id="enemyUserName" maxWidth="200" promptText=" vijand naam" minHeight="30" translateY="90"/>
                         <Button text="Iemand Uitdagen" onAction="#challengePlayer" translateY="100"/>
                         <Text fx:id="challengeMessage" translateY="120"/>
-                        <Button text="Terug" onAction="#goBackOnline" translateY="140"/>
+                        <HBox translateY="140">
+                            <Label text="Wilt u de beurttijd veranderen? Vul hier de nieuwe gewenste beurttijd in: " translateY="5"/>
+                            <TextField fx:id="turnTime" maxWidth="50" promptText=" tijd" minHeight="30"/>
+                            <Button text="Beurttijd veranderen" onAction="#changeTurnTume"/>
+                        </HBox>
+                        <Button text="Terug" onAction="#goBackOnline" translateY="160"/>
                     </VBox>
 
                     <VBox fx:id="playerList" visible="false" translateX="550" translateY="20">

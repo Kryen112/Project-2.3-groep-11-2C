@@ -79,6 +79,7 @@ public class Start {
     @FXML protected Label playerListList;
     @FXML protected TextField enemyUserName;
     @FXML protected Text challengeMessage;
+    @FXML protected TextField turnTime;
     @FXML protected Button logOutButton;
 
     // GAMECENTER
@@ -609,5 +610,14 @@ public class Start {
             if (DEBUG){ System.out.println("DEBUG SUCCESS " + msg); }
         }
         textBox.setText(msg);
+    }
+
+    @FXML
+    public void changeTurnTume() {
+        try {
+            int newTurnTime = Integer.parseInt(turnTime.getText());
+        } catch (Exception e) { showMessage(challengeMessage, 1, "Vul alstublieft alleen een getal in"); }
+        //TODO iets.changeTurnTime(newTurnTime);
+        //showMessage(challengeMessage, 1, ("Beurttijd is veranderd naar: " + newTurnTime));
     }
 }
