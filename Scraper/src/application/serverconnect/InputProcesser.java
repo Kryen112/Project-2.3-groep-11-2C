@@ -1,6 +1,7 @@
 package application.serverconnect;
 
 import application.App;
+import application.fxml.Start;
 
 public class InputProcesser {
 
@@ -88,6 +89,9 @@ public class InputProcesser {
             if(arr.length >= 3) {
                 serverMessage = arr[0]+arr[1]+arr[2];
             }
+            // try {
+            //     Thread.sleep(500);
+            // } catch (Exception e){}
 
             switch(serverMessage) {
                 case "SVRGAMEMATCH":

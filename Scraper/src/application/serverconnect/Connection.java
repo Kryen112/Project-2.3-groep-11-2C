@@ -24,11 +24,21 @@ public class Connection {
     protected final InputProcesser inputProcesser;
 
     /**
-     * The constructor of ServerListener
+     * The constructor for the standard connection
      */
     public Connection() {
         inputProcesser  = new InputProcesser();
         setSocket();
+        setServer();
+        setInput();
+    }
+
+    /**
+     * The constructor for other connections
+     */
+    public Connection(String ip, String port) {
+        inputProcesser  = new InputProcesser();
+        setSocket(ip, port);
         setServer();
         setInput();
     }
@@ -48,12 +58,24 @@ public class Connection {
     }
 
     /**
-     * This method sets the Socket
+     * This method sets the Socket of the default address+port
      */
     public void setSocket() {
         try {
             InetAddress ip = InetAddress.getByName(IPSCHOOL);
             socket = new Socket(ip.getHostAddress(), PORT);
+        } catch(IOException e) {
+            System.out.println("Unknown host exception" + e);
+        }
+    }
+
+    /**
+     * This method sets the Socket of other addresses/ports
+     */
+    public void setSocket(String ipAddress, String port) {
+        try {
+            InetAddress ip = InetAddress.getByName(ipAddress);
+            socket = new Socket(ip.getHostAddress(), Integer.parseInt(port));
         } catch(IOException e) {
             System.out.println("Unknown host exception" + e);
         }

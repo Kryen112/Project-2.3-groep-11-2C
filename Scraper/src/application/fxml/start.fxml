@@ -10,7 +10,7 @@
     Start will serve as the startup for the Application,
     this application.fxml file works with the java class Start which can be found in the application.controllers package
 
-    @author Anouk
+    @author Anouk, Stefan
 -->
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
@@ -42,10 +42,16 @@
                 <Group fx:id="loginCenterBox" visible="false">
                     <HBox fx:id="loginBox">
                         <!--  login  -->
-                        <Label text="Gebruikersnaam:" translateY="5"/>
+                        <VBox>
+                            <Label text="Gebruikersnaam: " translateY="5"/>
+                            <Label text="Inloggen op een ander netwerk: " translateY="30"/>
+                            <TextField fx:id="ipAddress" maxWidth="200" promptText=" ip adres" minHeight="30"/>
+                            <TextField fx:id="portNr" maxWidth="100" promptText=" poort nummer" minHeight="30"/>
+                            <Button text="Login ip+poort" onAction="#handleLoginActionOnOtherServer"/>
+                            <Button text="Terug" onAction="#backToHomeScreenFromLogin"/>
+                        </VBox>
                         <TextField fx:id="userName" maxWidth="200" promptText=" jouw naam" translateX="10" minHeight="30"/>
-                        <Button text="Login" onAction="#handleLoginAction" translateX="20"/>
-                        <Button text="Terug" onAction="#backToHomeScreenFromLogin" translateX="40"/>
+                        <Button text="Login op schoolserver" onAction="#handleLoginActionOnSchoolServer" translateX="20"/>
                     </HBox>
 
                     <HBox fx:id="loginMessageBox" translateY="20">
@@ -102,13 +108,9 @@
                         <Button text="Terug" onAction="#goBackOnline" translateY="140"/>
                     </VBox>
 
-                    <VBox fx:id="challengesListView" visible="false" translateX="300" translateY="20">
-                        <Label text="Bestaande uitdagingen:"/>
-                    </VBox>
-                    
                     <VBox fx:id="playerList" visible="false" translateX="550" translateY="20">
                         <Button text="Krijg spelerlijst" onAction="#getPlayerList"/>
-                        <Text fx:id="playerListList" translateY="30"/>
+                        <Label fx:id="playerListList" translateY="20"/>
                     </VBox>
                 </Group>
 

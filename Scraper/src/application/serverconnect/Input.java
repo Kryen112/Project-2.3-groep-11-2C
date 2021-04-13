@@ -47,7 +47,7 @@ public class Input implements Runnable {
                 System.out.println("DEBUG Answer from server: " + input);
                 inputProcesser.processInput(input, server);
             }
-        } catch (Exception e) { System.out.print("Something went wrong: " + e); e.printStackTrace(); }
+        } catch (Exception e) { System.out.print("Something went wrong: "); e.printStackTrace(); }
     }
 
     /**

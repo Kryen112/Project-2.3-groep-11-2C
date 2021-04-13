@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  *
  * application.App zorgt voor de primaryStage, Start.application.fxml dient als root van de application.App
  *
- * @author Anouk
+ * @author Anouk, Stefan
  */
 public class App extends Application {
     /** The primary stage */
@@ -58,6 +58,11 @@ public class App extends Application {
         server = connection.getServer();
     }
 
+    public static void makeConnectionWithServer(String ip, String port) {
+        Connection connection = new Connection(ip, port);
+        server = connection.getServer();
+    }
+
     /**
      * Method to start the GUI application
      * @param primaryStage the stage to set
@@ -92,7 +97,7 @@ public class App extends Application {
         primaryStage.setTitle(title);
         homeScene = new Scene(root, uiWidth, uiHeight);
         primaryStage.setScene(homeScene);
-        primaryStage.setResizable(false);    // stage is not resizable
+        primaryStage.setResizable(true);    // stage is not resizable
         primaryStage.show();
     }
 }
