@@ -5,25 +5,39 @@ import java.util.Collections;
 import java.util.List;
 
 public class Reversi {
+
+    ValueBoards valueBoard = new ValueBoards();
+
+    
+
     public void setStartPieces(Board board, char pieceToPlace) {
         if(pieceToPlace=='o'){
             board.setStartPieceOnBoard(28,'o');
             board.setStartPieceOnBoard(35,'o');
             board.setStartPieceOnBoard(27,'x');
             board.setStartPieceOnBoard(36,'x');
+            board.setoPoints(board.getoPoints() + valueBoard.getSpaceValue(35)+valueBoard.getSpaceValue(28));
+            board.setxPoints(board.getxPoints() + valueBoard.getSpaceValue(36)+valueBoard.getSpaceValue(27));
         }
         else{
             board.setStartPieceOnBoard(28,'x');
             board.setStartPieceOnBoard(35,'x');
             board.setStartPieceOnBoard(27,'o');
             board.setStartPieceOnBoard(36,'o');
+            board.setoPoints(board.getoPoints() + valueBoard.getSpaceValue(36)+valueBoard.getSpaceValue(27));
+            board.setxPoints(board.getxPoints() + valueBoard.getSpaceValue(35)+valueBoard.getSpaceValue(28));
         }
         
     }
 
     public void setPieceOnBoard(Board board, int space, char pieceToPlace) {
         //getNeighbor(int direction, int space, int steps);
-        board.getBoard()[board.getRow(space)][board.getCollum(space)] = pieceToPlace;
+        board.setLastSet(space);
+        board.setStartPieceOnBoard(space,pieceToPlace);
+        if(pieceToPlace == 0){
+
+        }
+        pointHandeling(pieceToPlace, space, board, false);
         char pieceToBeat;
         if(pieceToPlace == 'o'){
             pieceToBeat ='x';
@@ -38,11 +52,13 @@ public class Reversi {
             if(board.getSpaceValue(board.getNeighbor(y, space, steps)) == pieceToBeat){
                 if(won){
                     board.setStartPieceOnBoard(board.getNeighbor(y, space, steps),pieceToPlace);
+                    pointHandeling(pieceToPlace, board.getNeighbor(y, space, steps), board, true);
                 }
                 steps++;
                 while(board.getSpaceValue(board.getNeighbor(y, space, steps)) == pieceToBeat){
                     if(won){
                         board.setStartPieceOnBoard(board.getNeighbor(y, space, steps),pieceToPlace);
+                        pointHandeling(pieceToPlace, board.getNeighbor(y, space, steps), board, true);
                     }
                     steps++;
                 }
@@ -61,11 +77,32 @@ public class Reversi {
 
     }
 
-    public List<Integer> getFreeSpaces(Board board) {
+    public void pointHandeling(char pieceToPlace, int space, Board board, boolean gotFromOtherPlayer){
+        if(gotFromOtherPlayer){
+            if(pieceToPlace == 'o'){
+                board.addoPoints(valueBoard.getSpaceValue(space));
+                board.removexPoints(valueBoard.getSpaceValue(space));
+            }
+            else{
+                board.addxPoints(valueBoard.getSpaceValue(space));
+                board.removeoPoints(valueBoard.getSpaceValue(space));
+            }
+        }
+        else{
+            if(pieceToPlace == 'o'){
+                board.addoPoints(valueBoard.getSpaceValue(space));
+            }
+            else{
+                board.addxPoints(valueBoard.getSpaceValue(space));
+            }
+        }
+    }
+
+    public List<Integer> getFreeSpaces(Board board, char pieceToPlace) {
         List<Integer> list=new ArrayList<Integer>();
-        for(int i = 0; i< board.getBoard().length; i++){
-            for(int j = 0; j< board.getBoard()[i].length; j++){
-                if(isMoveAllowed(board, board.getSpace(i, j))){
+        for(int i = 0; i< board.getGameBoard().length; i++){
+            for(int j = 0; j< board.getGameBoard()[i].length; j++){
+                if(isMoveAllowed(board, board.getSpace(i, j), pieceToPlace)){
                     list.add(board.getSpace(i, j));
                 }
             }
@@ -106,18 +143,25 @@ public class Reversi {
         return toChoseFrom;
     }
 
-    public Boolean isMoveAllowed(Board board, int space) {
+    public Boolean isMoveAllowed(Board board, int space, char pieceToPlace) {
+        char pieceToBeat;
+        if(pieceToPlace == 'o'){
+            pieceToBeat ='x';
+        }
+        else{
+            pieceToBeat ='o';
+        }
         Boolean move = false;
         if(board.isValidSpace(space)){
             for(int y = 0; y < 8; y++) {
                 int steps = 1;
-                if(board.getSpaceValue(board.getNeighbor(y, space, steps)) == 'x'){
+                if(board.getSpaceValue(board.getNeighbor(y, space, steps)) == pieceToBeat){
 
                     steps++;
-                    while(board.getSpaceValue(board.getNeighbor(y, space, steps)) == 'x'){
+                    while(board.getSpaceValue(board.getNeighbor(y, space, steps)) == pieceToBeat){
                         steps++;
                     }
-                    if(board.getSpaceValue(board.getNeighbor(y, space, steps)) == 'o'){
+                    if(board.getSpaceValue(board.getNeighbor(y, space, steps)) == pieceToPlace){
                         move = true;
                     }
                 }
