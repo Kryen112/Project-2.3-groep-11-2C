@@ -60,12 +60,12 @@
                     <HBox translateY="20" fx:id="gameSelection">
                         <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpBoterKaasEieren" translateY="20">
                             <!--    todo change img to bke gamescreenshot -->
-                            <Image url="@../images/gametypes/bke.jpg"/>
+                            <Image url="@../images/bke.jpg"/>
                         </ImageView>
 
                         <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpReversi" translateX="20" translateY="20">
                             <!--    todo change img to bke gamescreenshot -->
-                            <Image url="@../images/gametypes/reversi.png"/>
+                            <Image url="@../images/reversi.png"/>
                         </ImageView>
 
                         <Button fx:id="backButtonLocal" text="Terug" onAction="#backToHomeScreenFromLocal" translateX="40" visible="false"/>
@@ -111,12 +111,13 @@
                     </VBox>
                 </Group>
 
-                <Group fx:id="gameBoard" visible="false">
+                <Group fx:id="gameBoard" visible="false" translateY="50" translateX="50">
                     <GridPane fx:id="gameTiles" alignment="CENTER" hgap="5" vgap="5"/>
                 </Group>
-
             </VBox>
         </center>
+
+
 
     </BorderPane>
 

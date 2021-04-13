@@ -8,23 +8,24 @@ import application.games.players.HumanPlayer;
 import application.games.Game;
 
 import application.games.players.Player;
-import com.sun.prism.Image;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-import javax.swing.text.html.ImageView;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -81,7 +82,9 @@ public class Start {
     // ACTIVE GAME
     @FXML protected Group gameBoard;
     @FXML protected GridPane gameTiles;
-    public Rectangle boardTile;
+    @FXML protected Label turnBox;
+//    public Rectangle boardTile;
+    public ImageView boardTile;
 
     static final int EMPTY = 0;
     static final int CAPTUREDBYP1 = 1;
@@ -289,7 +292,8 @@ public class Start {
 
     public void setUpActiveGameScreen(int boardSize, String gameName, Player player1, Player player2, int tile) {
         mainPane.getChildren().remove(centerScreen);
-        mainPane.getChildren().add(gameBoard);
+        mainPane.setCenter(gameBoard);
+        System.out.println(mainPane.getChildren());
         gameBoard.setVisible(true);
 
         BoardUI board =  new BoardUI(boardSize);
@@ -303,7 +307,7 @@ public class Start {
 
         // turnbox
         info.setText(currentPlayer + " " + thisGame.getTurn() + " is aan zet");
-
+        info.setStyle("-fx-font-size: 18px");
         if (DEBUG) { gameTiles.setGridLinesVisible(true); }
 
         Pane[][] gameBoardUI = board.getGameBoardUI();
@@ -312,8 +316,19 @@ public class Start {
 
         for (Pane[] pane : gameBoardUI) {
             for (Pane p : pane) {
-                boardTile = new Rectangle(60, 60);
-                boardTile.setFill(Color.WHITESMOKE);
+//                boardTile = new Rectangle(tile, tile);
+                p.maxWidth(tile);
+                p.maxHeight(tile);
+
+                boardTile = new ImageView(thisGame.getEmptyTile());
+                boardTile.maxHeight(tile);
+                boardTile.maxWidth(tile);
+
+//                if (gameType.equals(BKE)) {
+////                    boardTile.setFill(Color.WHITESMOKE);
+//                } else if (gameType.equals(REV)){
+////                    boardTile.setFill(Color.GREEN);
+//                }
 
                 stateOfTile.put(p.getId(), EMPTY);
                 p.getChildren().add(boardTile);
@@ -339,17 +354,20 @@ public class Start {
         stateOfTile = new HashMap<>();
 
         if(gameType.equals(BKE)) {
-            setUpActiveGameScreen(3, "Boter, Kaas en Eieren", user, ai, 100);
+            setUpActiveGameScreen(3, "Boter, Kaas en Eieren", user, ai, 150);
             //TODO spelen tegen AI
         }
         if(gameType.equals(REV)) {
-            setUpActiveGameScreen(8, "Reversi", user, ai, 80);
+            setUpActiveGameScreen(8, "Reversi", user, ai, 50);
             //TODO spelen tegen AI
         }
     }
 
     public void UserClickedTile(MouseEvent e, Pane p, Game thisGame ){
-        Rectangle r = (Rectangle) e.getTarget();
+//        Rectangle r = (Rectangle) e.getTarget();
+//        Label l = new Label();
+        ImageView view = (ImageView) e.getTarget();
+
         int status = stateOfTile.get(p.getId());
         Player current = thisGame.getCurrentPlayer();
         boolean isPlayerOne = false;
@@ -361,10 +379,18 @@ public class Start {
         switch (status) {
             case EMPTY:
                 if (isPlayerOne) {
-                    r.setFill(Color.BLUE);
+//                    r.setFill(Color.BLUE);
+//                    r.setFill(new ImagePattern(thisGame.getPlayer1().getIcon()));
+//                    p.getChildren().remove(r);
+                    view = new ImageView(thisGame.getPlayer1().getIcon());
+                    p.getChildren().add(view);
                     status = CAPTUREDBYP1;
                 } else { // player 2
-                    r.setFill(Color.GREEN);
+//                    r.setFill(Color.YELLOW);
+//                    r.setFill(new ImagePattern(thisGame.getPlayer2().getIcon()));
+//                    p.getChildren().remove(r);
+                    view = new ImageView(thisGame.getPlayer1().getIcon());
+                    p.getChildren().add(view);
                     status = CAPTUREDBYP2;
                 }
                 stateOfTile.put(p.getId(), status);
@@ -373,7 +399,6 @@ public class Start {
             case CAPTUREDBYP2:
                 System.out.println("Tile already captured");
         }
-
         thisGame.changeTurn();
     }
 
