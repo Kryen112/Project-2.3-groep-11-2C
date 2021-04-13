@@ -1,7 +1,11 @@
 package application.games.players;
 
+import application.fxml.Start;
+import application.games.Game;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import static application.games.Game.*;
 
 public abstract class Player implements PlayerInterface {
     String name;
@@ -10,7 +14,10 @@ public abstract class Player implements PlayerInterface {
     int losses;
     int typeOfPlayer;
     Image icon;
+    Boolean isX = false;
+    Boolean isO = false;
 
+    Game gameType;
 
     public int getTypeOfPlayer() {
         if(typeOfPlayer == 0 || typeOfPlayer == 1) {
@@ -21,12 +28,29 @@ public abstract class Player implements PlayerInterface {
         }
     }
 
-    public void setIcon(String iconUrl) {
-        icon = new Image(iconUrl);
+    public Image getIcon(String gameType, String player) {
+        if (gameType.equals(BKE)) {
+            if (player.equals(X)) {
+                isX = true;
+                return new Image("application/images/x.png");
+            } else if (player.equals(O)) {
+                isO = true;
+                return new Image("application/images/o.png");
+            }
+        } else if (gameType.equals(REV)) {
+            if (player.equals(X)) {
+                isX = true;
+                return new Image("application/images/zwart.png");
+            } else if (player.equals(O)) {
+                isO = true;
+                return new Image("application/images/wit.png");
+            }
+        }
+        return null;
     }
 
-    public Image getIcon(){
-        return icon;
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public String getName() {
@@ -44,4 +68,12 @@ public abstract class Player implements PlayerInterface {
     public int getLosses() {
         return this.losses;
     }
+
+    public void increaseLosses() {
+        losses++;
+    }
+    public void increaseWins() {
+        wins++;
+    }
+
 }
