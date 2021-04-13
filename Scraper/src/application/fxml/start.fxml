@@ -111,6 +111,10 @@
                     </VBox>
                 </Group>
 
+                <Group fx:id="gameBoard" visible="false">
+                    <GridPane fx:id="gameTiles" alignment="CENTER" hgap="5" vgap="5"/>
+                </Group>
+
             </VBox>
         </center>
 

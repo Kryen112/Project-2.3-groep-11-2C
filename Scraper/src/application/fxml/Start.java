@@ -2,11 +2,13 @@ package application.fxml;
 
 import application.App;
 import application.games.Board;
+import application.games.BoardUI;
 import application.games.players.ComputerPlayer;
 import application.games.players.HumanPlayer;
 import application.games.Game;
 
 import application.games.players.Player;
+import com.sun.prism.Image;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -18,9 +20,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import javax.swing.text.html.ImageView;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Class Starts handles the Logic behind the FXML Start page
@@ -71,7 +79,15 @@ public class Start {
     @FXML protected VBox centerGame;
 
     // ACTIVE GAME
-    @FXML protected Group activeGame;
+    @FXML protected Group gameBoard;
+    @FXML protected GridPane gameTiles;
+    public Rectangle boardTile;
+
+    static final int EMPTY = 0;
+    static final int CAPTUREDBYP1 = 1;
+    static final int CAPTUREDBYP2 = 2;
+
+    HashMap<String, Integer> stateOfTile;
 
     // LOGIN SCREEN METHODS
     /**
@@ -208,6 +224,8 @@ public class Start {
 
     @FXML
     public void setUpBoterKaasEieren(MouseEvent actionEvent) {
+        gameType = BKE;
+
         // Local play
         if (user.getName().equals("Gebruiker")) {
             centerScreen.getChildren().remove(gameCenterBox);
@@ -238,6 +256,8 @@ public class Start {
      */
     @FXML
     public void setUpReversi(MouseEvent actionEvent) {
+        gameType = REV;
+
         // Local play
         if (user.getName().equals("Gebruiker")) {
             centerScreen.getChildren().remove(gameCenterBox);
@@ -259,51 +279,102 @@ public class Start {
     @FXML
     public void playNewGame(ActionEvent actionEvent) {
         App.server.forfeit();
-        if(title.getText().equals("Boter, Kaas en Eieren")) {
+        if(gameType.equals(BKE)) {
             App.server.subscribe("Tic-tac-toe", result ->  System.out.println("Subscribed to Tic-tac-toe") );
         }
-        if(title.getText().equals("Reversi")) {
+        if(gameType.equals(REV)) {
             App.server.subscribe("Reversi", result ->  System.out.println(result) );
         }
     }
 
+    public void setUpActiveGameScreen(int boardSize, String gameName, Player player1, Player player2, int tile) {
+        mainPane.getChildren().remove(centerScreen);
+        mainPane.getChildren().add(gameBoard);
+        gameBoard.setVisible(true);
+
+        BoardUI board =  new BoardUI(boardSize);
+        Game thisGame = new Game(gameName, board, player1, player2);
+
+        Player p1 = thisGame.getPlayer1();
+        Player p2 = thisGame.getPlayer2();
+
+        title.setText(thisGame.getGameTitle() + " - " + p1.getName() + " VS " + p2.getName());
+        String currentPlayer = thisGame.getCurrentPlayer().getName();
+
+        // turnbox
+        info.setText(currentPlayer + " " + thisGame.getTurn() + " is aan zet");
+
+        if (DEBUG) { gameTiles.setGridLinesVisible(true); }
+
+        Pane[][] gameBoardUI = board.getGameBoardUI();
+        int x = 0;
+        int y = 0;
+
+        for (Pane[] pane : gameBoardUI) {
+            for (Pane p : pane) {
+                boardTile = new Rectangle(60, 60);
+                boardTile.setFill(Color.WHITESMOKE);
+
+                stateOfTile.put(p.getId(), EMPTY);
+                p.getChildren().add(boardTile);
+
+                gameTiles.add(p, x, y);
+                x++;
+
+                if (x % board.getHeight() == 0) {
+                    y++;
+                    x = 0;
+                }
+
+                p.setOnMouseClicked(e -> {
+                    UserClickedTile(e, p, thisGame);
+                });
+            }
+        }
+
+    }
+
     @FXML
     public void playLocalvsAI(ActionEvent actionEvent) {
-        if(title.getText().equals("Boter, Kaas en Eieren")) {
-            mainPane.getChildren().remove(centerScreen);
+        stateOfTile = new HashMap<>();
 
-            Board bke =  new Board();
+        if(gameType.equals(BKE)) {
+            setUpActiveGameScreen(3, "Boter, Kaas en Eieren", user, ai, 100);
+            //TODO spelen tegen AI
+        }
+        if(gameType.equals(REV)) {
+            setUpActiveGameScreen(8, "Reversi", user, ai, 80);
+            //TODO spelen tegen AI
+        }
+    }
 
-            Game thisGame = new Game("Boter, Kaas en Eieren", bke, user, ai);
-            Player p1 = thisGame.getPlayer1();
-            Player p2 = thisGame.getPlayer2();
+    public void UserClickedTile(MouseEvent e, Pane p, Game thisGame ){
+        Rectangle r = (Rectangle) e.getTarget();
+        int status = stateOfTile.get(p.getId());
+        Player current = thisGame.getCurrentPlayer();
+        boolean isPlayerOne = false;
 
-            title.setText(thisGame.getGameTitle() + " - " + p1.getName() + " VS " + p2.getName());
+        if (current.equals(thisGame.getPlayer1())) {
+            isPlayerOne = true;
+        }
 
-            // turnbox
-            info.setText(thisGame.getCurrentPlayer().getName() + " is aan zet");
-
-            // GAMEBOARD
-            GridPane bkeBoard = new GridPane();
-
-            for ( int x = 0; x < bke.getHeight(); x++ ) {
-                for (int y = 0; y < bke.getHeight(); y++ ) {
-                    bkeBoard.add(
-                            new Pane( new Text("hello") )
-                            , (y + 2) , (x + 2));
+        switch (status) {
+            case EMPTY:
+                if (isPlayerOne) {
+                    r.setFill(Color.BLUE);
+                    status = CAPTUREDBYP1;
+                } else { // player 2
+                    r.setFill(Color.GREEN);
+                    status = CAPTUREDBYP2;
                 }
-            }
-            VBox holder = new VBox(bkeBoard);
-            mainPane.setCenter(holder);
-            System.out.println(mainPane.getChildren().toString());
-//            mainPane.getChildren().get().add(bkeBoard);
-
-
-            //TODO BKE GUI en spelen tegen AI
+                stateOfTile.put(p.getId(), status);
+                break;
+            case CAPTUREDBYP1:
+            case CAPTUREDBYP2:
+                System.out.println("Tile already captured");
         }
-        if(title.getText().equals("Reversi")) {
-            //TODO Reversi GUI en spelen tegen AI
-        }
+
+        thisGame.changeTurn();
     }
 
     @FXML

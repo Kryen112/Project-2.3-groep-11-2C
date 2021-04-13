@@ -42,7 +42,7 @@ public class App extends Application implements AutoCloseable {
      */
     public App() {
         //TODO board maken bij aanroep spel
-//        board = new Board();
+//        board = new Board(8);
 //        board.execute();
     }
 
