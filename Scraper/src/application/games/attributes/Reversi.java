@@ -34,9 +34,33 @@ public class Reversi {
         //getNeighbor(int direction, int space, int steps);
         board.setLastSet(space);
         board.setStartPieceOnBoard(space,pieceToPlace);
-        if(pieceToPlace == 0){
-
-        }
+        int[] corners = {0,7,56,63};
+        if(pieceToPlace == 'o'){
+            for(int e : corners){
+                switch(e) {
+                    case 0:
+                        valueBoard.setOnBoard(1, 20);
+                        valueBoard.setOnBoard(9, 30);
+                        valueBoard.setOnBoard(8, 20);
+                    break;
+                    case 7:
+                        valueBoard.setOnBoard(6, 20);
+                        valueBoard.setOnBoard(14, 30);
+                        valueBoard.setOnBoard(15, 20);
+                    break;
+                    case 56:
+                        valueBoard.setOnBoard(48, 20);
+                        valueBoard.setOnBoard(49, 30);
+                        valueBoard.setOnBoard(57, 20);
+                    break;
+                    case 63:
+                    valueBoard.setOnBoard(55, 100);
+                    valueBoard.setOnBoard(54, 200);
+                    valueBoard.setOnBoard(62, 100);
+                    break;
+                }
+            }
+    }
         pointHandeling(pieceToPlace, space, board, false);
         char pieceToBeat;
         if(pieceToPlace == 'o'){

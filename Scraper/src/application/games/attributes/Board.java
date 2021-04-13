@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javax.lang.model.element.Element;
 import javax.sound.midi.SysexMessage;
 
 
@@ -20,6 +21,13 @@ public class Board implements Cloneable {
     final int height = 8;// dit kan veranderd worden bij boterkaas en eieren 
     Random rand = new Random();
 
+    public void clearBoard(){
+        for(int i = 0; i < height; i++) {
+            for(int j = 0; j < height; j++) {
+                gameBoard[i][j] = '.';
+            }
+        }
+    }
 
     public Board execute() {
         createBoard();

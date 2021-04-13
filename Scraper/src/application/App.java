@@ -1,6 +1,8 @@
 package application;
 
-import application.games.Board;
+import application.games.attributes.Board;
+import application.games.attributes.Reversi;
+import application.games.attributes.miniMax;
 import application.serverconnect.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -37,13 +39,20 @@ public class App extends Application implements AutoCloseable {
     /** The board */
     public static Board board;
 
+    public static Reversi reversi;
+
+    public static miniMax miniMax;
+
     /**
      * The constructor
      */
     public App() {
         //TODO board maken bij aanroep spel
-//        board = new Board();
-//        board.execute();
+      board = new Board();
+      board.execute();
+      reversi = new Reversi();
+      miniMax = new miniMax();
+      
     }
 
     public static void makeConnectionWithServer() {

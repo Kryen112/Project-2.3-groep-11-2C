@@ -27,9 +27,9 @@ public class InputProcesser {
 
     public void setStart() {
         if(black.equals(opponent)) {
-//            App.board.setStartPieces('x');
+            App.reversi.setStartPieces(App.board, 'x');
         } else {
-//            App.board.setStartPieces('o');
+            App.reversi.setStartPieces(App.board, 'o');
         }
     }
 
@@ -51,6 +51,7 @@ public class InputProcesser {
 
     public void setBlack() {
         black = matchMessage[0].replace("PLAYERTOMOVE: ", "").replace("\"", "");
+
     }
 
     public void setOpponent() {
@@ -92,7 +93,7 @@ public class InputProcesser {
 
             switch(serverMessage) {
                 case "SVRGAMEMATCH":
-//                    App.board.clearBoard();
+                    App.board.clearBoard();
                     System.out.println("Game match start!");
                     this.matchMessage = setMessages(arr[3]);
                     setBlack();
@@ -104,7 +105,16 @@ public class InputProcesser {
                 case "SVRGAMEYOURTURN":
                     System.out.println("It's your turn!");
                     this.turnMessage = setMessages(arr[3]);
-//                    server.doMove(App.board.getRandomSet());
+                try {
+                    int move = App.miniMax.miniMaxi(App.board,16,0,0,'o').getLastSet();
+                    System.out.println(move);
+                    //App.miniMax.miniMaxi(App.board,15,0,0,'o').pirntBoard();
+                    server.doMove(move);
+                    
+                } catch (CloneNotSupportedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                     turn = true;
                     break;
                 case "SVRGAMELOSS":
@@ -122,13 +132,14 @@ public class InputProcesser {
                         this.moveMessage = setMessages(arr[3]);
                         setMove();
                         System.out.println("Deze zet is gedaan: " + this.move);
+                        App.reversi.setPieceOnBoard(App.board, this.move, 'o');
                         turn = false;
                     } else {
                         System.out.println("Move set by opponent");
                         this.moveMessage = setMessages(arr[3]);
                         setMove();
                         System.out.println("Deze zet is gedaan: " + this.move);
-//                        App.board.setPieceOnBoard(move, 'x');
+                        App.reversi.setPieceOnBoard(App.board, this.move, 'x');
                     }// zet move op het bord van diegene die move heeft gezet
                     break;
                 case "SVRGAMECHALLENGE":

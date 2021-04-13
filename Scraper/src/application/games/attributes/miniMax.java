@@ -29,8 +29,8 @@ public class miniMax {
             boolean firstTime = true;
             Board boardCopy = new Board();
             Board boardToReturn = new Board();
-            if( reversi.getFreeSpaces(board,'o') != null){
-                for(int element : reversi.getFreeSpaces(board,'o')){
+            if(reversi.getFreeSpaces(board,'o') != null){
+                for(int element : reversi.bestSpot(reversi.getFreeSpaces(board,'o'))){
                     boardCopy = copyBoard(board);
                     reversi.setPieceOnBoard(boardCopy, element, 'o');
                     //System.out.println("O" + boardCopy.oPoints + " " + boardCopy.xPoints + boardCopy);
@@ -69,7 +69,7 @@ public class miniMax {
             Board boardCopy = new Board();
             Board boardToReturn = new Board();
             if(reversi.getFreeSpaces(board,'x') != null){
-                for(int element : reversi.getFreeSpaces(board,'x')){
+                for(int element : reversi.bestSpot(reversi.getFreeSpaces(board,'x'))){
                     boardCopy = copyBoard(board);
                     reversi.setPieceOnBoard(boardCopy, element, 'x');
                     //System.out.println("X" + boardCopy.oPoints + " " + boardCopy.xPoints + reversi.getFreeSpaces(board, 'x') + boardCopy);
