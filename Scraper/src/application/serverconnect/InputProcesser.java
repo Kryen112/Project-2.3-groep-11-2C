@@ -1,8 +1,7 @@
 package application.serverconnect;
 
-import java.util.Arrays;
-
 import application.App;
+import application.fxml.Start;
 
 public class InputProcesser {
 
@@ -73,6 +72,7 @@ public class InputProcesser {
                 case "ERR duplicate name exists":
                 case "ERR not logged in":
                 case "ERR player not found":
+                case "ERR invalid challenge":
                     setAnswer(input);
                     server.setResult(input);
                     break;                
@@ -89,6 +89,9 @@ public class InputProcesser {
             if(arr.length >= 3) {
                 serverMessage = arr[0]+arr[1]+arr[2];
             }
+            // try {
+            //     Thread.sleep(500);
+            // } catch (Exception e){}
 
             switch(serverMessage) {
                 case "SVRGAMEMATCH":

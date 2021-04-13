@@ -2,27 +2,30 @@ package application.fxml;
 
 import application.App;
 import application.games.Board;
+import application.games.Game;
 import application.games.BoardUI;
 import application.games.players.ComputerPlayer;
 import application.games.players.HumanPlayer;
-import application.games.Game;
-
 import application.games.players.Player;
+import javafx.application.Platform;
 import com.sun.prism.Image;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Label;
+import javafx.scene.text.Text;
+
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 
 import javax.swing.text.html.ImageView;
 import java.io.FileInputStream;
@@ -33,15 +36,18 @@ import java.util.HashMap;
 /**
  * Class Starts handles the Logic behind the FXML Start page
  *
- * @author Anouk,
+ * @author Anouk, Stefan
  */
 public class Start {
-    public static final boolean DEBUG = true; // change to false to hide debug messages
-    public static HumanPlayer user;           // the user who uses the application
-    public static ComputerPlayer ai = new ComputerPlayer(); // the ai
-    public static String gameType;            // the gameType the user chose
-    public static final String BKE = "BOTERKAASENEIEREN";
-    public static final String REV = "REVERSI";
+    public final boolean DEBUG = true; // change to false to hide debug messages
+    public HumanPlayer user;           // the user who uses the application
+    public ComputerPlayer ai = new ComputerPlayer(); // the ai
+    public String gameType;            // the gameType the user chose
+    public final String BKE = "BOTERKAASENEIEREN";
+    public final String REV = "REVERSI";
+    public String toAdd = "";
+
+    //List views
 
     // PANE VIEW
     @FXML protected BorderPane mainPane;    // the mainPane of application
@@ -59,6 +65,8 @@ public class Start {
     @FXML protected HBox loginMessageBox;
     @FXML protected Text loginMessage;
     @FXML protected TextField userName;
+    @FXML protected TextField ipAddress;
+    @FXML protected TextField portNr;
     @FXML protected Button verder;
 
     // gameCenter
@@ -66,11 +74,10 @@ public class Start {
     @FXML protected VBox centerGameLocal;
     @FXML protected VBox centerGameOnline;
     @FXML protected VBox playerList;
-    @FXML protected VBox challengesListView;
-    @FXML protected Text playerListList;
+    @FXML protected Label playerListList;
     @FXML protected TextField enemyUserName;
     @FXML protected Text challengeMessage;
-    @FXML protected ListView<String> listView;
+    @FXML protected Button logOutButton;
 
     // GAMECENTER
     @FXML protected Group gameCenterBox; // Group that holds all of the game items
@@ -92,11 +99,16 @@ public class Start {
     // LOGIN SCREEN METHODS
     /**
      * Method to handle the login button being pushed
+     * Only used for logging in on the school server
      */
     @FXML
-    protected void handleLoginAction(ActionEvent event) {
+    protected void handleLoginActionOnSchoolServer(ActionEvent event) {
         //Make connection with server
-        App.makeConnectionWithServer();
+        try {
+            App.makeConnectionWithServer();
+        } catch (Exception e) {
+            System.out.println("Fout met serverconnectie.");
+        }
         
         games.getChildren().remove(centerGameLocal);
         games.getChildren().remove(centerGameOnline);
@@ -115,8 +127,61 @@ public class Start {
                         user = new HumanPlayer(player);
                         showMessage(loginMessage, 0, ("Inloggen gelukt, Welkom " + player + "!") );
                         App.server.setLoggedIn(true);
-                        loginBox.setVisible(false);     // hide login
-                        verder.setVisible(true);        // enable continue button
+                        loginBox.setVisible(false);       // hide login
+                        loginMessageBox.setVisible(true); //enable loginmessagebox
+                        verder.setVisible(true);          // enable continue button
+                        break;
+                    // Login not success
+                    case "ERR already logged in":
+                        showMessage(loginMessage, 1, "U bent al ingelogd");
+                        break;
+
+                    case "ERR duplicate name exists":
+                        showMessage(loginMessage, 1, "Deze gebruikersnaam bestaat al");
+                        break;
+
+                    default:
+                        showMessage(loginMessage, 1, "Er is iets fout gegaan, probeer het opnieuw.");
+                        break;
+                }
+            }); // end switch / login
+        } else {
+            showMessage(loginMessage, 1, "Gebruikersnaam kan niet leeg zijn");
+        }
+    }
+
+    /**
+     * Method to handle the login button being pushed
+     * Used for logging in with ip+port
+     */
+    @FXML
+    protected void handleLoginActionOnOtherServer(ActionEvent event) {
+        try {
+            App.makeConnectionWithServer(ipAddress.getText(), portNr.getText());
+        } catch (Exception e) {
+            System.out.println("Fout met serverconnectie.");
+        }
+        
+        games.getChildren().remove(centerGameLocal);
+        games.getChildren().remove(centerGameOnline);
+
+        // player name may not be "Gebruiker"
+        if (userName.getText().equals("Gebruiker")) {
+            showMessage(loginMessage, 1, "U mag deze gebruikersnaam niet gebruiken");
+        }
+        // username cannot be empty 
+        else if (!userName.getText().isEmpty() || !userName.getText().isBlank()) {
+            String player = userName.getText().toLowerCase();
+
+            App.server.login(player, result -> {
+                switch (result) {
+                    case "OK":  // Login succes
+                        user = new HumanPlayer(player);
+                        showMessage(loginMessage, 0, ("Inloggen gelukt, Welkom " + player + "!") );
+                        App.server.setLoggedIn(true);
+                        loginBox.setVisible(false);       // hide login
+                        loginMessageBox.setVisible(true); //enable loginmessagebox
+                        verder.setVisible(true);          // enable continue button
                         break;
                     // Login not success
                     case "ERR already logged in":
@@ -171,7 +236,9 @@ public class Start {
         info.setText("Voer een gebruikersnaam in en login!");
 
         //Handle screen transitions
+        loginBox.setVisible(true);
         loginCenterBox.setVisible(true);
+        loginMessageBox.setVisible(false);
         homeScreen.setVisible(false);
     }
 
@@ -207,6 +274,30 @@ public class Start {
     }
 
     /**
+     * The logout button
+     */
+    @FXML
+    public void logOut() {
+        //Set variables
+        App.server.logout();
+        App.server.setLoggedIn(false);
+
+        //Set title, infotext and username
+        title.setText(("AI Gaming Home"));
+        info.setText("Wil je online of lokaal spelen?");
+        userName.setText("");
+
+        //Handle screen transitions
+        loginCenterBox.getChildren().add(loginBox);
+        loginCenterBox.getChildren().add(loginMessageBox);
+        homeScreen.setVisible(true);
+        loginCenterBox.setVisible(false);
+        gameCenterBox.setVisible(false);
+        logOutButton.setVisible(false);
+
+    }
+
+    /**
      * Method to hide loginScreen and show the GameScreen
      * when the continue button is pushed
      */
@@ -220,6 +311,7 @@ public class Start {
 
         gameCenterBox.getChildren().remove(gameSettingsBox);
         gameCenterBox.setVisible(true);
+        logOutButton.setVisible(true);
     }
 
     @FXML
@@ -242,14 +334,6 @@ public class Start {
             games.setVisible(true);
         }
     }
-    /**
-     * Method that handles javaFx gameScreen change from gameCenter to settings
-     */
-    public void openSettings(){
-        gameCenterBox.getChildren().remove(gameSelection);
-        gameCenterBox.getChildren().add(gameSettingsBox);
-        gameSettingsBox.setVisible(true);
-    }
 
     /**
      * Method that handles javaFx gameScreen change from settings to gameCenter
@@ -271,14 +355,23 @@ public class Start {
             games.getChildren().add(centerGameOnline);
             title.setText("Reversi");
             playerList.setVisible(true);
-            challengesListView.setVisible(true);
             games.setVisible(true);
         }
     }
 
+    
+    /**
+     * Method that handles javaFx gameScreen change from gameCenter to settings
+     */
+    public void openSettings(){
+        gameCenterBox.getChildren().remove(gameSelection);
+        gameCenterBox.getChildren().add(gameSettingsBox);
+        gameSettingsBox.setVisible(true);
+    }
+
     @FXML
     public void playNewGame(ActionEvent actionEvent) {
-        App.server.forfeit();
+        App.server.forfeit(); //TODO Niet nodig als je niet in een game bent
         if(gameType.equals(BKE)) {
             App.server.subscribe("Tic-tac-toe", result ->  System.out.println("Subscribed to Tic-tac-toe") );
         }
@@ -410,9 +503,15 @@ public class Start {
     }
 
     @FXML
-    public void acceptChallenge(ActionEvent actionEvent) {
+    public void acceptChallenge(ActionEvent actionEvent) { //TODO REVERSIGAME START OR TICTACTOEGAME START
         if(title.getText().equals("Reversi")) {
-            App.server.acceptChallenge();
+            App.server.acceptChallenge(event ->
+                showMessage(challengeMessage, 1, "Je hebt nog geen open uitdagingen staan")
+            );
+        } else if (title.getText().equals("Boter, Kaas en Eieren")) {
+            //App.server.acceptChallenge();
+        } else {
+            showMessage(challengeMessage, 1, "Geen spel geselecteerd");
         }
     }
 
@@ -450,7 +549,11 @@ public class Start {
         App.server.getPlayerList( result -> {
             String[] arr = result.replace("[", "").replace("]", "").replace("\"", "").replace("SVR PLAYERLIST ", "").split(", ");
             if (result.contains("PLAYERLIST")) {
-                showMessage(playerListList, 0, Arrays.toString(arr));
+                toAdd = "";
+                for (String player : arr) {
+                    toAdd += (player + "\n");
+                }
+                Platform.runLater(() -> playerListList.setText(toAdd));
             }
         });
     } 
