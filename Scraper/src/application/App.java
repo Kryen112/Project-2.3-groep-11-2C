@@ -42,8 +42,8 @@ public class App extends Application {
      */
     public App() {
         //TODO board maken bij aanroep spel
-        board = new Board();
-        board.execute();
+//        board = new Board(8);
+//        board.execute();
     }
 
     public static void main(String[] args) {

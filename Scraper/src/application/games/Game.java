@@ -4,10 +4,10 @@ import application.games.players.Player;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Game extends Board {
+public class Game {
     Random r = new Random();
     String gameTitle;
-    Board board;
+    BoardUI board;
 
     Player player1;
     Player player2;
@@ -20,7 +20,7 @@ public class Game extends Board {
 
     public Game(){ }
 
-    public Game(String title, Board b, Player p1, Player p2){
+    public Game(String title, BoardUI b, Player p1, Player p2){
         gameTitle = title;
         board = b;
         player1 = p1;
@@ -38,7 +38,7 @@ public class Game extends Board {
     }
 
     public String getGameTitle() { return gameTitle; }
-    public Board getGameBoard() { return board; }
+    public BoardUI getGameBoard() { return board; }
     public Player getPlayer1() { return player1; }
     public Player getPlayer2() { return player2; }
     public Player getCurrentPlayer() { return currentPlayer; }

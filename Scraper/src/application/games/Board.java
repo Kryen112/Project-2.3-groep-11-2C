@@ -1,5 +1,7 @@
 package application.games;
 
+import application.App;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -74,18 +76,22 @@ public class Board {
 
     }
 
+    public String title() {
+        return null;
+    }
+
     /*    public void markPlaceOnBoard(int space, String marker) {
-        
+
         }
     */
     public void setStartPieceOnBoard(int space, char pieceToPlace) {
-        board[getRow(space)][getColumn(space)] = pieceToPlace;
-        printBoard();
+        board[getRow(space)][getCollum(space)] = pieceToPlace;
+        pirntBoard();
     }
 
     public void setPieceOnBoard(int space, char pieceToPlace) {
         //getNeighbor(int direction, int space, int steps);
-        board[getRow(space)][getColumn(space)] = pieceToPlace;
+        board[getRow(space)][getCollum(space)] = pieceToPlace;
         char pieceToBeat;
         if(pieceToPlace == 'o'){
             pieceToBeat ='x';
@@ -146,7 +152,7 @@ public class Board {
         }
     }
 
-    public void printBoard(){
+    public void pirntBoard(){
         for(int i = 0; i< height; i++){
             System.out.println(board[i]);
         }
@@ -157,14 +163,14 @@ public class Board {
         if (space == height*height){
             return 'z';
         }
-        return board[getRow(space)][getColumn(space)];
+        return board[getRow(space)][getCollum(space)];
     }
 
     public int getRow(int space) {
         return space/height;
     }
 
-    public int getColumn(int space) {
+    public int getCollum(int space) {
         return space%height;
     }
 
@@ -203,7 +209,7 @@ public class Board {
     }
 
     public Boolean isSpaceAvailabe(int space) {
-        if(board[getRow(space)][getColumn(space)] == '.'){
+        if(board[getRow(space)][getCollum(space)] == '.'){
             return true;
         }
         else{
@@ -212,10 +218,10 @@ public class Board {
 
     }
 
-    public int getSpace(int row, int column){
+    public int getSpace(int row, int collum){
         int space = height*height;
-        if(row >= 0 && column >= 0 && row < height && column < height){
-            space = row*height + column;
+        if(row >= 0 && collum >= 0 && row < height && collum < height){
+            space = row*height + collum;
             //System.out.println("d");
         }
         return space;
@@ -283,28 +289,28 @@ public class Board {
         int value = height*height;
         switch(direction) {
             case 0:
-                value = getSpace(getRow(space)-steps,getColumn(space)-steps);
+                value = getSpace(getRow(space)-steps,getCollum(space)-steps);
                 break;
             case 1:
-                value = getSpace(getRow(space)-steps,getColumn(space));
+                value = getSpace(getRow(space)-steps,getCollum(space));
                 break;
             case 2:
-                value = getSpace(getRow(space)-steps,getColumn(space)+steps);
+                value = getSpace(getRow(space)-steps,getCollum(space)+steps);
                 break;
             case 3:
-                value = getSpace(getRow(space),getColumn(space)+steps);
+                value = getSpace(getRow(space),getCollum(space)+steps);
                 break;
             case 4:
-                value = getSpace(getRow(space)+steps,getColumn(space)+steps);
+                value = getSpace(getRow(space)+steps,getCollum(space)+steps);
                 break;
             case 5:
-                value = getSpace(getRow(space)+steps,getColumn(space));
+                value = getSpace(getRow(space)+steps,getCollum(space));
                 break;
             case 6:
-                value = getSpace(getRow(space)+steps,(getColumn(space)-steps));
+                value = getSpace(getRow(space)+steps,(getCollum(space)-steps));
                 break;
             case 7:
-                value = getSpace(getRow(space),getColumn(space)-steps);
+                value = getSpace(getRow(space),getCollum(space)-steps);
                 break;
         }
         return value;
