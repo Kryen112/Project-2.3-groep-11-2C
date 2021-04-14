@@ -9,25 +9,23 @@ import java.util.function.Consumer;
  * The Server class
  * This class creates the server and sets up the connection
  * This class also contains all commands to send to the server
+ *
+ * @author Douwe
+ * Project 2.3 Hanze Hogeschool 2021
  */
 public class Server {
-    /** The socket */
-    protected final Socket socket;
-
-    /** The printWriter */
-    protected PrintWriter printWriter;
-
-    /** The class that processes the input */
-    protected InputProcesser inputProcesser;
-
-    /** Consumer String */
-    protected Consumer<String> callback;
-
-    /** Boolean - true if logged in */
-    protected boolean isLoggedIn;
+    protected final Socket socket;              // the socket to use
+    protected PrintWriter printWriter;          // the printwriter to use
+    protected InputProcesser inputProcesser;    // class that processes the input
+    protected Consumer<String> callback;        // Consumer to handle the result
+    protected boolean isLoggedIn;               // check if user is LoggedIn
 
     /**
-     * Constructor
+     * Constructor for server
+     * set logged in to false
+     * set the socket
+     * set the inputProcessor
+     * set the printWriter
      * @param socket            The socket to connect to
      * @param inputProcessor    The inputprocessor to set
      */
@@ -50,7 +48,8 @@ public class Server {
     }
 
     /**
-     * This method processes the command
+     * This method processes the command with the printWriter
+     * @param command the command
      */
     public void processCommand(String command) {
         printWriter.println(command);
@@ -58,6 +57,7 @@ public class Server {
 
     /**
      * Command to accept the incoming challenge
+     * @param callback the consumer that handles the result
      */
     public void acceptChallenge(Consumer<String> callback) {
         setCallback(callback);
@@ -66,7 +66,7 @@ public class Server {
 
     /**
      * Method for the challenge player button
-     * 
+     * set the callback and process the command
      * @param playerToChallenge The player to challenge 
      * @param game              The game to play
      * @param callback          The answer from the server
@@ -94,6 +94,9 @@ public class Server {
         processCommand("login " + username);
     }
 
+    /**
+     * Method to send the processCommand quit
+     */
     public void quit() {
         processCommand("quit");
     }
@@ -171,6 +174,10 @@ public class Server {
         this.inputProcesser = inputProcesser;
     }
 
+    /**
+     * Getter for the inputprocessor
+     * @return the inputprocessor
+     */
     public InputProcesser getInputProcesser() {
         return this.inputProcesser;
     }
