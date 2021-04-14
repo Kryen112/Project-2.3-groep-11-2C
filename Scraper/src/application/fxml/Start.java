@@ -6,7 +6,6 @@ import application.games.BoardUI;
 import application.games.players.ComputerPlayer;
 import application.games.players.HumanPlayer;
 import application.games.players.Player;
-import application.serverconnect.InputProcesser;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,14 +22,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import java.util.LinkedList;
-import java.util.Timer;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**
  * Class Starts handles the Logic behind the FXML Start page
  *
- * @author Anouk, Stefan
+ * @author Anouk, Stefan, Douwe, Robert, Jason
+ * Project 2.3 Hanze Hogeschool 2021
  */
 public class Start implements Runnable {
     public final boolean DEBUG = true; // change to false to hide debug messages
@@ -446,7 +444,6 @@ public class Start implements Runnable {
 
         // stel het gameBoard in als Center op het mainPane
         mainPane.setCenter(gameBoard);
-        gameBoard.getChildren().add(gameTiles);
         gameBoard.setVisible(true);
 
         // stel het bord in met de juiste grootte
@@ -804,18 +801,18 @@ public class Start implements Runnable {
         //showMessage(challengeMessage, 1, ("Beurttijd is veranderd naar: " + newTurnTime));
     }
 
-    @FXML
-    public void backToGameScreenFromGame() {
-        gameBoard.getChildren().remove(gameTiles);
-        mainPane.getChildren().remove(gameBoard);
-        mainPane.getChildren().add(centerScreen);
-
-        gameTiles = new GridPane();
-        gameTiles.setHgap(5);
-        gameTiles.setVgap(5);
-
-        info.setText("");
-        setTitleOfGameScreen(gameType);
-        gameBoard.setVisible(false);
-    }
+//    @FXML
+//    public void backToGameScreenFromGame() {
+//        gameBoard.getChildren().remove(gameTiles);
+//        mainPane.getChildren().remove(gameBoard);
+//        mainPane.getChildren().add(centerScreen);
+//
+//        gameTiles = new GridPane();
+//        gameTiles.setHgap(5);
+//        gameTiles.setVgap(5);
+//
+//        info.setText("");
+//        setTitleOfGameScreen(gameType);
+//        gameBoard.setVisible(false);
+//    }
 }

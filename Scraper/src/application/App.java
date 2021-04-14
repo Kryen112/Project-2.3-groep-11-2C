@@ -12,10 +12,10 @@ import javafx.stage.Stage;
 
 /**
  * Main class voor project 2.3 Game Framework
- *
  * application.App zorgt voor de primaryStage, Start.application.fxml dient als root van de application.App
  *
- * @author Anouk, Stefan
+ * @author Anouk, Stefan, Douwe, Robert, Jason
+ * Project 2.3 Hanze Hogeschool 2021
  */
 public class App extends Application {
     /** The primary stage */
