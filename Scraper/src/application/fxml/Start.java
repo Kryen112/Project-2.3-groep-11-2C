@@ -13,7 +13,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -33,10 +32,11 @@ import java.util.HashMap;
 public class Start {
     public final boolean DEBUG = true; // change to false to hide debug messages
     public HumanPlayer user;           // the user who uses the application
+    public HumanPlayer player2;           // the user who uses the application
     public ComputerPlayer ai = new ComputerPlayer(); // the ai
     public String gameType;            // the gameType the user chose
-    public final String BKE = "BOTERKAASENEIEREN";
-    public final String REV = "REVERSI";
+    public final String BKE = "Boter, Kaas en Eieren";
+    public final String REV = "Reversi";
     public String toAdd = "";
 
     // PANE VIEW
@@ -202,6 +202,7 @@ public class Start {
     public void handleLocalPlay() {
         //Local user is a user with name "Gebruiker"
         user = new HumanPlayer("Gebruiker");
+        player2 = new HumanPlayer("Gebruiker 2");
 
         //Set title and infotext
         title.setText(("AI Gaming"));
@@ -457,7 +458,7 @@ public class Start {
                 // voeg functionaliteit toe aan Pane
                 p.setOnMouseClicked(e -> {
                     if (!thisGame.isGameOver()) {
-                        UserClickedTile(e, p, thisGame, p1);
+                        userClickedTile(e, p, thisGame, p1);
                     }
                     if (gameType.equals(Game.BKE)) {
                         if (thisGame.getBoard().isWonBKE()) {
@@ -468,8 +469,6 @@ public class Start {
                             thisGame.setGameOver();
                             info.setText("Helaas gelijk spel");
                         }
-                    } else if (gameType.equals(Game.REV)) {
-                        
                     }
                 });
             }
@@ -498,7 +497,7 @@ public class Start {
             setUpActiveGameScreen(3, "Boter, Kaas en Eieren", user, ai, stateOfTile);
         }
 
-        // Riversi
+        // Reversi
         if(gameType.equals(REV)) {
             //TODO AI implementeren en spel implementeren
             setUpActiveGameScreen(8, "Reversi", user, ai, stateOfTile);
@@ -516,13 +515,13 @@ public class Start {
         // Boter kaas en Eieren
         if(gameType.equals(BKE)) {
             //TODO spel implementeren
-            setUpActiveGameScreen(3, "Boter, Kaas en Eieren", user, ai, stateOfTile);
+            setUpActiveGameScreen(3, "Boter, Kaas en Eieren", user, player2, stateOfTile);
         }
 
-        // Riversi
+        // Reversi
         if(gameType.equals(REV)) {
             //TODO AI spel implementeren
-            setUpActiveGameScreen(8, "Reversi", user, ai, stateOfTile);
+            setUpActiveGameScreen(8, "Reversi", user, player2, stateOfTile);
         }
     }
 
@@ -532,7 +531,7 @@ public class Start {
      * @param p pane waar de functionaliteit op moet toegepast worden
      * @param thisGame huidige game
      */
-    public void UserClickedTile( MouseEvent e, Pane p, Game thisGame, Player p1 ){
+    public void userClickedTile(MouseEvent e, Pane p, Game thisGame, Player p1) {
         ImageView view = (ImageView) e.getTarget();
 
         // de huidige status van de Tile
@@ -564,7 +563,10 @@ public class Start {
                 }
                 // pas State of File in Array aan
                 stateOfTile.put(p.getId(), status);
+
+                //Aantal beurten omhoog
                 thisGame.incrementTurns();
+                // wissel van Beurt
                 thisGame.changeTurn();
                 break;
 
@@ -576,7 +578,6 @@ public class Start {
                 if (DEBUG) { System.out.println("DEBUG Tile already captured"); }
         }
 
-        // wissel van Beurt
         // TODO hou rekening met dat een gebruiker twee keer aan de beurt kan zijn
 
         // verander info voor huidige beurt
@@ -728,5 +729,19 @@ public class Start {
         } catch (Exception e) { showMessage(challengeMessage, 1, "Vul alstublieft alleen een getal in"); }
         //TODO iets.changeTurnTime(newTurnTime);
         //showMessage(challengeMessage, 1, ("Beurttijd is veranderd naar: " + newTurnTime));
+    }
+
+    @FXML
+    public void backToGameScreenFromGame() {
+        mainPane.getChildren().add(centerScreen);
+        mainPane.getChildren().remove(gameBoard);
+        info.setText("");
+        setTitleOfGameScreen(gameType);
+        gameBoard.setVisible(false);
+    }
+
+    @FXML
+    public void resetGame() {
+
     }
 }
