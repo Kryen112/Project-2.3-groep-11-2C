@@ -426,9 +426,25 @@ public class Start implements Runnable {
                             thisGame.copyList();
                         });
 
-                        thisGame.changeTurn();
+                        String color;
+                        if(thisGame.getCurrentPlayer().getName().equals(App.server.getInputProcesser().black)) {
+                            color = "zwart";
+                        } else {
+                            color = "wit";
+                        }
+                        info.setText("De beurt is aan: "+thisGame.getCurrentPlayer().getName()+" : "+color);
                         App.server.getInputProcesser().removeFirstMove();
                     }
+                }
+                System.out.println("Winner zetten: ");
+                thisGame.setWinner();
+                if(thisGame.getWinner().getName().equals(this.user.getName())) {
+                    showMessage(info, 2, this.user.getName()+" heeft gewonnen");
+                }
+                else if(!thisGame.getWinner().getName().equals(this.user.getName())) {
+                    showMessage(info, 1, thisGame.getWinner().getName()+" heeft gewonnen");
+                } else {
+                    showMessage(info, 3, "Het is gelijkspel!");
                 }
             });
             thisGame.getPlayer2().setName(App.server.getInputProcesser().opponent);
@@ -786,8 +802,11 @@ public class Start implements Runnable {
         if (type == 1) {
             textBox.setStyle("-fx-fill: RED;");
             if (DEBUG){ System.out.println("DEBUG ERROR " + msg); }
-        } else {
+        } else if (type == 2) {
             textBox.setStyle("-fx-fill: GREEN;");
+            if (DEBUG){ System.out.println("DEBUG SUCCESS " + msg); }
+        } else if (type == 3) {
+            textBox.setStyle("-fx-fill: YELLOW;");
             if (DEBUG){ System.out.println("DEBUG SUCCESS " + msg); }
         }
         textBox.setText(msg);

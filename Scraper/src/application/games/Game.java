@@ -112,7 +112,12 @@ public class Game {
         return this.boardUI;
     }
 
+    public Player getWinner() {
+        return this.winner;
+    }
+
     /**
+     *
      * Method to return the Player who plays as Player one
      * @return Player one of Game
      */
@@ -141,17 +146,45 @@ public class Game {
         return this.turn;
     }
 
+    public void setWinner() {
+        if(gameTitle.equals(BKE)){
+            char winner = bke.isWonBKE(getBoard());
+            if(winner != '.'){
+
+            }
+        }
+
+        if(gameTitle.equals(REV)) {
+            if(board.getStoneAmount('x') > board.getStoneAmount('o')) {
+                // tegenstander wint
+                this.winner = player2;
+            }
+            else if (board.getStoneAmount('x') < board.getStoneAmount('o')) {
+                // wij winnen
+                this.winner = player1;
+            } else {
+                // draw
+                this.winner = null;
+            }
+        }
+    }
+
     public boolean isWon(){
-        if(gameTitle == BKE){
+        if(gameTitle.equals(BKE)){
             char winner = bke.isWonBKE(getBoard());
             if(winner != '.'){
                 return true;
             }
             else return false;
         }
-        if(gameTitle == REV){
-            char winner = bke.isWonBKE(getBoard());
+        if(gameTitle.equals(REV)){
+            char winner = reversi.isWonRev(getBoard());
             if(winner != '.'){
+                if(winner == 'o') {
+                    this.winner = player1;
+                } else {
+                    this.winner = player2;
+                }
                 return true;
             }
             else {
@@ -255,9 +288,9 @@ public class Game {
                     ImageView imageView;
 
                     if(App.server.getInputProcesser().black.equals(App.server.getInputProcesser().opponent)) {
-                        imageView = new ImageView(new Image("application/images/zwart.png"));
-                    } else {
                         imageView = new ImageView(new Image("application/images/wit.png"));
+                    } else {
+                        imageView = new ImageView(new Image("application/images/zwart.png"));
                     }
 
                     boardUI.getGameBoardPane(i, j).getChildren().add(imageView);
@@ -265,9 +298,9 @@ public class Game {
                     ImageView imageView;
 
                     if(App.server.getInputProcesser().black.equals(App.server.getInputProcesser().opponent)) {
-                        imageView = new ImageView(new Image("application/images/wit.png"));
-                    } else {
                         imageView = new ImageView(new Image("application/images/zwart.png"));
+                    } else {
+                        imageView = new ImageView(new Image("application/images/wit.png"));
                     }
 
                     boardUI.getGameBoardPane(i, j).getChildren().add(imageView);

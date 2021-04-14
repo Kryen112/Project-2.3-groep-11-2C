@@ -33,7 +33,7 @@ public class InputProcesser {
     public boolean match = false;
     public boolean gameOver = false;
 
-    Game game;
+    public Game game;
 
     public InputProcesser() {
         challengeNumber = 0;
@@ -169,6 +169,7 @@ public class InputProcesser {
                         moves.add(move);
                         System.out.println("Deze zet is gedaan: " + this.move);
                         game.getReversi().setPieceOnBoard(game.getBoard(), this.move, 'o');
+                        game.changeTurn();
                         //App.reversi.setPieceOnBoard(App.board, this.move, 'o');
                         turn = false;
                     } else {
@@ -178,13 +179,17 @@ public class InputProcesser {
                         moves.add(move);
                         System.out.println("Deze zet is gedaan: " + this.move);
                         game.getReversi().setPieceOnBoard(game.getBoard(), this.move, 'x');
+                        game.changeTurn();
                     }// zet move op het bord van diegene die move heeft gezet
                     break;
-
                 case "SVRGAMECHALLENGE":
-                    this.challenger = setMessages(arr[3]);
-                    challengeNumber = Integer.parseInt(setMessages(arr[3])[1].replace("CHALLENGENUMBER: ", "").replace("\"", ""));
-                    System.out.println("Challenge ontvangen van: " + challenger[0].replace("CHALLENGER: ", "").replace("\"", ""));
+                    if(input.contains("SVR GAME CHALLENGE CANCELLED")) {
+                        System.out.println("Challenge canceled");
+                    } else {
+                        this.challenger = setMessages(arr[3]);
+                        challengeNumber = Integer.parseInt(setMessages(arr[3])[1].replace("CHALLENGENUMBER: ", "").replace("\"", ""));
+                        System.out.println("Challenge ontvangen van: " + challenger[0].replace("CHALLENGER: ", "").replace("\"", ""));
+                    }
                     break;
             }
         } else {
