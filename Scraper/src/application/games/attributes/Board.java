@@ -1,5 +1,7 @@
 package application.games.attributes;
 
+import javafx.scene.layout.Pane;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -248,5 +250,8 @@ public class Board{
         return value;
     }
 
+    public char getGameBoardChar(int x, int y) {
+        return gameBoard[x][y];
+    }
     
 }

@@ -1,12 +1,17 @@
 package application.games;
 
+import application.App;
+import application.games.attributes.MiniMax;
 import application.games.players.Player;
+import application.serverconnect.Server;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import application.games.attributes.BKE;
 import application.games.attributes.Board;
 import application.games.attributes.Reversi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -18,12 +23,11 @@ import java.util.Random;
 public class Game {
     Random r = new Random();
 
-    String gameTitle;
-    BoardUI boardUI;      // The UI of the game board
-    Board board;
-    Reversi reversi;
-    BKE bke;
-
+    public String gameTitle;
+    public BoardUI boardUI;      // The UI of the game board
+    public Board board;
+    public Reversi reversi;
+    public BKE bke;
 
     private final Player player1;       // Players of the Game
     private final Player player2;
@@ -41,13 +45,12 @@ public class Game {
     public final static String X = "X";
     public final static String O = "O";
 
-    
+    MiniMax mm;
 
     /**
      * Constructor klasse Game
      * Wordt aangeroepen als er een nieuwe Game wordt gestart
      * @param title       Titel van de Game
-     * @param boardToUse  Board UI die moet worden gebruikt
      * @param p1          Speler 1 (vanuit Input van de Server)
      * @param p2          Speler 2 (vanuit Input van de Server
      */
@@ -55,15 +58,16 @@ public class Game {
         if (title.equals(BKE)) {
             gameTitle = BKE;
             board = new Board(3);
+            boardUI = new BoardUI(3, new HashMap<>());
             bke = new BKE();
         } else if (title.equals(REV)) {
             gameTitle = REV;
             board = new Board(8);
+            boardUI = new BoardUI(8, new HashMap<>());
             reversi = new Reversi();
         } else {
             gameTitle = "";
         }
-
 
         player1 = p1;
         player1.setScore(0);
@@ -80,6 +84,8 @@ public class Game {
             currentPlayer = player2;
             turn = O.charAt(0);
         }
+
+        mm = new MiniMax();
     }
 
     /**
@@ -89,17 +95,27 @@ public class Game {
     public String getGameTitle() {
         return this.gameTitle;
     }
+
+    public Reversi getReversi() {
+        return this.reversi;
+    }
+
     /**
      * Methode om het bord dat gebruikt wordt te retourneren
      * @return BoardUI het bord dat gebruikt wordt
      */
     public Board getBoard() {
-        return this.board;
+        return board;
     }
 
     public BoardUI getBoardUI() {
         return this.boardUI;
     }
+
+    public Player getWinner() {
+        return this.winner;
+    }
+
     /**
      * Method to return the Player who plays as Player one
      * @return Player one of Game
@@ -129,6 +145,33 @@ public class Game {
         return this.turn;
     }
 
+    public void setWinner() {
+        if(gameTitle.equals(BKE)){
+            char winner = bke.isWonBKE(getBoard());
+            if(winner != '.'){
+
+            }
+        }
+
+        if(gameTitle.equals(REV)) {
+            if(board.getStoneAmount('x') > board.getStoneAmount('o')) {
+                // tegenstander wint
+                this.winner = player2;
+            }
+            else if (board.getStoneAmount('x') < board.getStoneAmount('o')) {
+                // wij winnen
+                this.winner = player1;
+            } else {
+                // draw
+                this.winner = null;
+            }
+        }
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
+
     public boolean isWon(){
         if(gameTitle == BKE){
             char winner = bke.isWonBKE(getBoard());
@@ -137,9 +180,14 @@ public class Game {
             }
             else return false;
         }
-        if(gameTitle == REV){
-            char winner = bke.isWonBKE(getBoard());
+        if(gameTitle.equals(REV)){
+            char winner = reversi.isWonRev(getBoard());
             if(winner != '.'){
+                if(winner == 'o') {
+                    this.winner = player1;
+                } else {
+                    this.winner = player2;
+                }
                 return true;
             }
             else {
@@ -229,5 +277,44 @@ public class Game {
         } else if (p.equals(this.getPlayer2())) {
             player2GameScore++;
         }
+    }
+
+    public void copyList(){
+
+        for(int i = 0; i < board.getHeight(); i++) {
+            for(int j = 0; j < board.getHeight(); j++) {
+                // controleer voor elk punt of het overeenkomt
+
+//                System.out.println(board.getGameBoardChar(i,j));
+                //board.printBoard();
+                if (board.getGameBoardChar(i,j) == 'o') {
+                    ImageView imageView;
+
+                    if(App.server.getInputProcesser().black.equals(App.server.getInputProcesser().opponent)) {
+                        imageView = new ImageView(new Image("application/images/wit.png"));
+                    } else {
+                        imageView = new ImageView(new Image("application/images/zwart.png"));
+                    }
+
+                    boardUI.getGameBoardPane(i, j).getChildren().add(imageView);
+                } else if ( board.getGameBoardChar(i,j) == 'x'){
+                    ImageView imageView;
+
+                    if(App.server.getInputProcesser().black.equals(App.server.getInputProcesser().opponent)) {
+                        imageView = new ImageView(new Image("application/images/zwart.png"));
+                    } else {
+                        imageView = new ImageView(new Image("application/images/wit.png"));
+                    }
+
+                    boardUI.getGameBoardPane(i, j).getChildren().add(imageView);
+                } else {
+
+                }
+                boardUI.getGameBoardPane(i, j);
+            }
+        }
+    }
+    public MiniMax getMm() {
+        return mm;
     }
 }

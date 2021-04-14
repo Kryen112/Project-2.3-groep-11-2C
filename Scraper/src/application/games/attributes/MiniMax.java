@@ -3,7 +3,7 @@ import java.lang.*;
 
 import javax.swing.border.EmptyBorder;
 
-public class miniMax {
+public class MiniMax {
  Reversi reversi = new Reversi();//hoer  moet even naar gekeken worden
     
 
@@ -17,7 +17,6 @@ public class miniMax {
         //board.printBoard();
         return newBoard;
     }
-
 
     public Board miniMaxi(Board board, int depth, int alpha, int beta, char maximizingPlayer) throws CloneNotSupportedException{
         if(depth == 0 ){//or game over
