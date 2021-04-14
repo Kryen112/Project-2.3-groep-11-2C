@@ -13,6 +13,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -376,6 +377,7 @@ public class Start {
         }
     }
 
+
     /**
      * Methode om een actief Gamescherm weer te geven
      * @param boardSize de groote van het bord (tic tac toe is 3 x 3, size = 3)
@@ -383,7 +385,7 @@ public class Start {
      * @param player1 Player die begint als speler 1
      * @param player2 Player die begint als speler 2
      */
-    public void setUpActiveGameScreen(int boardSize, String gameType, Player player1, Player player2) {
+    public void setUpActiveGameScreen(int boardSize, String gameType, Player player1, Player player2, HashMap<String, Integer> states) {
         // verwijder het centerScreen van het mainPane
         mainPane.getChildren().remove(centerScreen);
 
@@ -392,7 +394,7 @@ public class Start {
         gameBoard.setVisible(true);
 
         // stel het bord in met de juiste grootte
-        BoardUI bordToUse =  new BoardUI(boardSize);
+        BoardUI bordToUse =  new BoardUI(boardSize, states);
         // maak een game met Type, bord en players
         Game thisGame = new Game(gameType, bordToUse, player1, player2);
 
@@ -403,12 +405,11 @@ public class Start {
 
         // Set title of GameScreen
         setTitleOfGameScreen(gameType + "\t" + p1.getName() + " VS " + p2.getName());
-        // todo ook voor eerste zet -> toon de speler die aan zet is
 
         // naam van de huidige speler en de turn van de player
-        if (gameType.equals(BKE)) {
+        if (gameType.equals(Game.BKE)) {
             info.setText(thisGame.getCurrentPlayer().getName() + " " + thisGame.getTurn() + " is aan zet");
-        } else if (gameType.equals(REV)) {
+        } else if (gameType.equals(Game.REV)) {
             // Speler 1 speelt met zwart
             if (thisGame.getCurrentPlayer().equals(p1)) {
                 info.setText(thisGame.getCurrentPlayer().getName() + " zwart is aan zet");
@@ -424,18 +425,30 @@ public class Start {
         Pane[][] gameBoardUI = bordToUse.getGameBoardUI();
         int x = 0;
         int y = 0;
+
         for (Pane[] pane : gameBoardUI) {
             for (Pane p : pane) {
                 boardTile = new ImageView(
-                        thisGame.getBoard().getEmptyTile(gameType)
+                        thisGame.getBoard().getEmptyTile(gameType, p.getId())
                 );
+
                 // sla op in Array om status bij te houden
-                stateOfTile.put(p.getId(), EMPTY);
+                if (p.getId().equals("35") || p.getId().equals("28")) {
+                    // player 1
+                    stateOfTile.put(p.getId(), CAPTUREDBYP1);
+                } else if (p.getId().equals("27") || p.getId().equals("36")) {
+                    // player 2
+                    stateOfTile.put(p.getId(), CAPTUREDBYP2);
+                } else {
+                    stateOfTile.put(p.getId(), EMPTY);
+                }
+
                 // voeg Tile toe aan Pane
                 p.getChildren().add(boardTile);
                 // voeg Pane toe aan GridPane
                 gameTiles.add(p, x, y);
                 x++;
+
                 if (x % bordToUse.getHeight() == 0) {
                     y++;
                     x = 0;
@@ -443,11 +456,24 @@ public class Start {
 
                 // voeg functionaliteit toe aan Pane
                 p.setOnMouseClicked(e -> {
-                    UserClickedTile(e, p, thisGame, p1);
+                    if (!thisGame.isGameOver()) {
+                        UserClickedTile(e, p, thisGame, p1);
+                    }
+                    if (gameType.equals(Game.BKE)) {
+                        if (thisGame.getBoard().isWonBKE()) {
+                            thisGame.setGameOver();
+                            // todo winning pionnen
+                            info.setText(thisGame.getCurrentPlayer().getName() + " heeft gewonnen");
+                        } else if (thisGame.getTurns() == 9) {
+                            thisGame.setGameOver();
+                            info.setText("Helaas gelijk spel");
+                        }
+                    } else if (gameType.equals(Game.REV)) {
+                        
+                    }
                 });
             }
         }
-
     }
 
     /**
@@ -469,13 +495,13 @@ public class Start {
         // Boter kaas en Eieren
         if(gameType.equals(BKE)) {
             //TODO AI implementeren en spel implementeren
-            setUpActiveGameScreen(3, "Boter, Kaas en Eieren", user, ai);
+            setUpActiveGameScreen(3, "Boter, Kaas en Eieren", user, ai, stateOfTile);
         }
 
         // Riversi
         if(gameType.equals(REV)) {
             //TODO AI implementeren en spel implementeren
-            setUpActiveGameScreen(8, "Reversi", user, ai);
+            setUpActiveGameScreen(8, "Reversi", user, ai, stateOfTile);
         }
     }
 
@@ -490,13 +516,13 @@ public class Start {
         // Boter kaas en Eieren
         if(gameType.equals(BKE)) {
             //TODO spel implementeren
-            setUpActiveGameScreen(3, "Boter, Kaas en Eieren", user, ai);
+            setUpActiveGameScreen(3, "Boter, Kaas en Eieren", user, ai, stateOfTile);
         }
 
         // Riversi
         if(gameType.equals(REV)) {
             //TODO AI spel implementeren
-            setUpActiveGameScreen(8, "Reversi", user, ai);
+            setUpActiveGameScreen(8, "Reversi", user, ai, stateOfTile);
         }
     }
 
@@ -538,6 +564,8 @@ public class Start {
                 }
                 // pas State of File in Array aan
                 stateOfTile.put(p.getId(), status);
+                thisGame.incrementTurns();
+                thisGame.changeTurn();
                 break;
 
             // Tile is niet leeg
@@ -549,7 +577,6 @@ public class Start {
         }
 
         // wissel van Beurt
-        thisGame.changeTurn();
         // TODO hou rekening met dat een gebruiker twee keer aan de beurt kan zijn
 
         // verander info voor huidige beurt
