@@ -35,8 +35,8 @@
                     <HBox>
                         <Button text="Speel Online" onAction="#handleOnlinePlay" translateY="30"/>
                         <Button text="Speel Lokaal" onAction="#handleLocalPlay"  translateY="30" translateX="20"/>
+                        <ImageView translateY="100"><Image url="@../images/signal.png"/></ImageView>
                     </HBox>
-                    <ImageView translateY="100" translateX="250"><Image url="@../images/signal.png"></Image></ImageView>
                 </Group>
 
                 <!--       LOGIN            -->

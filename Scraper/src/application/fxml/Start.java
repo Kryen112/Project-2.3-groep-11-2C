@@ -227,12 +227,27 @@ public class Start implements Runnable {
         gameCenterBox.setVisible(true); 
     }
 
+    public void removeGroupFromMainPane(Group groupToRemove) {
+        if (mainPane.getChildren().contains(homeScreen)) {
+            mainPane.getChildren().remove(homeScreen);
+        }
+    }
+
+    public void addGroupToMainPane(Group groupToAdd) {
+        if (!mainPane.getChildren().contains(homeScreen)) {
+            mainPane.getChildren().remove(homeScreen);
+        }
+    }
+
     /**
      * Player clicked online play
      * Proceed to connect to server and login actions
      */
     @FXML
     public void handleOnlinePlay() {
+        homeScreen.setVisible(false);
+        removeGroupFromMainPane(homeScreen);
+        setTitleOfGameScreen("AI Gaming\tLogin");
         //Set title and infotext
         title.setText(("AI Gaming Login"));
         info.setText("Voer een gebruikersnaam in en login!");
@@ -241,7 +256,6 @@ public class Start implements Runnable {
         loginBox.setVisible(true);
         loginCenterBox.setVisible(true);
         loginMessageBox.setVisible(false);
-        homeScreen.setVisible(false);
     }
 
     /**
