@@ -429,7 +429,6 @@ public class Start implements Runnable {
                 }
             });
             thread.start();
-            System.out.println("Thread gestart @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         }
     }
 
