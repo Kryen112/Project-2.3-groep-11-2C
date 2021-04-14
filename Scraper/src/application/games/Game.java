@@ -2,6 +2,8 @@ package application.games;
 
 import application.games.players.Player;
 import javafx.scene.image.ImageView;
+import application.games.attributes.Board;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -179,5 +181,17 @@ public class Game {
 
     public void incrementTurns() {
         this.turns++;
+    }
+
+    public Boolean isWonREV() {
+        return true;
+    }
+
+    public void addPointToPlayer(Player p) {
+        if (p.equals(this.getPlayer1())) {
+            player1GameScore++;
+        } else if (p.equals(this.getPlayer2())) {
+            player2GameScore++;
+        }
     }
 }
