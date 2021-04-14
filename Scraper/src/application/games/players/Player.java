@@ -1,23 +1,19 @@
 package application.games.players;
 
-import application.fxml.Start;
-import application.games.Game;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 import static application.games.Game.*;
 
+/**
+ * Template voor alle Player Klasses
+ */
 public abstract class Player implements PlayerInterface {
     String name;
     int score;
     int wins;
     int losses;
     int typeOfPlayer;
-    Image icon;
     Boolean isX = false;
     Boolean isO = false;
-
-    Game gameType;
 
     public int getTypeOfPlayer() {
         if(typeOfPlayer == 0 || typeOfPlayer == 1) {
