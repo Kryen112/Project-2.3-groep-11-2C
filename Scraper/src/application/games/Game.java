@@ -2,6 +2,8 @@ package application.games;
 
 import application.games.players.Player;
 import javafx.scene.image.ImageView;
+import application.games.attributes.Board;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
