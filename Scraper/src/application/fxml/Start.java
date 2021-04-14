@@ -6,7 +6,6 @@ import application.games.BoardUI;
 import application.games.players.ComputerPlayer;
 import application.games.players.HumanPlayer;
 import application.games.players.Player;
-import application.serverconnect.InputProcesser;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,14 +22,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import java.util.LinkedList;
-import java.util.Timer;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**
  * Class Starts handles the Logic behind the FXML Start page
  *
- * @author Anouk, Stefan
+ * @author Anouk, Stefan, Douwe, Robert, Jason
+ * Project 2.3 Hanze Hogeschool 2021
  */
 public class Start implements Runnable {
     public final boolean DEBUG = true; // change to false to hide debug messages
@@ -94,7 +92,7 @@ public class Start implements Runnable {
     HashMap<String, Integer> stateOfTile;
     HashMap<String, Pane> listOfPanes = new HashMap<>();
     Boolean inGame = false;
-    Game thisGame;
+    static Game thisGame;
 
     // LOGIN SCREEN METHODS
     /**
@@ -417,10 +415,11 @@ public class Start implements Runnable {
                         String id = ""+moves.getFirst();
                         Pane p = listOfPanes.get(id);
 
-                        ImageView thisView = thisGame.setPieceOnBoard( (ImageView) p.getChildren().get(0) );
+//                        ImageView thisView = thisGame.setPieceOnBoard( (ImageView) p.getChildren().get(0) );
 
                         Platform.runLater(() -> {
-                            p.getChildren().add(thisView);
+//                            p.getChildren().add(thisView);
+                            thisGame.copyList();
                         });
 
                         thisGame.changeTurn();
@@ -447,11 +446,9 @@ public class Start implements Runnable {
         mainPane.setCenter(gameBoard);
         gameBoard.setVisible(true);
 
-        // stel het bord in met de juiste grootte
-        bordToUse =  new BoardUI(boardSize, states);
         // maak een game met Type, bord en players
-        thisGame = new Game(gameType, bordToUse, player1, player2);
-
+        thisGame = new Game(gameType, player1, player2);
+        App.server.getInputProcesser().setGame(thisGame);
         // Player 1 begint en wordt random gekozen
         // Player 1 speelt als X
         Player p1 = thisGame.getPlayer1();
@@ -476,7 +473,7 @@ public class Start implements Runnable {
         if (DEBUG) { gameTiles.setGridLinesVisible(true); }
 
         // maak leeg bord
-        gameBoardUI = bordToUse.getGameBoardUI();
+        Pane[][] gameBoardUI = thisGame.getBoardUI().getGameBoardUI();
         int x = 0;
         int y = 0;
 
@@ -484,7 +481,7 @@ public class Start implements Runnable {
         for (Pane[] pane : gameBoardUI) {
             for (Pane p : pane) {
                 boardTile = new ImageView(
-                        thisGame.getBoard().getEmptyTile(gameType, p.getId())
+                        thisGame.getBoardUI().getEmptyTile(gameType, p.getId())
                 );
 
                 // sla op in Array om status bij te houden
@@ -506,7 +503,7 @@ public class Start implements Runnable {
                 gameTiles.add(p, x, y);
                 x++;
 
-                if (x % bordToUse.getHeight() == 0) {
+                if (x % thisGame.getBoardUI().getHeight() == 0) {
                     y++;
                     x = 0;
                 }
@@ -521,7 +518,7 @@ public class Start implements Runnable {
                         userClickedTile(e, p, thisGame, p1);
                     }
                     if (gameType.equals(Game.BKE)) {
-                        if (thisGame.getBoard().isWonBKE()) {
+                        if (thisGame.isWon()) {
                             thisGame.setGameOver();
                             // todo winning pionnen
                             info.setText(thisGame.getCurrentPlayer().getName() + " heeft gewonnen");
@@ -801,4 +798,18 @@ public class Start implements Runnable {
         //showMessage(challengeMessage, 1, ("Beurttijd is veranderd naar: " + newTurnTime));
     }
 
+//    @FXML
+//    public void backToGameScreenFromGame() {
+//        gameBoard.getChildren().remove(gameTiles);
+//        mainPane.getChildren().remove(gameBoard);
+//        mainPane.getChildren().add(centerScreen);
+//
+//        gameTiles = new GridPane();
+//        gameTiles.setHgap(5);
+//        gameTiles.setVgap(5);
+//
+//        info.setText("");
+//        setTitleOfGameScreen(gameType);
+//        gameBoard.setVisible(false);
+//    }
 }

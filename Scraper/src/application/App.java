@@ -1,8 +1,5 @@
 package application;
 
-import application.games.attributes.Board;
-import application.games.attributes.Reversi;
-import application.games.attributes.miniMax;
 import application.serverconnect.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +9,10 @@ import javafx.stage.Stage;
 
 /**
  * Main class voor project 2.3 Game Framework
- *
  * application.App zorgt voor de primaryStage, Start.application.fxml dient als root van de application.App
  *
- * @author Anouk, Stefan
+ * @author Anouk, Stefan, Douwe, Robert, Jason
+ * Project 2.3 Hanze Hogeschool 2021
  */
 public class App extends Application {
     /** The primary stage */
@@ -36,22 +33,10 @@ public class App extends Application {
     /** The server */
     public static Server server;
 
-    /** The board */
-    public static Board board;
-
-    public static Reversi reversi;
-
-    public static miniMax miniMax;
-
     /**
      * Constructor
      */
     public App() {
-        //TODO board maken bij aanroep spel
-        board = new Board();
-        board.execute();
-        reversi = new Reversi();
-        miniMax = new miniMax();
     }
 
     public static void main(String[] args) {
