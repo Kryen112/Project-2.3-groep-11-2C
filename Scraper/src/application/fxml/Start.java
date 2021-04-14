@@ -6,6 +6,7 @@ import application.games.BoardUI;
 import application.games.players.ComputerPlayer;
 import application.games.players.HumanPlayer;
 import application.games.players.Player;
+import application.serverconnect.InputProcesser;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +14,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -86,7 +86,9 @@ public class Start {
     static final int CAPTUREDBYP2 = 2;
 
     HashMap<String, Integer> stateOfTile;
+    HashMap<String, Pane> listOfPanes;
     Boolean inGame = false;
+    Game activeGame;
 
     // LOGIN SCREEN METHODS
     /**
@@ -362,6 +364,8 @@ public class Start {
      */
     @FXML
     public void playNewGame() {
+        stateOfTile = new HashMap<>();
+
         if (inGame) {
             App.server.forfeit(); // forfeit game if inGame
         }
@@ -397,6 +401,7 @@ public class Start {
         BoardUI bordToUse =  new BoardUI(boardSize, states);
         // maak een game met Type, bord en players
         Game thisGame = new Game(gameType, bordToUse, player1, player2);
+        activeGame = thisGame;
 
         // Player 1 begint en wordt random gekozen
         // Player 1 speelt als X
@@ -426,6 +431,7 @@ public class Start {
         int x = 0;
         int y = 0;
 
+        listOfPanes = new HashMap<>();
         for (Pane[] pane : gameBoardUI) {
             for (Pane p : pane) {
                 boardTile = new ImageView(
@@ -445,6 +451,10 @@ public class Start {
 
                 // voeg Tile toe aan Pane
                 p.getChildren().add(boardTile);
+
+                listOfPanes.put(p.getId(), p);
+
+
                 // voeg Pane toe aan GridPane
                 gameTiles.add(p, x, y);
                 x++;
@@ -452,6 +462,10 @@ public class Start {
                 if (x % bordToUse.getHeight() == 0) {
                     y++;
                     x = 0;
+                }
+
+                if (gameType.equals(Game.REV)) {
+                    p.setDisable(true);
                 }
 
                 // voeg functionaliteit toe aan Pane
@@ -468,12 +482,17 @@ public class Start {
                             thisGame.setGameOver();
                             info.setText("Helaas gelijk spel");
                         }
-                    } else if (gameType.equals(Game.REV)) {
-                        
                     }
                 });
             }
         }
+
+//        for (String id : listOfPanes.keySet()) {
+//            System.out.println( id );
+//        }
+//        for (Pane id : listOfPanes.values()) {
+//            System.out.println( id );
+//        }
     }
 
     /**
@@ -534,6 +553,7 @@ public class Start {
      */
     public void UserClickedTile( MouseEvent e, Pane p, Game thisGame, Player p1 ){
         ImageView view = (ImageView) e.getTarget();
+        System.out.println();
 
         // de huidige status van de Tile
         int status = stateOfTile.get(p.getId());
@@ -551,6 +571,7 @@ public class Start {
                     // voeg zet toe aan Pane
                     p.getChildren().add(thisView);
                     // stel status in op Captured by player 1
+                    thisGame.addPointToPlayer(thisGame.getPlayer1());
                     status = CAPTUREDBYP1;
 
                     // Speler 2
@@ -560,6 +581,7 @@ public class Start {
                     // voeg zet toe aan Pane
                     p.getChildren().add(thisView);
                     // stel status in op Captured by player 2
+                    thisGame.addPointToPlayer(thisGame.getPlayer2());
                     status = CAPTUREDBYP2;
                 }
                 // pas State of File in Array aan
