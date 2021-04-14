@@ -1,14 +1,11 @@
 package application.serverconnect;
 
-import application.App;
-import application.fxml.Start;
 import application.games.Game;
-import application.games.players.HumanPlayer;
-
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Queue;
 
+/**
+ *
+ */
 public class InputProcesser {
 
     public String answer;
