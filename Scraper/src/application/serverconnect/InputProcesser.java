@@ -165,6 +165,7 @@ public class InputProcesser {
                         moves.add(move);
                         System.out.println("Deze zet is gedaan: " + this.move);
                         Game.reversi.setPieceOnBoard(game.getBoard(), this.move, 'o');
+                        //App.reversi.setPieceOnBoard(App.board, this.move, 'o');
                         turn = false;
                     } else {
                         System.out.println("Move set by opponent");
@@ -182,8 +183,7 @@ public class InputProcesser {
                     System.out.println("Challenge ontvangen van: " + challenger[0].replace("CHALLENGER: ", "").replace("\"", ""));
                     break;
             }
-        }
-             else {
+        } else {
                 gameOver = true;
             }
 

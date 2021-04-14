@@ -469,7 +469,6 @@ public class Start implements Runnable {
             }
         }
 
-
         // plaats voor Debug
         if (DEBUG) { gameTiles.setGridLinesVisible(true); }
 

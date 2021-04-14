@@ -20,12 +20,12 @@ import java.util.Random;
  * Project 2.3 2021 - Groep 2C
  */
 public class Game {
-    Board board;
     Random r = new Random();
 
     String gameTitle;
     BoardUI boardUI;      // The UI of the game board
-    public static Reversi reversi;
+    Board board;
+    Reversi reversi;
     BKE bke;
 
     private final Player player1;       // Players of the Game
@@ -43,6 +43,7 @@ public class Game {
     public final static String REV = "Reversi";
     public final static String X = "X";
     public final static String O = "O";
+
 
     MiniMax mm;
 
@@ -101,6 +102,10 @@ public class Game {
      */
     public Board getBoard() {
         return board;
+    }
+
+    public BoardUI getBoardUI() {
+        return this.boardUI;
     }
 
     public BoardUI getBoardUI() {
@@ -243,7 +248,7 @@ public class Game {
         for(int i = 0; i < board.getHeight(); i++) {
             for(int j = 0; j < board.getHeight(); j++) {
                 // controleer voor elk punt of het overeenkomt
-                ;
+
 //                System.out.println(board.getGameBoardChar(i,j));
                 board.printBoard();
                 if (board.getGameBoardChar(i,j) == 'o') {
@@ -255,11 +260,11 @@ public class Game {
                 } else {
 
                 }
+                boardUI.getGameBoardPane(i, j);
                 count++;
             }
         }
     }
-
     public MiniMax getMm() {
         return mm;
     }
