@@ -129,22 +129,22 @@ public class InputProcesser {
                     this.winMessage = setMessages(arr[3]);
                     break;
                 case "SVRGAMEMOVE":
-                    System.out.print(App.board.getFreeSpacesX());
-                    if(turn) {
-                        System.out.println(" Move set");
-                        this.moveMessage = setMessages(arr[3]);
-                        setMove();
-                        System.out.println("Deze zet is gedaan: " + this.move);
-                        App.reversi.setPieceOnBoard(App.board, this.move, 'o');
-                        turn = false;
-                    } else {
-                        System.out.println("Move set by opponent");
-                        this.moveMessage = setMessages(arr[3]);
-                        setMove();
-                        System.out.println("Deze zet is gedaan: " + this.move);
-                        App.reversi.setPieceOnBoard(App.board, this.move, 'x');
-                    }// zet move op het bord van diegene die move heeft gezet
-                    break;
+//                    System.out.print(App.board.getFreeSpacesX());
+                        if(turn) {
+                            System.out.println(" Move set");
+                            this.moveMessage = setMessages(arr[3]);
+                            setMove();
+                            System.out.println("Deze zet is gedaan: " + this.move);
+                            App.reversi.setPieceOnBoard(App.board, this.move, 'o');
+                            turn = false;
+                        } else {
+                            System.out.println("Move set by opponent");
+                            this.moveMessage = setMessages(arr[3]);
+                            setMove();
+                            System.out.println("Deze zet is gedaan: " + this.move);
+                            App.reversi.setPieceOnBoard(App.board, this.move, 'x');
+                        }// zet move op het bord van diegene die move heeft gezet
+                        break;
                 case "SVRGAMECHALLENGE":
                     this.challenger = setMessages(arr[3]);
                     challengeNumber = Integer.parseInt(setMessages(arr[3])[1].replace("CHALLENGENUMBER: ", "").replace("\"", ""));

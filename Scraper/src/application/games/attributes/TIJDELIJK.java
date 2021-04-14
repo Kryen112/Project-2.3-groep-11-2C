@@ -7,7 +7,7 @@ public class TIJDELIJK {
         Board board = new Board();
         miniMax miniMax = new miniMax();
         board.createBoard();
-        board.pirntBoard();
+        board.printBoard();
         /*board.setStartPieceOnBoard(27,'x');
         board.setStartPieceOnBoard(36,'x');    
         board.setStartPieceOnBoard(35,'o');
@@ -20,15 +20,15 @@ public class TIJDELIJK {
         reversi.setPieceOnBoard(board, 13, 'o');
         reversi.setPieceOnBoard(board, 14, 'x');
         reversi.setPieceOnBoard(board, 12, 'o');
-        board.pirntBoard();
+        board.printBoard();
         //reversi.setPieceOnBoard(board, 34,'x');
-        //board.pirntBoard();
+        //board.printBoard();
         //reversi.setPieceOnBoard(board,42,'o');
-        //board.pirntBoard();
+        //board.printBoard();
         //reversi.setPieceOnBoard(board, 43,'x');
-        //board.pirntBoard();
+        //board.printBoard();
         //reversi.setPieceOnBoard(board, 26,'o');
-        //board.pirntBoard();
+        //board.printBoard();
         
         //System.out.println(board.getNeighbor(4, 9, 3));
         System.out.println(reversi.getFreeSpaces(board,'o')+ "hello");

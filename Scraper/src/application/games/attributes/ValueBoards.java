@@ -21,7 +21,7 @@ public class ValueBoards {
         if (space == height*height){
             return 'z';
         }
-        return scoreBoard[getRow(space)][getCollum(space)];
+        return scoreBoard[getRow(space)][getColumn(space)];
     }
 
     public int getRow(int space) {
@@ -29,13 +29,13 @@ public class ValueBoards {
         return row;
     }
 
-    public int getCollum(int space) {
+    public int getColumn(int space) {
         int cullum = space%height;
         return cullum;
     }
 
     public void setOnBoard(int space, int pieceToPlace) {
-        scoreBoard[getRow(space)][getCollum(space)] = pieceToPlace;
+        scoreBoard[getRow(space)][getColumn(space)] = pieceToPlace;
     }
 
 }
