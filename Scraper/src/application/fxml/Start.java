@@ -445,10 +445,8 @@ public class Start implements Runnable {
         mainPane.setCenter(gameBoard);
         gameBoard.setVisible(true);
 
-        // stel het bord in met de juiste grootte
-        bordToUse =  new BoardUI(boardSize, states);
         // maak een game met Type, bord en players
-        thisGame = new Game(gameType, bordToUse, player1, player2);
+        Game thisGame = new Game(gameType, player1, player2);
 
         // Player 1 begint en wordt random gekozen
         // Player 1 speelt als X
@@ -475,7 +473,7 @@ public class Start implements Runnable {
         if (DEBUG) { gameTiles.setGridLinesVisible(true); }
 
         // maak leeg bord
-        gameBoardUI = bordToUse.getGameBoardUI();
+        Pane[][] gameBoardUI = thisGame.getBoardUI().getGameBoardUI();
         int x = 0;
         int y = 0;
 
@@ -483,7 +481,7 @@ public class Start implements Runnable {
         for (Pane[] pane : gameBoardUI) {
             for (Pane p : pane) {
                 boardTile = new ImageView(
-                        thisGame.getBoard().getEmptyTile(gameType, p.getId())
+                        thisGame.getBoardUI().getEmptyTile(gameType, p.getId())
                 );
 
                 // sla op in Array om status bij te houden
@@ -505,7 +503,7 @@ public class Start implements Runnable {
                 gameTiles.add(p, x, y);
                 x++;
 
-                if (x % bordToUse.getHeight() == 0) {
+                if (x % thisGame.getBoardUI().getHeight() == 0) {
                     y++;
                     x = 0;
                 }
@@ -520,7 +518,7 @@ public class Start implements Runnable {
                         userClickedTile(e, p, thisGame, p1);
                     }
                     if (gameType.equals(Game.BKE)) {
-                        if (thisGame.getBoard().isWonBKE()) {
+                        if (thisGame.isWon()) {
                             thisGame.setGameOver();
                             // todo winning pionnen
                             info.setText(thisGame.getCurrentPlayer().getName() + " heeft gewonnen");
