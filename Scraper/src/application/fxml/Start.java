@@ -446,7 +446,7 @@ public class Start implements Runnable {
         gameBoard.setVisible(true);
 
         // maak een game met Type, bord en players
-        Game thisGame = new Game(gameType, player1, player2);
+        thisGame = new Game(gameType, player1, player2);
 
         // Player 1 begint en wordt random gekozen
         // Player 1 speelt als X

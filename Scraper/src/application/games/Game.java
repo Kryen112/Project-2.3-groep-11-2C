@@ -7,6 +7,7 @@ import application.games.attributes.Board;
 import application.games.attributes.Reversi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -55,10 +56,12 @@ public class Game {
         if (title.equals(BKE)) {
             gameTitle = BKE;
             board = new Board(3);
+            boardUI = new BoardUI(3, new HashMap<>());
             bke = new BKE();
         } else if (title.equals(REV)) {
             gameTitle = REV;
             board = new Board(8);
+            boardUI = new BoardUI(8, new HashMap<>());
             reversi = new Reversi();
         } else {
             gameTitle = "";
@@ -228,6 +231,18 @@ public class Game {
             player1GameScore++;
         } else if (p.equals(this.getPlayer2())) {
             player2GameScore++;
+        }
+    }
+
+    public void copyList(){
+
+        int count = 0;
+        for(int i = 0; i < board.getHeight(); i++) {
+            for(int j = 0; j < board.getHeight(); j++) {
+                // controleer voor elk punt of het overeenkomt
+                boardUI.getGameBoardPane(i, j);
+                count++;
+            }
         }
     }
 }
