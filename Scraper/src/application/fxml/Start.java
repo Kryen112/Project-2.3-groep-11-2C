@@ -388,6 +388,10 @@ public class Start implements Runnable {
             Thread thread = new Thread(this);
             thread.start();
             thread.setPriority(1);
+
+            thisGame = new Game(gameType, this.user,  new HumanPlayer(App.server.getInputProcesser().opponent));
+            App.server.getInputProcesser().setGame(thisGame);
+
             App.server.subscribe("Reversi", result -> System.out.println(""));
             info.setText("wacht op speler");
         }
@@ -427,6 +431,7 @@ public class Start implements Runnable {
                     }
                 }
             });
+            thisGame.getPlayer2().setName(App.server.getInputProcesser().opponent);
             thread.start();
         }
     }
@@ -447,8 +452,7 @@ public class Start implements Runnable {
         gameBoard.setVisible(true);
 
         // maak een game met Type, bord en players
-        thisGame = new Game(gameType, player1, player2);
-        App.server.getInputProcesser().setGame(thisGame);
+
         // Player 1 begint en wordt random gekozen
         // Player 1 speelt als X
         Player p1 = thisGame.getPlayer1();

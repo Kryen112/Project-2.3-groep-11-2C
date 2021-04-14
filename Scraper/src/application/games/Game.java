@@ -4,6 +4,7 @@ import application.App;
 import application.games.attributes.MiniMax;
 import application.games.players.Player;
 import application.serverconnect.Server;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import application.games.attributes.BKE;
 import application.games.attributes.Board;
@@ -22,11 +23,11 @@ import java.util.Random;
 public class Game {
     Random r = new Random();
 
-    String gameTitle;
-    BoardUI boardUI;      // The UI of the game board
-    Board board;
-    Reversi reversi;
-    BKE bke;
+    public String gameTitle;
+    public BoardUI boardUI;      // The UI of the game board
+    public Board board;
+    public Reversi reversi;
+    public BKE bke;
 
     private final Player player1;       // Players of the Game
     private final Player player2;
@@ -43,7 +44,6 @@ public class Game {
     public final static String REV = "Reversi";
     public final static String X = "X";
     public final static String O = "O";
-
 
     MiniMax mm;
 
@@ -96,6 +96,10 @@ public class Game {
         return this.gameTitle;
     }
 
+    public Reversi getReversi() {
+        return this.reversi;
+    }
+
     /**
      * Methode om het bord dat gebruikt wordt te retourneren
      * @return BoardUI het bord dat gebruikt wordt
@@ -108,9 +112,6 @@ public class Game {
         return this.boardUI;
     }
 
-    public BoardUI getBoardUI() {
-        return this.boardUI;
-    }
     /**
      * Method to return the Player who plays as Player one
      * @return Player one of Game
@@ -244,24 +245,36 @@ public class Game {
 
     public void copyList(){
 
-        int count = 0;
         for(int i = 0; i < board.getHeight(); i++) {
             for(int j = 0; j < board.getHeight(); j++) {
                 // controleer voor elk punt of het overeenkomt
 
 //                System.out.println(board.getGameBoardChar(i,j));
-                board.printBoard();
+                //board.printBoard();
                 if (board.getGameBoardChar(i,j) == 'o') {
-                    ImageView imageView = setPieceOnBoard( (ImageView) boardUI.getGameBoardPane(i, j).getChildren().get(0) );
+                    ImageView imageView;
+
+                    if(App.server.getInputProcesser().black.equals(App.server.getInputProcesser().opponent)) {
+                        imageView = new ImageView(new Image("application/images/zwart.png"));
+                    } else {
+                        imageView = new ImageView(new Image("application/images/wit.png"));
+                    }
+
                     boardUI.getGameBoardPane(i, j).getChildren().add(imageView);
                 } else if ( board.getGameBoardChar(i,j) == 'x'){
-                    ImageView imageView = setPieceOnBoard( (ImageView) boardUI.getGameBoardPane(i, j).getChildren().get(0) );
+                    ImageView imageView;
+
+                    if(App.server.getInputProcesser().black.equals(App.server.getInputProcesser().opponent)) {
+                        imageView = new ImageView(new Image("application/images/wit.png"));
+                    } else {
+                        imageView = new ImageView(new Image("application/images/zwart.png"));
+                    }
+
                     boardUI.getGameBoardPane(i, j).getChildren().add(imageView);
                 } else {
 
                 }
                 boardUI.getGameBoardPane(i, j);
-                count++;
             }
         }
     }

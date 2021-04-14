@@ -26,8 +26,8 @@ public class InputProcesser {
     public String opponent;
     public boolean turn;
 
+    public String winner;
     public String black;
-    public String white;
 
     public int challengeNumber;
     public boolean match = false;
@@ -41,9 +41,9 @@ public class InputProcesser {
 
     public void setStart() {
         if(black.equals(opponent)) {
-            Game.reversi.setStartPieces(game.getBoard(), 'x');
+            game.getReversi().setStartPieces(game.getBoard(), 'x');
         } else {
-            Game.reversi.setStartPieces(game.getBoard(), 'o');
+            game.getReversi().setStartPieces(game.getBoard(), 'o');
         }
     }
 
@@ -73,6 +73,10 @@ public class InputProcesser {
 
     public void setBlack() {
         black = matchMessage[0].replace("PLAYERTOMOVE: ", "").replace("\"", "");
+
+    }
+
+    public void setWinner() {
 
     }
 
@@ -137,7 +141,7 @@ public class InputProcesser {
 
                     try {
                         int move = game.getMm().miniMaxi(game.getBoard(),13,0,0,'o').getLastSet();
-                       System.out.println(move);
+                        System.out.println(move);
                         //App.miniMax.miniMaxi(App.board,15,0,0,'o').pirntBoard();
                        server.doMove(move);
                     } catch (CloneNotSupportedException e) {
@@ -164,7 +168,7 @@ public class InputProcesser {
                         setMove();
                         moves.add(move);
                         System.out.println("Deze zet is gedaan: " + this.move);
-                        Game.reversi.setPieceOnBoard(game.getBoard(), this.move, 'o');
+                        game.getReversi().setPieceOnBoard(game.getBoard(), this.move, 'o');
                         //App.reversi.setPieceOnBoard(App.board, this.move, 'o');
                         turn = false;
                     } else {
@@ -173,7 +177,7 @@ public class InputProcesser {
                         setMove();
                         moves.add(move);
                         System.out.println("Deze zet is gedaan: " + this.move);
-                        Game.reversi.setPieceOnBoard(game.getBoard(), this.move, 'x');
+                        game.getReversi().setPieceOnBoard(game.getBoard(), this.move, 'x');
                     }// zet move op het bord van diegene die move heeft gezet
                     break;
 
@@ -190,6 +194,7 @@ public class InputProcesser {
         }
 
     public void setGame(Game game) {
+        System.out.println("This game is set!!!!");
         this.game = game;
     }
 }
