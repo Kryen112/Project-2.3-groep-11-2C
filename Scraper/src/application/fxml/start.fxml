@@ -122,7 +122,6 @@
                 <Group fx:id="gameBoard" visible="false" translateY="50" translateX="50">
                     <GridPane fx:id="gameTiles" alignment="CENTER" hgap="5" vgap="5"/>
                     <Text fx:id="gameLog" translateY="-10" />
-                    <Button text="Terug" onAction="#backToGameScreenFromGame" translateY="350" translateX="650"/>
                 </Group>
             </VBox>
         </center>

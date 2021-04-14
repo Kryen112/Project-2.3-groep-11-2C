@@ -445,7 +445,6 @@ public class Start implements Runnable {
 
         // stel het gameBoard in als Center op het mainPane
         mainPane.setCenter(gameBoard);
-        gameBoard.getChildren().add(gameTiles);
         gameBoard.setVisible(true);
 
         // stel het bord in met de juiste grootte
@@ -472,7 +471,6 @@ public class Start implements Runnable {
                 info.setText(thisGame.getCurrentPlayer().getName() + " wit is aan zet");
             }
         }
-
 
         // plaats voor Debug
         if (DEBUG) { gameTiles.setGridLinesVisible(true); }
@@ -803,18 +801,4 @@ public class Start implements Runnable {
         //showMessage(challengeMessage, 1, ("Beurttijd is veranderd naar: " + newTurnTime));
     }
 
-    @FXML
-    public void backToGameScreenFromGame() {
-        gameBoard.getChildren().remove(gameTiles);
-        mainPane.getChildren().remove(gameBoard);
-        mainPane.getChildren().add(centerScreen);
-
-        gameTiles = new GridPane();
-        gameTiles.setHgap(5);
-        gameTiles.setVgap(5);
-
-        info.setText("");
-        setTitleOfGameScreen(gameType);
-        gameBoard.setVisible(false);
-    }
 }
