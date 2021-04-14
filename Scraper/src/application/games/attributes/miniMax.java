@@ -14,7 +14,7 @@ public class miniMax {
         newBoard.setxPoints(board.getxPoints());
         newBoard.setoPoints(board.getoPoints());
         //System.out.println("dit is het bord");
-        //board.pirntBoard();
+        //board.printBoard();
         return newBoard;
     }
 
@@ -34,7 +34,7 @@ public class miniMax {
                     boardCopy = copyBoard(board);
                     reversi.setPieceOnBoard(boardCopy, element, 'o');
                     //System.out.println("O" + boardCopy.oPoints + " " + boardCopy.xPoints + boardCopy);
-                    //boardCopy.pirntBoard();
+                    //boardCopy.printBoard();
                     eval = miniMaxi(boardCopy, depth-1, alpha, beta, 'x').getXOPoints();
                     //board.setoPoints(Math.max(eval, board.getoPoints()));
                     if(firstTime){
@@ -74,7 +74,7 @@ public class miniMax {
                     reversi.setPieceOnBoard(boardCopy, element, 'x');
                     //System.out.println("X" + boardCopy.oPoints + " " + boardCopy.xPoints + reversi.getFreeSpaces(board, 'x') + boardCopy);
                     //System.out.println("X");
-                    //boardCopy.pirntBoard();
+                    //boardCopy.printBoard();
                     eval = miniMaxi(boardCopy, depth-1,alpha,beta, 'o').getXOPoints();
                     if(firstTime){
                         minEval = eval;

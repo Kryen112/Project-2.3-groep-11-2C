@@ -15,11 +15,11 @@ import javafx.stage.Stage;
  *
  * application.App zorgt voor de primaryStage, Start.application.fxml dient als root van de application.App
  *
- * @author Anouk
+ * @author Anouk, Stefan
  */
-public class App extends Application implements AutoCloseable {
+public class App extends Application {
     /** The primary stage */
-    public static Stage appPrimaryStage;
+    public Stage appPrimaryStage;
 
     /** The scene */
     public static Scene homeScene;
@@ -44,26 +44,43 @@ public class App extends Application implements AutoCloseable {
     public static miniMax miniMax;
 
     /**
-     * The constructor
+     * Constructor
      */
     public App() {
         //TODO board maken bij aanroep spel
-      board = new Board();
-      board.execute();
-      reversi = new Reversi();
-      miniMax = new miniMax();
-      
+        board = new Board();
+        board.execute();
+        reversi = new Reversi();
+        miniMax = new miniMax();
     }
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    /**
+     * Method to make connection with the server
+     */
     public static void makeConnectionWithServer() {
         Connection connection = new Connection();
         server = connection.getServer();
     }
 
+    public static void makeConnectionWithServer(String ip, String port) {
+        Connection connection = new Connection(ip, port);
+        server = connection.getServer();
+    }
+
+    /**
+     * Method to start the GUI application
+     * @param primaryStage the stage to set
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../application/fxml/start.fxml"));
         appPrimaryStage = primaryStage;
+
+        //Set close conditions
         appPrimaryStage.setOnCloseRequest(event -> {
             try {
                 Input.closeApp();
@@ -73,10 +90,6 @@ public class App extends Application implements AutoCloseable {
             } catch (Exception e) { }
         });
         setPrimaryStageUI(primaryStage, root, GAMENAME, UIWIDTH, UIHEIGHT);
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
     /**
@@ -94,10 +107,4 @@ public class App extends Application implements AutoCloseable {
         primaryStage.setResizable(true);    // stage is not resizable
         primaryStage.show();
     }
-
-    @Override
-    public void close() throws Exception {
-        System.exit(0);
-    }
 }
-

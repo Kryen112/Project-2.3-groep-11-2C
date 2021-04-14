@@ -10,7 +10,7 @@
     Start will serve as the startup for the Application,
     this application.fxml file works with the java class Start which can be found in the application.controllers package
 
-    @author Anouk
+    @author Anouk, Stefan
 -->
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
@@ -42,10 +42,16 @@
                 <Group fx:id="loginCenterBox" visible="false">
                     <HBox fx:id="loginBox">
                         <!--  login  -->
-                        <Label text="Gebruikersnaam:" translateY="5"/>
+                        <VBox>
+                            <Label text="Gebruikersnaam: " translateY="5"/>
+                            <Label text="Inloggen op een ander netwerk: " translateY="30"/>
+                            <TextField fx:id="ipAddress" maxWidth="200" promptText=" ip adres" minHeight="30"/>
+                            <TextField fx:id="portNr" maxWidth="100" promptText=" poort nummer" minHeight="30"/>
+                            <Button text="Login ip+poort" onAction="#handleLoginActionOnOtherServer"/>
+                            <Button text="Terug" onAction="#backToHomeScreenFromLogin"/>
+                        </VBox>
                         <TextField fx:id="userName" maxWidth="200" promptText=" jouw naam" translateX="10" minHeight="30"/>
-                        <Button text="Login" onAction="#handleLoginAction" translateX="20"/>
-                        <Button text="Terug" onAction="#backToHomeScreenFromLogin" translateX="40"/>
+                        <Button text="Login op schoolserver" onAction="#handleLoginActionOnSchoolServer" translateX="20"/>
                     </HBox>
 
                     <HBox fx:id="loginMessageBox" translateY="20">
@@ -60,15 +66,16 @@
                     <HBox translateY="20" fx:id="gameSelection">
                         <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpBoterKaasEieren" translateY="20">
                             <!--    todo change img to bke gamescreenshot -->
-                            <Image url="@../images/gametypes/bke.jpg"/>
+                            <Image url="@../images/bke.jpg"/>
                         </ImageView>
 
                         <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpReversi" translateX="20" translateY="20">
                             <!--    todo change img to bke gamescreenshot -->
-                            <Image url="@../images/gametypes/reversi.png"/>
+                            <Image url="@../images/reversi.png"/>
                         </ImageView>
 
                         <Button fx:id="backButtonLocal" text="Terug" onAction="#backToHomeScreenFromLocal" translateX="40" visible="false"/>
+                        <Button fx:id="logOutButton" text="Log uit" onAction="#logOut" translateY="20" translateX="40" visible="false"/>
                     </HBox>
                 </Group>
 
@@ -81,7 +88,7 @@
                         help button
                         -->
                         <Button text="Tegen computer" onAction="#playLocalvsAI" translateY="20"/>
-                        <Button text="Tegen elkaar" onAction="#playLocalvs" translateY="40"/>
+                        <Button text="Tegen elkaar" onAction="#playLocalvsLocal" translateY="40"/>
                         <Button text="Terug" onAction="#goBackLocal" translateY="60"/>
                     </VBox>
 
@@ -98,21 +105,29 @@
                         <TextField fx:id="enemyUserName" maxWidth="200" promptText=" vijand naam" minHeight="30" translateY="90"/>
                         <Button text="Iemand Uitdagen" onAction="#challengePlayer" translateY="100"/>
                         <Text fx:id="challengeMessage" translateY="120"/>
-                        <Button text="Terug" onAction="#goBackOnline" translateY="140"/>
+                        <HBox translateY="140">
+                            <Label text="Wilt u de beurttijd veranderen? Vul hier de nieuwe gewenste beurttijd in: " translateY="5"/>
+                            <TextField fx:id="turnTime" maxWidth="50" promptText=" tijd" minHeight="30"/>
+                            <Button text="Beurttijd veranderen" onAction="#changeTurnTume" translateX="5"/>
+                        </HBox>
+                        <Button text="Terug" onAction="#goBackOnline" translateY="160"/>
                     </VBox>
 
-                    <VBox fx:id="challengesListView" visible="false" translateX="300" translateY="20">
-                        <Label text="Bestaande uitdagingen:"/>
-                    </VBox>
-                    
                     <VBox fx:id="playerList" visible="false" translateX="550" translateY="20">
                         <Button text="Krijg spelerlijst" onAction="#getPlayerList"/>
-                        <Text fx:id="playerListList" translateY="30"/>
+                        <Label fx:id="playerListList" translateY="20"/>
                     </VBox>
                 </Group>
 
+                <Group fx:id="gameBoard" visible="false" translateY="50" translateX="50">
+                    <GridPane fx:id="gameTiles" alignment="CENTER" hgap="5" vgap="5"/>
+                    <Text fx:id="gameLog" translateY="-10" />
+                    <Button text="Terug" onAction="#backToGameScreenFromGame" translateY="350" translateX="650"/>
+                </Group>
             </VBox>
         </center>
+
+
 
     </BorderPane>
 

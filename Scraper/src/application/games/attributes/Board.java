@@ -1,17 +1,7 @@
 package application.games.attributes;
 
-import application.App;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
-
-import javax.lang.model.element.Element;
-import javax.sound.midi.SysexMessage;
-
-
-
 
 public class Board implements Cloneable {
     int lastSet;
@@ -117,29 +107,27 @@ public class Board implements Cloneable {
         }
     }
 
-
-
 /*    public void markPlaceOnBoard(int space, String marker) {
-
     }
 */
+
     public void setStartPieceOnBoard(int space, char pieceToPlace) {
-        gameBoard[getRow(space)][getCollum(space)] = pieceToPlace;
+        gameBoard[getRow(space)][getColumn(space)] = pieceToPlace;
     }
 
 
     
-  /*  public ArrayList<ArrayList<String>> getColumns() {
+    /*  public ArrayList<ArrayList<String>> getColumns() {
         return null;
     }
     /*  public ArrayList<ArrayList<String>> getColumns() {
-          return null;
-      }
-
+        return null;
+    }
     public ArrayList<ArrayList<String>> getRows() {
         return null;
     }
 */
+
     public ArrayList<ArrayList<String>> getLeftDiagonal() {
         return null;
     }
@@ -148,7 +136,7 @@ public class Board implements Cloneable {
         return null;
     }
 
-    public void pirntBoard(){
+    public void printBoard(){
         for(int i = 0; i< height; i++){
             System.out.println(gameBoard[i]);
         }
@@ -159,7 +147,7 @@ public class Board implements Cloneable {
         if (space == height*height){
             return 'z';
         }
-        return gameBoard[getRow(space)][getCollum(space)];
+        return gameBoard[getRow(space)][getColumn(space)];
     }
 
     public int getRow(int space) {
@@ -167,7 +155,7 @@ public class Board implements Cloneable {
         return row;
     }
 
-    public int getCollum(int space) {
+    public int getColumn(int space) {
         int cullum = space%height;
         return cullum;
     }
@@ -183,7 +171,7 @@ public class Board implements Cloneable {
     }
 
     public Boolean isSpaceAvailabe(int space) {
-        if(gameBoard[getRow(space)][getCollum(space)] == '.'){
+        if(gameBoard[getRow(space)][getColumn(space)] == '.'){
             return true;
         }
         else{
@@ -208,28 +196,28 @@ public class Board implements Cloneable {
         int value = height*height;
         switch(direction) {
             case 0:
-                value = getSpace(getRow(space)-1*steps,getCollum(space)-1*steps);
+                value = getSpace(getRow(space)-1*steps,getColumn(space)-1*steps);
                 break;
             case 1:
-                value = getSpace(getRow(space)-1*steps,getCollum(space));
+                value = getSpace(getRow(space)-1*steps,getColumn(space));
                 break;               
             case 2:
-                value = getSpace(getRow(space)-1*steps,getCollum(space)+1*steps);
+                value = getSpace(getRow(space)-1*steps,getColumn(space)+1*steps);
                 break;
             case 3:
-                value = getSpace(getRow(space),getCollum(space)+1*steps);
+                value = getSpace(getRow(space),getColumn(space)+1*steps);
                 break;
             case 4:                
-                value = getSpace(getRow(space)+1*steps,getCollum(space)+1*steps);
+                value = getSpace(getRow(space)+1*steps,getColumn(space)+1*steps);
                 break;                
             case 5:
-                value = getSpace(getRow(space)+1*steps,getCollum(space));
+                value = getSpace(getRow(space)+1*steps,getColumn(space));
                 break;
             case 6:
-                value = getSpace(getRow(space)+1*steps,getCollum(space)-1*steps);
+                value = getSpace(getRow(space)+1*steps,getColumn(space)-1*steps);
                 break;
             case 7:
-                value = getSpace(getRow(space),getCollum(space)-1*steps);                    
+                value = getSpace(getRow(space),getColumn(space)-1*steps);                    
                 break;
                 
                 

@@ -1,8 +1,7 @@
 package application.serverconnect;
 
-import java.util.Arrays;
-
 import application.App;
+import application.fxml.Start;
 
 public class InputProcesser {
 
@@ -74,6 +73,7 @@ public class InputProcesser {
                 case "ERR duplicate name exists":
                 case "ERR not logged in":
                 case "ERR player not found":
+                case "ERR invalid challenge":
                     setAnswer(input);
                     server.setResult(input);
                     break;                
@@ -90,6 +90,9 @@ public class InputProcesser {
             if(arr.length >= 3) {
                 serverMessage = arr[0]+arr[1]+arr[2];
             }
+            // try {
+            //     Thread.sleep(500);
+            // } catch (Exception e){}
 
             switch(serverMessage) {
                 case "SVRGAMEMATCH":
@@ -127,21 +130,21 @@ public class InputProcesser {
                     break;
                 case "SVRGAMEMOVE":
 //                    System.out.print(App.board.getFreeSpacesX());
-                    if(turn) {
-                        System.out.println(" Move set");
-                        this.moveMessage = setMessages(arr[3]);
-                        setMove();
-                        System.out.println("Deze zet is gedaan: " + this.move);
-                        App.reversi.setPieceOnBoard(App.board, this.move, 'o');
-                        turn = false;
-                    } else {
-                        System.out.println("Move set by opponent");
-                        this.moveMessage = setMessages(arr[3]);
-                        setMove();
-                        System.out.println("Deze zet is gedaan: " + this.move);
-                        App.reversi.setPieceOnBoard(App.board, this.move, 'x');
-                    }// zet move op het bord van diegene die move heeft gezet
-                    break;
+                        if(turn) {
+                            System.out.println(" Move set");
+                            this.moveMessage = setMessages(arr[3]);
+                            setMove();
+                            System.out.println("Deze zet is gedaan: " + this.move);
+                            App.reversi.setPieceOnBoard(App.board, this.move, 'o');
+                            turn = false;
+                        } else {
+                            System.out.println("Move set by opponent");
+                            this.moveMessage = setMessages(arr[3]);
+                            setMove();
+                            System.out.println("Deze zet is gedaan: " + this.move);
+                            App.reversi.setPieceOnBoard(App.board, this.move, 'x');
+                        }// zet move op het bord van diegene die move heeft gezet
+                        break;
                 case "SVRGAMECHALLENGE":
                     this.challenger = setMessages(arr[3]);
                     challengeNumber = Integer.parseInt(setMessages(arr[3])[1].replace("CHALLENGENUMBER: ", "").replace("\"", ""));
