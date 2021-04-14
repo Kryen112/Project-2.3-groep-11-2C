@@ -30,7 +30,6 @@ public class Game {
     private int player1GameScore;
     private int player2GameScore;
 
-
     private Player currentPlayer; // de speler die aan zet is
     private char turn = 'x';
     private int turns = 0;
@@ -218,5 +217,17 @@ public class Game {
 
     public void incrementTurns() {
         this.turns++;
+    }
+
+    public Boolean isWonREV() {
+        return true;
+    }
+
+    public void addPointToPlayer(Player p) {
+        if (p.equals(this.getPlayer1())) {
+            player1GameScore++;
+        } else if (p.equals(this.getPlayer2())) {
+            player2GameScore++;
+        }
     }
 }

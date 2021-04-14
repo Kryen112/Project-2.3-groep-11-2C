@@ -21,15 +21,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
+import java.util.LinkedList;
 import java.util.HashMap;
 
 /**
  * Class Starts handles the Logic behind the FXML Start page
  *
- * @author Anouk, Stefan
+ * @author Anouk, Stefan, Douwe, Robert, Jason
+ * Project 2.3 Hanze Hogeschool 2021
  */
-public class Start {
+public class Start implements Runnable {
     public final boolean DEBUG = true; // change to false to hide debug messages
     public HumanPlayer user;           // the user who uses the application
     public HumanPlayer player2;           // the user who uses the application
@@ -38,6 +39,9 @@ public class Start {
     public final String BKE = "Boter, Kaas en Eieren";
     public final String REV = "Reversi";
     public String toAdd = "";
+    public BoardUI bordToUse;
+    public Pane[][] gameBoardUI;
+
 
     // PANE VIEW
     @FXML protected BorderPane mainPane;    // the mainPane of application
@@ -86,7 +90,9 @@ public class Start {
     static final int CAPTUREDBYP2 = 2;
 
     HashMap<String, Integer> stateOfTile;
+    HashMap<String, Pane> listOfPanes = new HashMap<>();
     Boolean inGame = false;
+    Game thisGame;
 
     // LOGIN SCREEN METHODS
     /**
@@ -141,6 +147,8 @@ public class Start {
             showMessage(loginMessage, 1, "Gebruikersnaam kan niet leeg zijn");
         }
     }
+
+
 
     /**
      * Method to handle the login button being pushed
@@ -213,6 +221,7 @@ public class Start {
         games.getChildren().remove(centerGameOnline);
         loginCenterBox.getChildren().remove(loginBox);
         loginCenterBox.getChildren().remove(loginMessageBox);
+        gameBoard.getChildren().remove(gameTiles);
         homeScreen.setVisible(false);
         backButtonLocal.setVisible(true);
         gameCenterBox.setVisible(true); 
@@ -363,6 +372,8 @@ public class Start {
      */
     @FXML
     public void playNewGame() {
+        stateOfTile = new HashMap<>();
+
         if (inGame) {
             App.server.forfeit(); // forfeit game if inGame
         }
@@ -374,10 +385,50 @@ public class Start {
 
         // Reversi
         if(gameType.equals(REV)) {
-            App.server.subscribe("Reversi", result ->  System.out.println(result) );
+            Thread thread = new Thread(this);
+            thread.start();
+            thread.setPriority(1);
+            App.server.subscribe("Reversi", result -> System.out.println(""));
+            info.setText("wacht op speler");
         }
     }
 
+    @Override
+    public void run() {
+        while(!App.server.getInputProcesser().match && !App.server.getInputProcesser().gameOver) {
+            // wait for response opponent
+            System.out.print("");
+        }
+        if(!App.server.getInputProcesser().gameOver) {
+            stateOfTile = new HashMap<>();
+            for(int i = 0; i < 64; i++) {
+                stateOfTile.put(""+i, CAPTUREDBYP1);
+            }
+            info.setText("Speler gevonden");
+            Platform.runLater(() -> setUpActiveGameScreen(8, "Reversi", this.user, new HumanPlayer(App.server.getInputProcesser().opponent), stateOfTile));
+            Thread thread = new Thread(() -> {
+                while(!App.server.getInputProcesser().gameOver) {
+                    LinkedList<Integer> moves = App.server.getInputProcesser().getMoves();
+                    System.out.print("");
+                    if(!(moves.size() == 0)) {
+                        // Hier tile zetten
+                        String id = ""+moves.getFirst();
+                        Pane p = listOfPanes.get(id);
+
+                        ImageView thisView = thisGame.setPieceOnBoard( (ImageView) p.getChildren().get(0) );
+
+                        Platform.runLater(() -> {
+                            p.getChildren().add(thisView);
+                        });
+
+                        thisGame.changeTurn();
+                        App.server.getInputProcesser().removeFirstMove();
+                    }
+                }
+            });
+            thread.start();
+        }
+    }
 
     /**
      * Methode om een actief Gamescherm weer te geven
@@ -394,8 +445,6 @@ public class Start {
         mainPane.setCenter(gameBoard);
         gameBoard.setVisible(true);
 
-        // stel het bord in met de juiste grootte
-    //BoardUI bordToUse =  new BoardUI(boardSize, states);
         // maak een game met Type, bord en players
         Game thisGame = new Game(gameType, player1, player2);
 
@@ -419,6 +468,7 @@ public class Start {
             }
         }
 
+
         // plaats voor Debug
         if (DEBUG) { gameTiles.setGridLinesVisible(true); }
 
@@ -427,6 +477,7 @@ public class Start {
         int x = 0;
         int y = 0;
 
+        listOfPanes = new HashMap<>();
         for (Pane[] pane : gameBoardUI) {
             for (Pane p : pane) {
                 boardTile = new ImageView(
@@ -446,6 +497,8 @@ public class Start {
 
                 // voeg Tile toe aan Pane
                 p.getChildren().add(boardTile);
+
+                listOfPanes.put(p.getId(), p);
                 // voeg Pane toe aan GridPane
                 gameTiles.add(p, x, y);
                 x++;
@@ -453,6 +506,10 @@ public class Start {
                 if (x % thisGame.getBoardUI().getHeight() == 0) {
                     y++;
                     x = 0;
+                }
+
+                if (gameType.equals(Game.REV)) {
+                    p.setDisable(true);
                 }
 
                 // voeg functionaliteit toe aan Pane
@@ -473,6 +530,13 @@ public class Start {
                 });
             }
         }
+
+//        for (String id : listOfPanes.keySet()) {
+//            System.out.println( id );
+//        }
+//        for (Pane id : listOfPanes.values()) {
+//            System.out.println( id );
+//        }
     }
 
     /**
@@ -533,6 +597,7 @@ public class Start {
      */
     public void userClickedTile(MouseEvent e, Pane p, Game thisGame, Player p1) {
         ImageView view = (ImageView) e.getTarget();
+        System.out.println();
 
         // de huidige status van de Tile
         int status = stateOfTile.get(p.getId());
@@ -550,6 +615,7 @@ public class Start {
                     // voeg zet toe aan Pane
                     p.getChildren().add(thisView);
                     // stel status in op Captured by player 1
+                    thisGame.addPointToPlayer(thisGame.getPlayer1());
                     status = CAPTUREDBYP1;
 
                     // Speler 2
@@ -559,6 +625,7 @@ public class Start {
                     // voeg zet toe aan Pane
                     p.getChildren().add(thisView);
                     // stel status in op Captured by player 2
+                    thisGame.addPointToPlayer(thisGame.getPlayer2());
                     status = CAPTUREDBYP2;
                 }
                 // pas State of File in Array aan
@@ -731,12 +798,18 @@ public class Start {
         //showMessage(challengeMessage, 1, ("Beurttijd is veranderd naar: " + newTurnTime));
     }
 
-    @FXML
-    public void backToGameScreenFromGame() {
-        mainPane.getChildren().add(centerScreen);
-        mainPane.getChildren().remove(gameBoard);
-        info.setText("");
-        setTitleOfGameScreen(gameType);
-        gameBoard.setVisible(false);
-    }
+//    @FXML
+//    public void backToGameScreenFromGame() {
+//        gameBoard.getChildren().remove(gameTiles);
+//        mainPane.getChildren().remove(gameBoard);
+//        mainPane.getChildren().add(centerScreen);
+//
+//        gameTiles = new GridPane();
+//        gameTiles.setHgap(5);
+//        gameTiles.setVgap(5);
+//
+//        info.setText("");
+//        setTitleOfGameScreen(gameType);
+//        gameBoard.setVisible(false);
+//    }
 }
