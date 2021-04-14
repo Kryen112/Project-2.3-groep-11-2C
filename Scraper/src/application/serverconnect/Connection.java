@@ -6,29 +6,39 @@ import java.net.Socket;
 
 public class Connection {
     /** The server port */
-    public static final int PORT = 7789;
+    protected static final int PORT = 7789;
 
     /** The server ip */
-    public static final String IPSCHOOL = "145.33.225.170";
+    protected static final String IPSCHOOL = "145.33.225.170";
 
     /** The socket */
-    private Socket socket;
+    protected Socket socket;
 
     /** The Server class */
-    private Server server;
+    protected Server server;
 
     /** The Input class */
-    private Input input;
+    protected Input input;
 
     /** The input processer */
-    private final InputProcesser inputProcesser;
+    protected final InputProcesser inputProcesser;
 
     /**
-     * The constructor of ServerListener
+     * The constructor for the standard connection
      */
     public Connection() {
         inputProcesser  = new InputProcesser();
         setSocket();
+        setServer();
+        setInput();
+    }
+
+    /**
+     * The constructor for other connections
+     */
+    public Connection(String ip, String port) {
+        inputProcesser  = new InputProcesser();
+        setSocket(ip, port);
         setServer();
         setInput();
     }
@@ -48,14 +58,26 @@ public class Connection {
     }
 
     /**
-     * This method sets the Socket
+     * This method sets the Socket of the default address+port
      */
     public void setSocket() {
         try {
             InetAddress ip = InetAddress.getByName(IPSCHOOL);
             socket = new Socket(ip.getHostAddress(), PORT);
         } catch(IOException e) {
-            System.out.println("Uknown host exception" + e);
+            System.out.println("Unknown host exception" + e);
+        }
+    }
+
+    /**
+     * This method sets the Socket of other addresses/ports
+     */
+    public void setSocket(String ipAddress, String port) {
+        try {
+            InetAddress ip = InetAddress.getByName(ipAddress);
+            socket = new Socket(ip.getHostAddress(), Integer.parseInt(port));
+        } catch(IOException e) {
+            System.out.println("Unknown host exception" + e);
         }
     }
 

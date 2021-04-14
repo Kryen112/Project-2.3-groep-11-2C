@@ -1,12 +1,13 @@
-package application.games.attributes;
+package application.games;
 
 import application.App;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Board implements Boards {
+public class Board {
     public int rows;
     public int cols;
     public int totalSpaces;
@@ -15,7 +16,6 @@ public class Board implements Boards {
     public char[][] board;
     public int height = 8;
 
-    @Override
     public Board execute() {
         createBoard();
         return null;
@@ -30,6 +30,34 @@ public class Board implements Boards {
                 board[x][y] = '.';
             }
         }
+    }
+
+    public List<Integer> bestSpot(List<Integer> spaces){
+        //Random rand = new Random();
+        List<Integer> Region1 = new ArrayList<>();
+        Collections.addAll(Region1, 18,19,20,21,26,27,28,29,34,35,36,37,42,43,44,45);
+        List<Integer> Region2 = new ArrayList<>();
+        Collections.addAll(Region2, 10,11,12,13,17,22,25,30,33,38,41,46,50,51,52,53);
+        List<Integer> Region3 = new ArrayList<>();
+        Collections.addAll(Region3, 2,3,4,5,16,23,24,31,32,39,40,47,58,59,60,61);
+        List<Integer> Region4 = new ArrayList<>();
+        Collections.addAll(Region4, 1,6,8,9,14,15,48,49,54,55,57,62);
+        List<Integer> Region5 = new ArrayList<>();
+        Collections.addAll(Region5, 0,7,56,63);
+
+        List<List<Integer>> lists = new ArrayList<>();
+        Collections.addAll(lists, Region5,Region3,Region1,Region2,Region4);
+        List<Integer> toChoseFrom = new ArrayList<>();
+
+        for (List<Integer> list : lists){
+            if(!toChoseFrom.isEmpty()){
+                return toChoseFrom;//.get(rand.nextInt(toChoseFrom.size()));
+            }
+            toChoseFrom.addAll(spaces);
+            toChoseFrom.retainAll(list);
+        }
+
+        return toChoseFrom;
     }
 
     public void setStartPieces(char pieceToPlace) {
@@ -48,7 +76,6 @@ public class Board implements Boards {
 
     }
 
-    @Override
     public String title() {
         return null;
     }
@@ -149,9 +176,11 @@ public class Board implements Boards {
 
     public int getRandomSet() {
         Random random = new Random();
-        List<Integer> freeSpaces = getFreeSpaces();
+        List<Integer> freeSpaces = bestSpot(getFreeSpaces());
         int size = freeSpaces.size();
+
         int location = freeSpaces.get(random.nextInt(size));
+
         setPieceOnBoard(location, 'o');
         return location;
     }

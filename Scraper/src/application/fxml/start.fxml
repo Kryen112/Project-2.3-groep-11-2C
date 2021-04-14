@@ -10,7 +10,7 @@
     Start will serve as the startup for the Application,
     this application.fxml file works with the java class Start which can be found in the application.controllers package
 
-    @author Anouk
+    @author Anouk, Stefan
 -->
 <?import javafx.scene.text.Text?>
 <?import java.net.URL?>
@@ -24,78 +24,108 @@
         <top>
             <VBox>
                 <Text fx:id="title" text="Welkom bij AI Gaming"/>
-                <Text fx:id="info" text="Log in met je naam, Kies een spel, speel tegen een computer, een vriend of online"/>
+                <Text fx:id="info" text="Wil je online of lokaal spelen?"/>
             </VBox>
         </top>
 
         <center>
             <VBox fx:id="centerScreen">
 
-                <!--       LOGIN         -->
-                <Group fx:id="loginCenterBox">
+                <Group fx:id="homeScreen">
+                    <HBox>
+                        <Button text="Speel Online" onAction="#handleOnlinePlay"/>
+                        <Button text="Speel Lokaal" onAction="#handleLocalPlay" translateX="20"/>
+                    </HBox>
+                </Group>
+
+                <!--       LOGIN            -->
+                <Group fx:id="loginCenterBox" visible="false">
                     <HBox fx:id="loginBox">
                         <!--  login  -->
-                        <Label text="Gebruikersnaam:" translateY="5"/>
+                        <VBox>
+                            <Label text="Gebruikersnaam: " translateY="5"/>
+                            <Label text="Inloggen op een ander netwerk: " translateY="30"/>
+                            <TextField fx:id="ipAddress" maxWidth="200" promptText=" ip adres" minHeight="30"/>
+                            <TextField fx:id="portNr" maxWidth="100" promptText=" poort nummer" minHeight="30"/>
+                            <Button text="Login ip+poort" onAction="#handleLoginActionOnOtherServer"/>
+                            <Button text="Terug" onAction="#backToHomeScreenFromLogin"/>
+                        </VBox>
                         <TextField fx:id="userName" maxWidth="200" promptText=" jouw naam" translateX="10" minHeight="30"/>
-                        <Button text="Login" onAction="#handleLoginAction" translateX="20"/>
-                        <Button text="Speel Lokaal" onAction="#handleLocalPlay" translateX="40"/>
+                        <Button text="Login op schoolserver" onAction="#handleLoginActionOnSchoolServer" translateX="20"/>
                     </HBox>
 
-                    <VBox fx:id="loginMessageBox" translateY="20">
+                    <HBox fx:id="loginMessageBox" translateY="20">
                         <!--  error / succes message  -->
                         <Text fx:id="loginMessage" translateY="30"/>
-                        <Button fx:id="verder" text="Ga Verder" onAction="#handleContinue" translateX="10" translateY="40" visible="false"/>
-                    </VBox>
-                </Group>
-
-                <!--       GAMESCREEN         -->
-                <Group fx:id="gameCenterBox" visible="false" >
-                    <HBox translateY="20">
-                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpBoterKaasEieren" translateY="20">
-                            <Image url="@../images/gametypes/bke.jpg"/>
-                        </ImageView>
-
-                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpOthello" translateX="20" translateY="20">
-                            <Image url="@../images/gametypes/riversi.png"/>
-                        </ImageView>
+                        <Button fx:id="verder" text="Ga Verder" onAction="#handleContinue" translateX="10" translateY="20" visible="false"/>
                     </HBox>
                 </Group>
 
-                <!--       GAME OTHELLO         -->
+                <!--       GAME CENTER         -->
+                <Group fx:id="gameCenterBox" visible="false">
+                    <HBox translateY="20" fx:id="gameSelection">
+                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpBoterKaasEieren" translateY="20">
+                            <!--    todo change img to bke gamescreenshot -->
+                            <Image url="@../images/bke.jpg"/>
+                        </ImageView>
+
+                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpReversi" translateX="20" translateY="20">
+                            <!--    todo change img to bke gamescreenshot -->
+                            <Image url="@../images/reversi.png"/>
+                        </ImageView>
+
+                        <Button fx:id="backButtonLocal" text="Terug" onAction="#backToHomeScreenFromLocal" translateX="40" visible="false"/>
+                        <Button fx:id="logOutButton" text="Log uit" onAction="#logOut" translateY="20" translateX="40" visible="false"/>
+                    </HBox>
+                </Group>
+
+                <!--       GAMES             -->
                 <Group fx:id="games" visible="false">
-                    <VBox fx:id="centerGame">
-                        <!--      todo
-                                      terug/cancel button
-                                      help button
+
+                    <!--       GAMES LOCAL        -->
+                    <VBox fx:id="centerGameLocal">
+                        <!-- todo
+                        help button
                         -->
-                        <fx:define>
-                            <ToggleGroup fx:id="gameSettings"/>
-                        </fx:define>
+                        <Button text="Tegen computer" onAction="#playLocalvsAI" translateY="20"/>
+                        <Button text="Tegen elkaar" onAction="#playLocalvs" translateY="40"/>
+                        <Button text="Terug" onAction="#goBackLocal" translateY="60"/>
+                    </VBox>
 
-                        <HBox>
-                            <RadioButton toggleGroup="$gameSettings" fx:id="localvsai" text="Lokaal tegen Computer"/>
-                            <RadioButton toggleGroup="$gameSettings" fx:id="localvslocal" text="Lokaal met 2 Spelers"/>
+                    <!--       GAMES Online         --> 
+                    <VBox fx:id="centerGameOnline">
+                        <!-- todo       
+                        help button
+                        -->
+
+                        <Button text="Speel online tegen een andere speler" onAction="#playNewGame" translateY="20"/>
+                        <Button text="Speel tegen computer" onAction="#playLocalvsAI" translateY="40"/>
+                        <Button text="Uitdaging accepteren" onAction="#acceptChallenge" translateY="60"/>
+                        <Label text="Gebruikersnaam om uit te dagen:" translateY="80"/>
+                        <TextField fx:id="enemyUserName" maxWidth="200" promptText=" vijand naam" minHeight="30" translateY="90"/>
+                        <Button text="Iemand Uitdagen" onAction="#challengePlayer" translateY="100"/>
+                        <Text fx:id="challengeMessage" translateY="120"/>
+                        <HBox translateY="140">
+                            <Label text="Wilt u de beurttijd veranderen? Vul hier de nieuwe gewenste beurttijd in: " translateY="5"/>
+                            <TextField fx:id="turnTime" maxWidth="50" promptText=" tijd" minHeight="30"/>
+                            <Button text="Beurttijd veranderen" onAction="#changeTurnTume"/>
                         </HBox>
+                        <Button text="Terug" onAction="#goBackOnline" translateY="160"/>
+                    </VBox>
 
-                        <HBox>
-                            <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsai" text="Online tegen Computer"/>
-                            <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsrandom" text="Online tegen Willekeurige speler"/>
-                        </HBox>
-
-                        <HBox>
-                            <RadioButton toggleGroup="$gameSettings" fx:id="onlinevsplayer" text="Online tegen Speler"/>
-                            <TextField fx:id="player2" minWidth="200"/>
-                        </HBox>
-
-                        <Button text="Start nieuw spel" onAction="#playNewGame"/>
-                        <Button text="Accept Challenge" onAction="#acceptChallenge" />
-                        <Button text="Terug" onAction="#goBack" />
-
+                    <VBox fx:id="playerList" visible="false" translateX="550" translateY="20">
+                        <Button text="Krijg spelerlijst" onAction="#getPlayerList"/>
+                        <Label fx:id="playerListList" translateY="20"/>
                     </VBox>
                 </Group>
 
+                <Group fx:id="gameBoard" visible="false" translateY="50" translateX="50">
+                    <GridPane fx:id="gameTiles" alignment="CENTER" hgap="5" vgap="5"/>
+                </Group>
             </VBox>
         </center>
+
+
 
     </BorderPane>
 

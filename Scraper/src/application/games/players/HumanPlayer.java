@@ -1,5 +1,7 @@
 package application.games.players;
 
+import javafx.scene.image.ImageView;
+
 public class HumanPlayer extends Player {
 
     public HumanPlayer(String userName) {
