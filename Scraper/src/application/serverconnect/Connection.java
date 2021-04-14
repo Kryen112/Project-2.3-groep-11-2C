@@ -5,9 +5,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 /**
- * Main class voor project 2.3 Game Framework
- * application.App zorgt voor de primaryStage,
- * Start.application.fxml dient als root van de application.App
+ * Class Connection
+ * handles the Server Connection for Game Framework
  *
  * @author Douwe
  * Project 2.3 Hanze Hogeschool 2021
