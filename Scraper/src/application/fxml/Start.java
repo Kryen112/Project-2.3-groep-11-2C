@@ -22,7 +22,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
+import java.util.LinkedList;
+import java.util.Timer;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -31,7 +32,7 @@ import java.util.HashMap;
  *
  * @author Anouk, Stefan
  */
-public class Start {
+public class Start implements Runnable {
     public final boolean DEBUG = true; // change to false to hide debug messages
     public HumanPlayer user;           // the user who uses the application
     public HumanPlayer player2;           // the user who uses the application
@@ -42,6 +43,7 @@ public class Start {
     public String toAdd = "";
     public BoardUI bordToUse;
     public Pane[][] gameBoardUI;
+
 
     // PANE VIEW
     @FXML protected BorderPane mainPane;    // the mainPane of application
@@ -90,9 +92,9 @@ public class Start {
     static final int CAPTUREDBYP2 = 2;
 
     HashMap<String, Integer> stateOfTile;
-    HashMap<String, Pane> listOfPanes;
+    HashMap<String, Pane> listOfPanes = new HashMap<>();
     Boolean inGame = false;
-    Game activeGame;
+    Game thisGame;
 
     // LOGIN SCREEN METHODS
     /**
@@ -147,6 +149,8 @@ public class Start {
             showMessage(loginMessage, 1, "Gebruikersnaam kan niet leeg zijn");
         }
     }
+
+
 
     /**
      * Method to handle the login button being pushed
@@ -383,10 +387,51 @@ public class Start {
 
         // Reversi
         if(gameType.equals(REV)) {
-            App.server.subscribe("Reversi", result ->  System.out.println(result) );
+            Thread thread = new Thread(this);
+            thread.start();
+            thread.setPriority(1);
+            App.server.subscribe("Reversi", result -> System.out.println(""));
+            info.setText("wacht op speler");
         }
     }
 
+    @Override
+    public void run() {
+        while(!App.server.getInputProcesser().match && !App.server.getInputProcesser().gameOver) {
+            // wait for response opponent
+            System.out.print("");
+        }
+        if(!App.server.getInputProcesser().gameOver) {
+            stateOfTile = new HashMap<>();
+            for(int i = 0; i < 64; i++) {
+                stateOfTile.put(""+i, CAPTUREDBYP1);
+            }
+            info.setText("Speler gevonden");
+            Platform.runLater(() -> setUpActiveGameScreen(8, "Reversi", this.user, new HumanPlayer(App.server.getInputProcesser().opponent), stateOfTile));
+            Thread thread = new Thread(() -> {
+                while(!App.server.getInputProcesser().gameOver) {
+                    LinkedList<Integer> moves = App.server.getInputProcesser().getMoves();
+                    System.out.print("");
+                    if(!(moves.size() == 0)) {
+                        // Hier tile zetten
+                        String id = ""+moves.getFirst();
+                        Pane p = listOfPanes.get(id);
+
+                        ImageView thisView = thisGame.setPieceOnBoard( (ImageView) p.getChildren().get(0) );
+
+                        Platform.runLater(() -> {
+                            p.getChildren().add(thisView);
+                        });
+
+                        thisGame.changeTurn();
+                        App.server.getInputProcesser().removeFirstMove();
+                    }
+                }
+            });
+            thread.start();
+            System.out.println("Thread gestart @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        }
+    }
 
     /**
      * Methode om een actief Gamescherm weer te geven
@@ -407,8 +452,7 @@ public class Start {
         // stel het bord in met de juiste grootte
         bordToUse =  new BoardUI(boardSize, states);
         // maak een game met Type, bord en players
-        Game thisGame = new Game(gameType, bordToUse, player1, player2);
-        activeGame = thisGame;
+        thisGame = new Game(gameType, bordToUse, player1, player2);
 
         // Player 1 begint en wordt random gekozen
         // Player 1 speelt als X
@@ -429,6 +473,7 @@ public class Start {
                 info.setText(thisGame.getCurrentPlayer().getName() + " wit is aan zet");
             }
         }
+
 
         // plaats voor Debug
         if (DEBUG) { gameTiles.setGridLinesVisible(true); }
@@ -460,8 +505,6 @@ public class Start {
                 p.getChildren().add(boardTile);
 
                 listOfPanes.put(p.getId(), p);
-
-
                 // voeg Pane toe aan GridPane
                 gameTiles.add(p, x, y);
                 x++;

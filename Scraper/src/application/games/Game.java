@@ -23,7 +23,6 @@ public class Game {
     private int player1GameScore;
     private int player2GameScore;
 
-
     private Player currentPlayer; // de speler die aan zet is
     private char turn = 'x';
     private int turns = 0;

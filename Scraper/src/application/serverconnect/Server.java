@@ -166,5 +166,9 @@ public class Server {
     public void setInputProcesser(InputProcesser inputProcesser) {
         this.inputProcesser = inputProcesser;
     }
+
+    public InputProcesser getInputProcesser() {
+        return this.inputProcesser;
+    }
 }
 
