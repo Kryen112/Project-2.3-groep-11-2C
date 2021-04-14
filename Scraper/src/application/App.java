@@ -84,7 +84,6 @@ public class App extends Application {
         setPrimaryStageUI(primaryStage, root, GAMENAME, UIWIDTH, UIHEIGHT);
     }
 
-
     /**
      * Method to set the primary stage for the UI
      * @param primaryStage stage to use
@@ -101,4 +100,3 @@ public class App extends Application {
         primaryStage.show();
     }
 }
-
