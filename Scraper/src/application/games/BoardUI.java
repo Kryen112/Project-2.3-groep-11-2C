@@ -1,11 +1,13 @@
 package application.games;
 
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
 
 public class BoardUI {
     Pane[][] gameBoardUI;
     int height;
+
 
     public BoardUI(int h){
         setHeight(h);
@@ -34,6 +36,15 @@ public class BoardUI {
             }
         }
         return gameBoardUI;
+    }
+
+    public Image getEmptyTile(String gameType) {
+        if (gameType.equals(Game.BKE)) {
+            return new Image("application/images/emptyTileTTT.png");
+        } else if (gameType.equals(Game.REV)) {
+            return new Image("application/images/emptyTileREV.png");
+        }
+        return null;
     }
 
     public Pane[][] getGameBoardUI() {

@@ -38,8 +38,6 @@ public class Start {
     public final String REV = "REVERSI";
     public String toAdd = "";
 
-    //List views
-
     // PANE VIEW
     @FXML protected BorderPane mainPane;    // the mainPane of application
     @FXML protected Text title;             // Title
@@ -74,14 +72,12 @@ public class Start {
     // GAMECENTER
     @FXML protected Group gameCenterBox; // Group that holds all of the game items
     @FXML protected HBox gameSelection;  // Box to show games that can be played
-    @FXML protected VBox gameSettingsBox;
     @FXML protected VBox centerGame;
 
     // ACTIVE GAME
     @FXML protected Group gameBoard;
     @FXML protected GridPane gameTiles;
-    @FXML protected Label turnBox;
-//    public Rectangle boardTile;
+    @FXML protected Text gameLog;
     public ImageView boardTile;
 
     static final int EMPTY = 0;
@@ -89,6 +85,7 @@ public class Start {
     static final int CAPTUREDBYP2 = 2;
 
     HashMap<String, Integer> stateOfTile;
+    Boolean inGame = false;
 
     // LOGIN SCREEN METHODS
     /**
@@ -293,246 +290,351 @@ public class Start {
 
     /**
      * Method to hide loginScreen and show the GameScreen
-     * when the continue button is pushed
+     * Method used when the continue button is pushed on LoginScreen
      */
     @FXML
     protected void handleContinue() {
+        // remove Login functionalities
         loginCenterBox.getChildren().remove(loginBox);
         loginCenterBox.getChildren().remove(loginMessageBox);
 
-        title.setText(( "AI Gaming - " + user.getName()));
+        setTitleOfGameScreen( "AI Gaming - " + user.getName() );
         info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
 
-        gameCenterBox.getChildren().remove(gameSettingsBox);
         gameCenterBox.setVisible(true);
         logOutButton.setVisible(true);
     }
 
+    /**
+     * Method to set up Boter Kaas en Eieren GameScreen
+     */
     @FXML
-    public void setUpBoterKaasEieren(MouseEvent actionEvent) {
-        gameType = BKE;
+    public void setUpBoterKaasEieren() {
+        gameType = BKE;     // set gameType
+        info.setText("");
+
+        // wissel van schermen
+        centerScreen.getChildren().remove(gameCenterBox);
+        setTitleOfGameScreen(Game.BKE);
 
         // Local play
         if (user.getName().equals("Gebruiker")) {
-            centerScreen.getChildren().remove(gameCenterBox);
             games.getChildren().add(centerGameLocal);
-            title.setText("Boter, Kaas en Eieren");
-            games.setVisible(true);
-        } 
+        }
         // Online play
         else {
-            centerScreen.getChildren().remove(gameCenterBox);
             games.getChildren().add(centerGameOnline);
-            title.setText("Boter, Kaas en Eieren");
             playerList.setVisible(true);
-            games.setVisible(true);
         }
+        games.setVisible(true);
+
     }
 
     /**
-     * Method that handles javaFx gameScreen change from settings to gameCenter
+     * Method to set up Reversi GameScreen
      */
     @FXML
-    public void setUpReversi(MouseEvent actionEvent) {
-        gameType = REV;
+    public void setUpReversi() {
+        gameType = REV; // set gameType
+        info.setText("");
+
+        // wissel van schermen
+        centerScreen.getChildren().remove(gameCenterBox);
+        setTitleOfGameScreen(Game.REV);
 
         // Local play
         if (user.getName().equals("Gebruiker")) {
-            centerScreen.getChildren().remove(gameCenterBox);
             games.getChildren().add(centerGameLocal);
-            title.setText("Reversi");
-            games.setVisible(true);
         }
+
         // Online play
         else {
-            centerScreen.getChildren().remove(gameCenterBox);
             games.getChildren().add(centerGameOnline);
-            title.setText("Reversi");
             playerList.setVisible(true);
-            games.setVisible(true);
         }
+        games.setVisible(true);
     }
 
-    
     /**
-     * Method that handles javaFx gameScreen change from gameCenter to settings
+     * Methode om een nieuwe Game te starten
+     * Methode wordt gestart als gebruiker op Play New Game button drukt
      */
-    public void openSettings(){
-        gameCenterBox.getChildren().remove(gameSelection);
-        gameCenterBox.getChildren().add(gameSettingsBox);
-        gameSettingsBox.setVisible(true);
-    }
-
     @FXML
-    public void playNewGame(ActionEvent actionEvent) {
-        App.server.forfeit(); //TODO Niet nodig als je niet in een game bent
+    public void playNewGame() {
+        if (inGame) {
+            App.server.forfeit(); // forfeit game if inGame
+        }
+
+        // BoterKaas en Eieren
         if(gameType.equals(BKE)) {
-            App.server.subscribe("Tic-tac-toe", result ->  System.out.println("Subscribed to Tic-tac-toe") );
+            App.server.subscribe("Tic-tac-toe", result ->  System.out.println("Subscribed to Tic-tac-toe"));
         }
+
+        // Reversi
         if(gameType.equals(REV)) {
             App.server.subscribe("Reversi", result ->  System.out.println(result) );
         }
     }
 
-    public void setUpActiveGameScreen(int boardSize, String gameName, Player player1, Player player2, int tile) {
+    /**
+     * Methode om een actief Gamescherm weer te geven
+     * @param boardSize de groote van het bord (tic tac toe is 3 x 3, size = 3)
+     * @param gameType naam van de game / gameType
+     * @param player1 Player die begint als speler 1
+     * @param player2 Player die begint als speler 2
+     */
+    public void setUpActiveGameScreen(int boardSize, String gameType, Player player1, Player player2) {
+        // verwijder het centerScreen van het mainPane
         mainPane.getChildren().remove(centerScreen);
+
+        // stel het gameBoard in als Center op het mainPane
         mainPane.setCenter(gameBoard);
-        System.out.println(mainPane.getChildren());
         gameBoard.setVisible(true);
 
-        BoardUI board =  new BoardUI(boardSize);
-        Game thisGame = new Game(gameName, board, player1, player2);
+        // stel het bord in met de juiste grootte
+        BoardUI bordToUse =  new BoardUI(boardSize);
+        // maak een game met Type, bord en players
+        Game thisGame = new Game(gameType, bordToUse, player1, player2);
 
+        // Player 1 begint en wordt random gekozen
+        // Player 1 speelt als X
         Player p1 = thisGame.getPlayer1();
         Player p2 = thisGame.getPlayer2();
 
-        title.setText(thisGame.getGameTitle() + " - " + p1.getName() + " VS " + p2.getName());
-        String currentPlayer = thisGame.getCurrentPlayer().getName();
+        // Set title of GameScreen
+        setTitleOfGameScreen(gameType + "\t" + p1.getName() + " VS " + p2.getName());
+        // todo ook voor eerste zet -> toon de speler die aan zet is
 
-        // turnbox
-        info.setText(currentPlayer + " " + thisGame.getTurn() + " is aan zet");
-        info.setStyle("-fx-font-size: 18px");
+        // naam van de huidige speler en de turn van de player
+        if (gameType.equals(BKE)) {
+            info.setText(thisGame.getCurrentPlayer().getName() + " " + thisGame.getTurn() + " is aan zet");
+        } else if (gameType.equals(REV)) {
+            // Speler 1 speelt met zwart
+            if (thisGame.getCurrentPlayer().equals(p1)) {
+                info.setText(thisGame.getCurrentPlayer().getName() + " zwart is aan zet");
+            } else { // speler 2 speelt met wit
+                info.setText(thisGame.getCurrentPlayer().getName() + " wit is aan zet");
+            }
+        }
+
+        // plaats voor Debug
         if (DEBUG) { gameTiles.setGridLinesVisible(true); }
 
-        Pane[][] gameBoardUI = board.getGameBoardUI();
+        // maak leeg bord
+        Pane[][] gameBoardUI = bordToUse.getGameBoardUI();
         int x = 0;
         int y = 0;
-
         for (Pane[] pane : gameBoardUI) {
             for (Pane p : pane) {
-//                boardTile = new Rectangle(tile, tile);
-                p.maxWidth(tile);
-                p.maxHeight(tile);
-
-                boardTile = new ImageView(thisGame.getEmptyTile());
-                boardTile.maxHeight(tile);
-                boardTile.maxWidth(tile);
-
-//                if (gameType.equals(BKE)) {
-////                    boardTile.setFill(Color.WHITESMOKE);
-//                } else if (gameType.equals(REV)){
-////                    boardTile.setFill(Color.GREEN);
-//                }
-
+                boardTile = new ImageView(
+                        thisGame.getBoard().getEmptyTile(gameType)
+                );
+                // sla op in Array om status bij te houden
                 stateOfTile.put(p.getId(), EMPTY);
+                // voeg Tile toe aan Pane
                 p.getChildren().add(boardTile);
-
+                // voeg Pane toe aan GridPane
                 gameTiles.add(p, x, y);
                 x++;
-
-                if (x % board.getHeight() == 0) {
+                if (x % bordToUse.getHeight() == 0) {
                     y++;
                     x = 0;
                 }
 
+                // voeg functionaliteit toe aan Pane
                 p.setOnMouseClicked(e -> {
-                    UserClickedTile(e, p, thisGame);
+                    UserClickedTile(e, p, thisGame, p1);
                 });
             }
         }
 
     }
 
+    /**
+     * Methode om de javaFx Text titel van de UI aan te passen
+     * @param titleOfGameScreen de titel
+     */
+    public void setTitleOfGameScreen(String titleOfGameScreen){
+        title.setText(titleOfGameScreen);
+    }
+
+    /**
+     * Methode om Lokaal tegen een AI te spelen
+     */
     @FXML
-    public void playLocalvsAI(ActionEvent actionEvent) {
+    public void playLocalvsAI() {
+        // lijst om Tile status bij te houden
         stateOfTile = new HashMap<>();
 
+        // Boter kaas en Eieren
         if(gameType.equals(BKE)) {
-            setUpActiveGameScreen(3, "Boter, Kaas en Eieren", user, ai, 150);
-            //TODO spelen tegen AI
+            //TODO AI implementeren en spel implementeren
+            setUpActiveGameScreen(3, "Boter, Kaas en Eieren", user, ai);
         }
+
+        // Riversi
         if(gameType.equals(REV)) {
-            setUpActiveGameScreen(8, "Reversi", user, ai, 50);
-            //TODO spelen tegen AI
+            //TODO AI implementeren en spel implementeren
+            setUpActiveGameScreen(8, "Reversi", user, ai);
         }
     }
 
-    public void UserClickedTile(MouseEvent e, Pane p, Game thisGame ){
-//        Rectangle r = (Rectangle) e.getTarget();
-//        Label l = new Label();
+    /**
+     * Methode om Lokaal tegen een andere Lokale speler te spelen
+     */
+    @FXML
+    public void playLocalvsLocal() {
+        // lijst om Tile status bij te houden
+        stateOfTile = new HashMap<>();
+
+        // Boter kaas en Eieren
+        if(gameType.equals(BKE)) {
+            //TODO spel implementeren
+            setUpActiveGameScreen(3, "Boter, Kaas en Eieren", user, ai);
+        }
+
+        // Riversi
+        if(gameType.equals(REV)) {
+            //TODO AI spel implementeren
+            setUpActiveGameScreen(8, "Reversi", user, ai);
+        }
+    }
+
+    /**
+     * Functionaliteit voor als een Zet wordt gedaan
+     * @param e mouseEvent, de ImageView waarop geklikt is
+     * @param p pane waar de functionaliteit op moet toegepast worden
+     * @param thisGame huidige game
+     */
+    public void UserClickedTile( MouseEvent e, Pane p, Game thisGame, Player p1 ){
         ImageView view = (ImageView) e.getTarget();
 
+        // de huidige status van de Tile
         int status = stateOfTile.get(p.getId());
+
+        // Speler die op dit moment aan de beurt is
         Player current = thisGame.getCurrentPlayer();
-        boolean isPlayerOne = false;
 
-        if (current.equals(thisGame.getPlayer1())) {
-            isPlayerOne = true;
-        }
-
+        // functionaliteiten afhankelijk van de status van de Tile
         switch (status) {
-            case EMPTY:
-                if (isPlayerOne) {
-//                    r.setFill(Color.BLUE);
-//                    r.setFill(new ImagePattern(thisGame.getPlayer1().getIcon()));
-//                    p.getChildren().remove(r);
-                    view = new ImageView(thisGame.getPlayer1().getIcon());
-                    p.getChildren().add(view);
+            case EMPTY: // Tile is Leeg
+                // Speler 1
+                if (current.equals(thisGame.getPlayer1())) {
+                    // doe Zet
+                    ImageView thisView = thisGame.setPieceOnBoard(view);
+                    // voeg zet toe aan Pane
+                    p.getChildren().add(thisView);
+                    // stel status in op Captured by player 1
                     status = CAPTUREDBYP1;
-                } else { // player 2
-//                    r.setFill(Color.YELLOW);
-//                    r.setFill(new ImagePattern(thisGame.getPlayer2().getIcon()));
-//                    p.getChildren().remove(r);
-                    view = new ImageView(thisGame.getPlayer1().getIcon());
-                    p.getChildren().add(view);
+
+                    // Speler 2
+                } else {
+                    // doe Zet
+                    ImageView thisView = thisGame.setPieceOnBoard(view);
+                    // voeg zet toe aan Pane
+                    p.getChildren().add(thisView);
+                    // stel status in op Captured by player 2
                     status = CAPTUREDBYP2;
                 }
+                // pas State of File in Array aan
                 stateOfTile.put(p.getId(), status);
                 break;
+
+            // Tile is niet leeg
             case CAPTUREDBYP1:
             case CAPTUREDBYP2:
-                System.out.println("Tile already captured");
+                // toon bericht aan gebruiker
+                showMessage(gameLog, 1, "Vak is al bezet, kies een ander Vak");
+                if (DEBUG) { System.out.println("DEBUG Tile already captured"); }
         }
+
+        // wissel van Beurt
         thisGame.changeTurn();
-    }
+        // TODO hou rekening met dat een gebruiker twee keer aan de beurt kan zijn
 
-    @FXML
-    public void playLocalvs(ActionEvent actionEvent) {
-        if(title.getText().equals("Boter, Kaas en Eieren")) {
-            //TODO BKE GUI en spelen tegen elkaar
+        // verander info voor huidige beurt
+        if (gameType.equals(BKE)) {
+            info.setText(thisGame.getCurrentPlayer().getName() + " " + thisGame.getTurn() + " is aan zet");
+        } else if (gameType.equals(REV)) {
+            // Speler 1 speelt met zwart
+            if (thisGame.getCurrentPlayer().equals(p1)) {
+                info.setText(thisGame.getCurrentPlayer().getName() + " zwart is aan zet");
+            } else { // speler 2 speelt met wit
+                info.setText(thisGame.getCurrentPlayer().getName() + " wit is aan zet");
+            }
         }
-        if(title.getText().equals("Reversi")) {
-            //TODO Reversi GUI en spelen tegen elkaar
+    }
+
+    /**
+     * Methode om uitleg van een spel te tonen op het scherm
+     */
+    @FXML
+    public void uitleg() {
+        // TODO methode implementeren
+        // textbox voor uitleg spel
+        if (gameType.equals(BKE)) { // in gameType BKE
+            // todo hulp bke
+        } else if (gameType.equals(REV)) { // in gameType REV
+            // todo hulp rev
+        } else { // algemeen
+            // todo hulp algemeen
         }
     }
 
+    /**
+     * Methode om terug te gaan vanuit Lokaal gameCenter
+     */
     @FXML
-    public void uitleg(ActionEvent actionEvent) {
-        System.out.println("uitleg");
-    }
-
-    @FXML
-    public void goBackLocal(ActionEvent actionEvent) {
+    public void goBackLocal() {
+        // wissel van scherm
         games.getChildren().remove(centerGameLocal);
         centerScreen.getChildren().add(gameCenterBox);
-        title.setText(( "AI Gaming - " + user.getName()));
+        // wissel tekst
+        setTitleOfGameScreen( "AI Gaming - " + user.getName() );
         info.setText("Kies een spel, speel tegen de computer of een vriend");
+
     }
 
+    /**
+     * Methode om terug te gaan vanuit Online gameCenter
+     */
     @FXML
-    public void goBackOnline(ActionEvent actionEvent) {
+    public void goBackOnline() {
+        // wissel van scherm
         games.getChildren().remove(centerGameOnline);
         centerScreen.getChildren().add(gameCenterBox);
         playerList.setVisible(false);
-        title.setText(( "AI Gaming - " + user.getName()));
+
+        setTitleOfGameScreen( "AI Gaming - " + user.getName());
         info.setText("Kies een Spel, speel tegen de Computer, een Vriend of speel Online");
     }
 
+    /**
+     * Methode om een challenge te accepteren
+     */
     @FXML
-    public void acceptChallenge(ActionEvent actionEvent) { //TODO REVERSIGAME START OR TICTACTOEGAME START
-        if(title.getText().equals("Reversi")) {
+    public void acceptChallenge() {
+        //TODO REVERSIGAME START OR TICTACTOEGAME START
+
+        // Reversi
+        if(gameType.equals(REV)) {
             App.server.acceptChallenge(event ->
-                showMessage(challengeMessage, 1, "Je hebt nog geen open uitdagingen staan")
-            );
-        } else if (title.getText().equals("Boter, Kaas en Eieren")) {
+                showMessage(challengeMessage, 1, "Je hebt nog geen open uitdagingen staan"));
+
+        // Boter Kaas en Eieren
+        } else if (gameType.equals(BKE)) {
+            // todo
             //App.server.acceptChallenge();
         } else {
             showMessage(challengeMessage, 1, "Geen spel geselecteerd");
         }
     }
 
+    /**
+     * Methode om een speler uit te nodigen
+     */
     @FXML
-    public void challengePlayer(ActionEvent actionEvent) {
+    public void challengePlayer() {
         if (!enemyUserName.getText().isEmpty() || !enemyUserName.getText().isBlank()) {
             String enemyPlayer = enemyUserName.getText();
             String gameName = title.getText();
@@ -572,15 +674,6 @@ public class Start {
                 Platform.runLater(() -> playerListList.setText(toAdd));
             }
         });
-    } 
-
-    /**
-     * Method to check if javaFx textField is not Empty or Blank
-     * @param textField the javaFx textField to check
-     * @return true if textField is not empty or blank
-     */
-    public boolean textFieldNotEmptyOrBlank(TextField textField) {
-        return !textField.getText().isEmpty() || !textField.getText().isBlank();
     }
 
     /**

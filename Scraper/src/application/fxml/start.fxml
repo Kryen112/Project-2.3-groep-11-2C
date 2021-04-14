@@ -88,7 +88,7 @@
                         help button
                         -->
                         <Button text="Tegen computer" onAction="#playLocalvsAI" translateY="20"/>
-                        <Button text="Tegen elkaar" onAction="#playLocalvs" translateY="40"/>
+                        <Button text="Tegen elkaar" onAction="#playLocalvsLocal" translateY="40"/>
                         <Button text="Terug" onAction="#goBackLocal" translateY="60"/>
                     </VBox>
 
@@ -121,6 +121,7 @@
 
                 <Group fx:id="gameBoard" visible="false" translateY="50" translateX="50">
                     <GridPane fx:id="gameTiles" alignment="CENTER" hgap="5" vgap="5"/>
+                    <Text fx:id="gameLog" translateY="-10" />
                 </Group>
             </VBox>
         </center>
