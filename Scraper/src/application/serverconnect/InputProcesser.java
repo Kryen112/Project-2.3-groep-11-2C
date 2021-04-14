@@ -4,12 +4,19 @@ import application.games.Game;
 import java.util.LinkedList;
 
 /**
+ * The Server class
+ * This class creates the server and sets up the connection
+ * This class also contains all commands to send to the server
  *
+ * @author Douwe
+ * Project 2.3 Hanze Hogeschool 2021
  */
 public class InputProcesser {
+    public String answer;           // the answer
 
-    public String answer;
-
+    /**
+     * Messages
+     */
     public String[] matchMessage;
     public String[] turnMessage;
     public String[] lossMessage;
@@ -17,25 +24,36 @@ public class InputProcesser {
     public String[] moveMessage;
     public String[] challenger;
 
+    // List to keep track of the moves
     public LinkedList<Integer> moves = new LinkedList<>();
 
-    public int move;
-    public String opponent;
-    public boolean turn;
+    public int move;            // current move
+    public String opponent;     // opponent of Game
+    public boolean turn;        // check if it is our turn
 
-    public String winner;
-    public String black;
+    public String winner;       // the Winner
+    public String black;        // player who plays black
 
-    public int challengeNumber;
+    public int challengeNumber; // challenge number from incomming challenge
+
+    /**
+     * Game checkers
+     */
     public boolean match = false;
     public boolean gameOver = false;
 
-    public Game game;
+    public Game game;           // the class Game that holds the game logic
 
+    /**
+     * Constructor for inputProcessor
+     */
     public InputProcesser() {
         challengeNumber = 0;
     }
 
+    /**
+     * Method to set Start pieces on board for ReversiGame
+     */
     public void setStart() {
         if(black.equals(opponent)) {
             game.getReversi().setStartPieces(game.getBoard(), 'x');
@@ -44,47 +62,87 @@ public class InputProcesser {
         }
     }
 
+    /**
+     * Method to get the list of moves
+     * @return list of moves
+     */
     public LinkedList<Integer> getMoves() {
         return this.moves;
     }
 
+    /**
+     * Method to remove First of list moves
+     */
     public void removeFirstMove() {
         this.moves.remove(0);
     }
 
+    /**
+     * Method to get the challenge number
+     * @return number of challenge
+     */
     public int getChallengeNumber() {
         return this.challengeNumber;
     }
 
+    /**
+     * Method to check if incomming message is OK
+     * @return true if answer equals OK
+     */
     public Boolean isOK() {
         return answer.equals("OK");
     }
 
+    /**
+     * Method to set the answer
+     * @param answer
+     */
     public void setAnswer(String answer) {
         this.answer = answer;
     }
 
+    /**
+     * Method to set move
+     */
     public void setMove() {
         move = Integer.parseInt(moveMessage[1].replace("MOVE: ", "").replace("\"", ""));
     }
 
+    /**
+     * Method to set black
+     */
     public void setBlack() {
         black = matchMessage[0].replace("PLAYERTOMOVE: ", "").replace("\"", "");
 
     }
 
+    /**
+     * Method to set Winner
+     */
     public void setWinner() {
-
     }
 
+    /**
+     * Method to set the Opponent
+     */
     public void setOpponent() {
         opponent = matchMessage[2].replace("OPPONENT: ", "").replace("\"", "");
     }
 
+    /**
+     * Method to set and get the messages
+     * @param message the message to be set
+     * @return array of message
+     */
     public String[] setMessages(String message) {
         return message.replace("{", "").replace("}", "").split(", ");
     }
 
+    /**
+     * Method to process the input
+     * @param input the input
+     * @param server the server to use
+     */
     public void processInput(String input, Server server) {
         // Challenge cancel message afvangen
         if(input != null) {
@@ -105,8 +163,6 @@ public class InputProcesser {
                 }
             }
 
-            // TODO challenge CANCEL vangt niet
-            // TODO alles in 1 switch?
             String[] arr = input.split(" ", 4);
             String serverMessage = "";
 
@@ -199,6 +255,10 @@ public class InputProcesser {
 
         }
 
+    /**
+     * Setter for Game
+      * @param game the game that needs to be set
+     */
     public void setGame(Game game) {
 //        System.out.println("This game is set!!!!");
         this.game = game;

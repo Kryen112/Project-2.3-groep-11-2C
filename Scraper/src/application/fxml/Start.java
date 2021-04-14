@@ -468,9 +468,12 @@ public class Start implements Runnable {
         gameBoard.setVisible(true);
 
         // maak een game met Type, bord en players
+        if (thisGame == null) {
+            thisGame = new Game(gameType, player1, player2);
+            gameBoard.getChildren().add(gameTiles);
+            gameTiles.setVisible(true);
+        }
 
-        // Player 1 begint en wordt random gekozen
-        // Player 1 speelt als X
         Player p1 = thisGame.getPlayer1();
         Player p2 = thisGame.getPlayer2();
 
@@ -528,43 +531,10 @@ public class Start implements Runnable {
                     x = 0;
                 }
 
-                if (gameType.equals(Game.REV)) {
-                    p.setDisable(true);
-                }
-
                 // voeg functionaliteit toe aan Pane
                 p.setOnMouseClicked(e -> {
-                    if (!thisGame.isGameOver()) {
                         userClickedTile(e, p, thisGame, p1);
-                    }
-                    if (gameType.equals(Game.BKE)) {
-                        System.out.println("hier");
 
-                        if (thisGame.isWon()) {
-                            System.out.println("hier");
-                            showMessage(info, 0, thisGame.getCurrentPlayer().getName() + " heeft gewonnen");
-                            thisGame.setGameOver();
-                            // todo winning pionnen
-                        } else if (thisGame.getTurns() == 9) {
-                            System.out.println("hier");
-
-                            showMessage(info, 0, "Gelijkspel");
-                            thisGame.setGameOver();
-                        }
-
-                    } else if (gameType.equals(Game.REV)) {
-                        if (thisGame.isWon()) {
-                            System.out.println("hier");
-
-                            showMessage(info, 0, thisGame.getCurrentPlayer().getName() + " heeft gewonnen");
-                            thisGame.setGameOver();
-                        } else if (thisGame.getReversi().isWonRev(thisGame.getBoard()) == 'g') {
-                            System.out.println("hier");
-
-                            showMessage(info, 0, "Gelijkspel");
-                            thisGame.setGameOver();
-                        }
-                    }
                 });
             }
         }
