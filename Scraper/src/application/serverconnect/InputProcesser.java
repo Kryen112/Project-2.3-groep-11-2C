@@ -148,6 +148,7 @@ public class InputProcesser {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                     }
+
                     turn = true;
                     break;
                 case "SVRGAMELOSS":
@@ -182,10 +183,15 @@ public class InputProcesser {
                     break;
 
                 case "SVRGAMECHALLENGE":
-                    this.challenger = setMessages(arr[3]);
-                    challengeNumber = Integer.parseInt(setMessages(arr[3])[1].replace("CHALLENGENUMBER: ", "").replace("\"", ""));
-                    System.out.println("Challenge ontvangen van: " + challenger[0].replace("CHALLENGER: ", "").replace("\"", ""));
+                    if(input.contains("SVR GAME CHALLENGE CANCELLED")) {
+                        System.out.println("Challenge canceled");
+                    } else {
+                        this.challenger = setMessages(arr[3]);
+                        challengeNumber = Integer.parseInt(setMessages(arr[3])[1].replace("CHALLENGENUMBER: ", "").replace("\"", ""));
+                        System.out.println("Challenge ontvangen van: " + challenger[0].replace("CHALLENGER: ", "").replace("\"", ""));
+                    }
                     break;
+
             }
         } else {
                 gameOver = true;
@@ -194,7 +200,7 @@ public class InputProcesser {
         }
 
     public void setGame(Game game) {
-        System.out.println("This game is set!!!!");
+//        System.out.println("This game is set!!!!");
         this.game = game;
     }
 }

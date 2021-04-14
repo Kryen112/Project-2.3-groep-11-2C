@@ -105,6 +105,10 @@ public class Reversi {
 
     public char isWonRev(Board board){
         if(board.getStoneAmount('x')+ board.getStoneAmount('o')==64 || getFreeSpaces(board, 'x').isEmpty() && getFreeSpaces(board, 'o').isEmpty()){
+            if (board.getStoneAmount('x') == board.getStoneAmount('o')) {
+                return 'g';
+            }
+
             if(board.getStoneAmount('x') >= board.getStoneAmount('o')){
                 return 'x';
             }

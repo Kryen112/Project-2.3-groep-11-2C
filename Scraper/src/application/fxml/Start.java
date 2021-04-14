@@ -31,10 +31,12 @@ import java.util.HashMap;
  * Project 2.3 Hanze Hogeschool 2021
  */
 public class Start implements Runnable {
-    public final boolean DEBUG = true; // change to false to hide debug messages
-    public HumanPlayer user;           // the user who uses the application
-    public HumanPlayer player2;           // the user who uses the application
-    public ComputerPlayer ai = new ComputerPlayer(); // the ai
+    public final boolean DEBUG = false; // change to false to hide debug messages
+
+    public HumanPlayer user;
+    public HumanPlayer player2;
+    public ComputerPlayer ai = new ComputerPlayer();    // the ai
+
     public String gameType;            // the gameType the user chose
     public final String BKE = "Boter, Kaas en Eieren";
     public final String REV = "Reversi";
@@ -512,23 +514,37 @@ public class Start implements Runnable {
                     x = 0;
                 }
 
-                if (gameType.equals(Game.REV)) {
-                    p.setDisable(true);
-                }
-
                 // voeg functionaliteit toe aan Pane
                 p.setOnMouseClicked(e -> {
                     if (!thisGame.isGameOver()) {
                         userClickedTile(e, p, thisGame, p1);
                     }
                     if (gameType.equals(Game.BKE)) {
+                        System.out.println("hier");
+
                         if (thisGame.isWon()) {
+                            System.out.println("hier");
+                            showMessage(info, 0, thisGame.getCurrentPlayer().getName() + " heeft gewonnen");
                             thisGame.setGameOver();
                             // todo winning pionnen
-                            info.setText(thisGame.getCurrentPlayer().getName() + " heeft gewonnen");
                         } else if (thisGame.getTurns() == 9) {
+                            System.out.println("hier");
+
+                            showMessage(info, 0, "Gelijkspel");
                             thisGame.setGameOver();
-                            info.setText("Helaas gelijk spel");
+                        }
+
+                    } else if (gameType.equals(Game.REV)) {
+                        if (thisGame.isWon()) {
+                            System.out.println("hier");
+
+                            showMessage(info, 0, thisGame.getCurrentPlayer().getName() + " heeft gewonnen");
+                            thisGame.setGameOver();
+                        } else if (thisGame.getReversi().isWonRev(thisGame.getBoard()) == 'g') {
+                            System.out.println("hier");
+
+                            showMessage(info, 0, "Gelijkspel");
+                            thisGame.setGameOver();
                         }
                     }
                 });
@@ -782,13 +798,11 @@ public class Start implements Runnable {
      * @param msg message to show
      */
     @FXML
-    public void showMessage(Text textBox, int type, String msg) {
+    public static void showMessage(Text textBox, int type, String msg) {
         if (type == 1) {
             textBox.setStyle("-fx-fill: RED;");
-            if (DEBUG){ System.out.println("DEBUG ERROR " + msg); }
         } else {
             textBox.setStyle("-fx-fill: GREEN;");
-            if (DEBUG){ System.out.println("DEBUG SUCCESS " + msg); }
         }
         textBox.setText(msg);
     }

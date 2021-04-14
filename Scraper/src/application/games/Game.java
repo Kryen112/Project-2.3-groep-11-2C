@@ -150,7 +150,7 @@ public class Game {
             else return false;
         }
         if(gameTitle == REV){
-            char winner = bke.isWonBKE(getBoard());
+            char winner = reversi.isWonRev(getBoard());
             if(winner != '.'){
                 return true;
             }
@@ -229,10 +229,6 @@ public class Game {
 
     public void incrementTurns() {
         this.turns++;
-    }
-
-    public Boolean isWonREV() {
-        return true;
     }
 
     public void addPointToPlayer(Player p) {
