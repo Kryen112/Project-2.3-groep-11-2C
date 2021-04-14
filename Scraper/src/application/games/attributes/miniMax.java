@@ -3,7 +3,7 @@ import java.lang.*;
 
 import javax.swing.border.EmptyBorder;
 
-public class miniMax {
+public class MiniMax {
  Reversi reversi = new Reversi();//hoer  moet even naar gekeken worden
     
 

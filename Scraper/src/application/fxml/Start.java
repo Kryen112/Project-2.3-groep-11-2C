@@ -92,7 +92,7 @@ public class Start implements Runnable {
     HashMap<String, Integer> stateOfTile;
     HashMap<String, Pane> listOfPanes = new HashMap<>();
     Boolean inGame = false;
-    Game thisGame;
+    static Game thisGame;
 
     // LOGIN SCREEN METHODS
     /**
@@ -415,10 +415,11 @@ public class Start implements Runnable {
                         String id = ""+moves.getFirst();
                         Pane p = listOfPanes.get(id);
 
-                        ImageView thisView = thisGame.setPieceOnBoard( (ImageView) p.getChildren().get(0) );
+//                        ImageView thisView = thisGame.setPieceOnBoard( (ImageView) p.getChildren().get(0) );
 
                         Platform.runLater(() -> {
-                            p.getChildren().add(thisView);
+//                            p.getChildren().add(thisView);
+                            thisGame.copyList();
                         });
 
                         thisGame.changeTurn();
@@ -447,7 +448,7 @@ public class Start implements Runnable {
 
         // maak een game met Type, bord en players
         thisGame = new Game(gameType, player1, player2);
-
+        App.server.getInputProcesser().setGame(thisGame);
         // Player 1 begint en wordt random gekozen
         // Player 1 speelt als X
         Player p1 = thisGame.getPlayer1();

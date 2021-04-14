@@ -2,6 +2,7 @@ package application.serverconnect;
 
 import application.App;
 import application.fxml.Start;
+import application.games.Game;
 import application.games.players.HumanPlayer;
 
 import java.util.HashMap;
@@ -32,15 +33,17 @@ public class InputProcesser {
     public boolean match = false;
     public boolean gameOver = false;
 
+    Game game;
+
     public InputProcesser() {
         challengeNumber = 0;
     }
 
     public void setStart() {
         if(black.equals(opponent)) {
-            App.reversi.setStartPieces(App.board, 'x');
+            Game.reversi.setStartPieces(game.getBoard(), 'x');
         } else {
-            App.reversi.setStartPieces(App.board, 'o');
+            Game.reversi.setStartPieces(game.getBoard(), 'o');
         }
     }
 
@@ -116,7 +119,6 @@ public class InputProcesser {
             switch (serverMessage) {
                 case "SVRGAMEMATCH":
                     gameOver = false;
-                    App.board.clearBoard();
                     System.out.println("Game match start!");
                     this.matchMessage = setMessages(arr[3]);
                     setBlack();
@@ -134,7 +136,7 @@ public class InputProcesser {
                     //server.doMove(set);
 
                     try {
-                        int move = App.miniMax.miniMaxi(App.board,13,0,0,'o').getLastSet();
+                        int move = game.getMm().miniMaxi(game.getBoard(),13,0,0,'o').getLastSet();
                        System.out.println(move);
                         //App.miniMax.miniMaxi(App.board,15,0,0,'o').pirntBoard();
                        server.doMove(move);
@@ -162,7 +164,7 @@ public class InputProcesser {
                         setMove();
                         moves.add(move);
                         System.out.println("Deze zet is gedaan: " + this.move);
-                        App.reversi.setPieceOnBoard(App.board, this.move, 'o');
+                        Game.reversi.setPieceOnBoard(game.getBoard(), this.move, 'o');
                         turn = false;
                     } else {
                         System.out.println("Move set by opponent");
@@ -170,7 +172,7 @@ public class InputProcesser {
                         setMove();
                         moves.add(move);
                         System.out.println("Deze zet is gedaan: " + this.move);
-                        App.reversi.setPieceOnBoard(App.board, this.move, 'x');
+                        Game.reversi.setPieceOnBoard(game.getBoard(), this.move, 'x');
                     }// zet move op het bord van diegene die move heeft gezet
                     break;
 
@@ -186,4 +188,8 @@ public class InputProcesser {
             }
 
         }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
 }

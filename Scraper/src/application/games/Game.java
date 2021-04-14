@@ -1,6 +1,9 @@
 package application.games;
 
+import application.App;
+import application.games.attributes.MiniMax;
 import application.games.players.Player;
+import application.serverconnect.Server;
 import javafx.scene.image.ImageView;
 import application.games.attributes.BKE;
 import application.games.attributes.Board;
@@ -17,14 +20,13 @@ import java.util.Random;
  * Project 2.3 2021 - Groep 2C
  */
 public class Game {
+    Board board;
     Random r = new Random();
 
     String gameTitle;
     BoardUI boardUI;      // The UI of the game board
-    Board board;
-    Reversi reversi;
+    public static Reversi reversi;
     BKE bke;
-
 
     private final Player player1;       // Players of the Game
     private final Player player2;
@@ -42,13 +44,12 @@ public class Game {
     public final static String X = "X";
     public final static String O = "O";
 
-    
+    MiniMax mm;
 
     /**
      * Constructor klasse Game
      * Wordt aangeroepen als er een nieuwe Game wordt gestart
      * @param title       Titel van de Game
-     * @param boardToUse  Board UI die moet worden gebruikt
      * @param p1          Speler 1 (vanuit Input van de Server)
      * @param p2          Speler 2 (vanuit Input van de Server
      */
@@ -67,7 +68,6 @@ public class Game {
             gameTitle = "";
         }
 
-
         player1 = p1;
         player1.setScore(0);
 
@@ -83,6 +83,8 @@ public class Game {
             currentPlayer = player2;
             turn = O.charAt(0);
         }
+
+        mm = new MiniMax();
     }
 
     /**
@@ -92,12 +94,13 @@ public class Game {
     public String getGameTitle() {
         return this.gameTitle;
     }
+
     /**
      * Methode om het bord dat gebruikt wordt te retourneren
      * @return BoardUI het bord dat gebruikt wordt
      */
     public Board getBoard() {
-        return this.board;
+        return board;
     }
 
     public BoardUI getBoardUI() {
@@ -240,9 +243,24 @@ public class Game {
         for(int i = 0; i < board.getHeight(); i++) {
             for(int j = 0; j < board.getHeight(); j++) {
                 // controleer voor elk punt of het overeenkomt
-                boardUI.getGameBoardPane(i, j);
+                ;
+//                System.out.println(board.getGameBoardChar(i,j));
+                board.printBoard();
+                if (board.getGameBoardChar(i,j) == 'o') {
+                    ImageView imageView = setPieceOnBoard( (ImageView) boardUI.getGameBoardPane(i, j).getChildren().get(0) );
+                    boardUI.getGameBoardPane(i, j).getChildren().add(imageView);
+                } else if ( board.getGameBoardChar(i,j) == 'x'){
+                    ImageView imageView = setPieceOnBoard( (ImageView) boardUI.getGameBoardPane(i, j).getChildren().get(0) );
+                    boardUI.getGameBoardPane(i, j).getChildren().add(imageView);
+                } else {
+
+                }
                 count++;
             }
         }
+    }
+
+    public MiniMax getMm() {
+        return mm;
     }
 }

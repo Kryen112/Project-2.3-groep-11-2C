@@ -6,7 +6,7 @@ public class TIJDELIJK {
         Reversi reversi = new Reversi();//hier  moet even naar gekeken worden
         BKE bke = new BKE();
         Board board = new Board(3);
-        miniMax miniMax = new miniMax();
+        MiniMax miniMax = new MiniMax();
         board.createBoard();
         board.printBoard();
         /*board.setStartPieceOnBoard(27,'x');
