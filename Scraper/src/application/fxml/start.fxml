@@ -24,7 +24,7 @@
         <top>
             <VBox>
                 <Text fx:id="title" text="Welkom bij AI Gaming"/>
-                <Text fx:id="info" text="Wil je online of lokaal spelen?"/>
+                <Text fx:id="info" text="Wil je online of lokaal spelen?" translateY="5"/>
             </VBox>
         </top>
 
@@ -33,9 +33,10 @@
 
                 <Group fx:id="homeScreen">
                     <HBox>
-                        <Button text="Speel Online" onAction="#handleOnlinePlay"/>
-                        <Button text="Speel Lokaal" onAction="#handleLocalPlay" translateX="20"/>
+                        <Button text="Speel Online" onAction="#handleOnlinePlay" translateY="30"/>
+                        <Button text="Speel Lokaal" onAction="#handleLocalPlay"  translateY="30" translateX="20"/>
                     </HBox>
+                    <ImageView translateY="100" translateX="250"><Image url="@../images/signal.png"></Image></ImageView>
                 </Group>
 
                 <!--       LOGIN            -->
