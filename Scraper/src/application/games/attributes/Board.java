@@ -3,13 +3,21 @@ package application.games.attributes;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Board implements Cloneable {
+public class Board{
     int lastSet;
     int xPoints;
     int oPoints;
     char[][] gameBoard;
-    final int height = 8;// dit kan veranderd worden bij boterkaas en eieren 
+    int height = 0;// dit kan veranderd worden bij boterkaas en eieren 
     Random rand = new Random();
+    int stoneAmountX = 0;
+    int stoneAmountO = 0;
+
+    public Board(int height){
+        setHeight(height);
+        createBoard();
+    }
+
 
     public void clearBoard(){
         for(int i = 0; i < height; i++) {
@@ -17,15 +25,53 @@ public class Board implements Cloneable {
                 gameBoard[i][j] = '.';
             }
         }
+        stoneAmountX = 0;
+        stoneAmountO = 0;
     }
-
-    public Board execute() {
+/*
+    public Board execute(int height) {
+        setHeight(height);
         createBoard();
         return null;
     }
-
+*/ 
     public char[][] getGameBoard() {
         return gameBoard;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getStoneAmount(char piece) {
+        if(piece == 'o'){
+            return stoneAmountO;
+        }
+        else{
+            return stoneAmountX;
+        }
+    }
+
+    public void setStoneAmount(int stoneAmount, char piece) {
+        if(piece == 'o'){
+            this.stoneAmountO = stoneAmount;
+        }
+        else{
+            this.stoneAmountX = stoneAmount;
+        }
+    }
+
+    public void addOneStoneAmount(char piece){
+        if(piece == 'o'){
+            stoneAmountO++;
+        }
+        else{
+        stoneAmountX++;
+        }
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public void setGameBoard(char[][] gameBoard) {
@@ -35,7 +81,7 @@ public class Board implements Cloneable {
         }
     }
 
-    public void setStartPieces(char pieceToPlace) {
+/*    public void setStartPieces(char pieceToPlace) {
         if(pieceToPlace=='o'){
             setStartPieceOnBoard(28,'o');
             setStartPieceOnBoard(35,'o');
@@ -50,7 +96,7 @@ public class Board implements Cloneable {
         }
 
     }
-
+*/
     public void setLastSet(int lastSet) {
         this.lastSet = lastSet;
     }
@@ -113,27 +159,7 @@ public class Board implements Cloneable {
 
     public void setStartPieceOnBoard(int space, char pieceToPlace) {
         gameBoard[getRow(space)][getColumn(space)] = pieceToPlace;
-    }
-
-
-    
-    /*  public ArrayList<ArrayList<String>> getColumns() {
-        return null;
-    }
-    /*  public ArrayList<ArrayList<String>> getColumns() {
-        return null;
-    }
-    public ArrayList<ArrayList<String>> getRows() {
-        return null;
-    }
-*/
-
-    public ArrayList<ArrayList<String>> getLeftDiagonal() {
-        return null;
-    }
-
-    public ArrayList<ArrayList<String>> getRightDiagonal() {
-        return null;
+        addOneStoneAmount(pieceToPlace);
     }
 
     public void printBoard(){
@@ -188,9 +214,6 @@ public class Board implements Cloneable {
         }
         return space;
     }
-
-    
-
 
     public int getNeighbor(int direction, int space, int steps){
         int value = height*height;

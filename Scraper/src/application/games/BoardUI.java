@@ -11,25 +11,13 @@ public class BoardUI {
     int height;
     HashMap<String, Integer> states;
 
-    private int[][] winningPositionsBKE = {
-            { 0, 0, 0},
-            { 0, 0, 0},
-            { 0, 0, 0}
-    };
-
     public BoardUI(int h, HashMap<String, Integer> states){
         setHeight(h);
         gameBoardUI = createBoardUI();
         this.states = states;
     }
 
-    public void resetWinningPositions() {
-        this.winningPositionsBKE = new int[][] {
-                { 0, 0, 0},
-                { 0, 0, 0},
-                { 0, 0, 0}
-        };
-    }
+    
 
     public void setHeight(int height){
         this.height = height;
@@ -84,96 +72,5 @@ public class BoardUI {
         return states.get(id);
     }
 
-    public Boolean isWonBKE() {
-        int xHorizontal = 0;
-        int oHorizontal = 0;
-
-        // horizontal row check
-        for(int i = 0; i<3; i++) {
-            for(int j = 0; j<3; j++) {
-                if(getStateOfPane(getGameBoardPane(i, j), getGameBoardPane(i, j).getId()) == 1) {
-                    winningPositionsBKE[i][j] = 1;
-                    xHorizontal++;
-                }
-                if(getStateOfPane(getGameBoardPane(i, j), getGameBoardPane(i, j).getId()) == 2) {
-                    winningPositionsBKE[i][j] = 2;
-                    oHorizontal++;
-                }
-            }
-
-            if(xHorizontal == 3 || oHorizontal == 3) {
-                return true;
-            }
-
-            xHorizontal = 0;
-            oHorizontal = 0;
-            resetWinningPositions();
-        }
-
-        int xVertical = 0;
-        int oVertical = 0;
-
-        for(int i = 0; i<3; i++) {
-            for(int j = 0; j<3; j++) {
-                if(getStateOfPane(getGameBoardPane(i, j), getGameBoardPane(i, j).getId()) == 1) {
-                    winningPositionsBKE[i][j] = 1;
-                    xVertical++;
-                }
-                if(getStateOfPane(getGameBoardPane(i, j), getGameBoardPane(i, j).getId()) == 2) {
-                    winningPositionsBKE[i][j] = 2;
-                    oVertical++;
-                }
-            }
-
-            if(xVertical == 3 || oVertical == 3) {
-                return true;
-            }
-            xVertical = 0;
-            oVertical = 0;
-            resetWinningPositions();
-        }
-
-        int count = 0;
-        int xDiagonal = 0;
-        int oDiagonal = 0;
-
-        // diagonal top left to bottom right
-        for(int i = 0; i < 3; i++) {
-            if(getStateOfPane(getGameBoardPane(i, count), getGameBoardPane(i, count).getId()) == 1) {
-                winningPositionsBKE[i][count] = 1;
-                xDiagonal++;
-            }
-            if(getStateOfPane(getGameBoardPane(i, count), getGameBoardPane(i, count).getId()) == 2) {
-                winningPositionsBKE[i][count] = 2;
-                oDiagonal++;
-            }
-            if(xDiagonal == 3 || oDiagonal == 3) {
-                return true;
-            }
-            count++;
-        }
-
-        resetWinningPositions();
-        xDiagonal = 0;
-        oDiagonal = 0;
-        count = 0;
-
-        // diagonal bottom left to top right
-        for(int i = 2; i >= 0; i--) {
-            if(getStateOfPane(getGameBoardPane(i, count), getGameBoardPane(i, count).getId()) == 1) {
-                winningPositionsBKE[i][count] = 1;
-                xDiagonal++;
-            }
-            if(getStateOfPane(getGameBoardPane(i, count), getGameBoardPane(i, count).getId()) == 2) {
-                winningPositionsBKE[i][count] = 2;
-                oDiagonal++;
-            }
-            if(xDiagonal == 3 || oDiagonal == 3) {
-                return true;
-            }
-            count++;
-        }
-        resetWinningPositions(  );
-        return false;
-    }
+    
 }

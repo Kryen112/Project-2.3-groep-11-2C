@@ -48,8 +48,7 @@ public class App extends Application {
      */
     public App() {
         //TODO board maken bij aanroep spel
-        board = new Board();
-        board.execute();
+        board = new Board(8);
         reversi = new Reversi();
         miniMax = new miniMax();
     }

@@ -2,7 +2,10 @@ package application.games;
 
 import application.games.players.Player;
 import javafx.scene.image.ImageView;
+import application.games.attributes.BKE;
 import application.games.attributes.Board;
+import application.games.attributes.Reversi;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,7 +19,11 @@ public class Game {
     Random r = new Random();
 
     String gameTitle;
-    BoardUI board;      // The UI of the game board
+    BoardUI boardUI;      // The UI of the game board
+    Board board;
+    Reversi reversi;
+    BKE bke;
+
 
     private final Player player1;       // Players of the Game
     private final Player player2;
@@ -35,6 +42,8 @@ public class Game {
     public final static String X = "X";
     public final static String O = "O";
 
+    
+
     /**
      * Constructor klasse Game
      * Wordt aangeroepen als er een nieuwe Game wordt gestart
@@ -43,16 +52,19 @@ public class Game {
      * @param p1          Speler 1 (vanuit Input van de Server)
      * @param p2          Speler 2 (vanuit Input van de Server
      */
-    public Game(String title, BoardUI boardToUse, Player p1, Player p2){
+    public Game(String title, Player p1, Player p2){
         if (title.equals(BKE)) {
             gameTitle = BKE;
+            board = new Board(3);
+            bke = new BKE();
         } else if (title.equals(REV)) {
             gameTitle = REV;
+            board = new Board(8);
+            reversi = new Reversi();
         } else {
             gameTitle = "";
         }
 
-        board = boardToUse;
 
         player1 = p1;
         player1.setScore(0);
@@ -82,8 +94,12 @@ public class Game {
      * Methode om het bord dat gebruikt wordt te retourneren
      * @return BoardUI het bord dat gebruikt wordt
      */
-    public BoardUI getBoard() {
+    public Board getBoard() {
         return this.board;
+    }
+
+    public BoardUI getBoardUI() {
+        return this.boardUI;
     }
     /**
      * Method to return the Player who plays as Player one
@@ -112,6 +128,26 @@ public class Game {
      */
     public char getTurn() {
         return this.turn;
+    }
+
+    public boolean isWon(){
+        if(gameTitle == BKE){
+            char winner = bke.isWonBKE(getBoard());
+            if(winner != '.'){
+                return true;
+            }
+            else return false;
+        }
+        if(gameTitle == REV){
+            char winner = bke.isWonBKE(getBoard());
+            if(winner != '.'){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        return false;
     }
 
     /**
