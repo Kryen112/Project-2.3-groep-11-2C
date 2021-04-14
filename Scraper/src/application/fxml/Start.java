@@ -739,9 +739,4 @@ public class Start {
         setTitleOfGameScreen(gameType);
         gameBoard.setVisible(false);
     }
-
-    @FXML
-    public void resetGame() {
-
-    }
 }
