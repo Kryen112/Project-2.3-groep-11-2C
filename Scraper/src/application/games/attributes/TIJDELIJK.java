@@ -4,8 +4,9 @@ public class TIJDELIJK {
 
     public static void main(String[] args) throws CloneNotSupportedException {
         Reversi reversi = new Reversi();//hier  moet even naar gekeken worden
-        Board board = new Board();
-        miniMax miniMax = new miniMax();
+        BKE bke = new BKE();
+        Board board = new Board(3);
+        MiniMax miniMax = new MiniMax();
         board.createBoard();
         board.printBoard();
         /*board.setStartPieceOnBoard(27,'x');
@@ -14,12 +15,13 @@ public class TIJDELIJK {
         board.setStartPieceOnBoard(28,'o');
         */
         
-        reversi.setStartPieces(board, 'o');
-        reversi.setPieceOnBoard(board, 1, 'x');
+
+        reversi.setPieceOnBoard(board, 6, 'o');
+        reversi.setPieceOnBoard(board, 4, 'o');
         reversi.setPieceOnBoard(board, 2, 'o');
-        reversi.setPieceOnBoard(board, 13, 'o');
-        reversi.setPieceOnBoard(board, 14, 'x');
-        reversi.setPieceOnBoard(board, 12, 'o');
+        //reversi.setPieceOnBoard(board, 14, 'x');
+        //reversi.setPieceOnBoard(board, 12, 'o');
+        System.out.println(bke.isWonBKE(board));
         board.printBoard();
         //reversi.setPieceOnBoard(board, 34,'x');
         //board.printBoard();
@@ -30,10 +32,11 @@ public class TIJDELIJK {
         //reversi.setPieceOnBoard(board, 26,'o');
         //board.printBoard();
         
-        //System.out.println(board.getNeighbor(4, 9, 3));
-        System.out.println(reversi.getFreeSpaces(board,'o')+ "hello");
-        System.out.println(reversi.bestSpot(reversi.getFreeSpaces(board,'o')));
-        System.out.println(miniMax.miniMaxi(board,10,0,0,'o').getLastSet());
+        
+        //board.setStartPieceOnBoard(board.getNeighbor(0, 0, 1),'o');
+        //System.out.println(reversi.getFreeSpaces(board,'o')+ "hello");
+        //System.out.println(reversi.bestSpot(reversi.getFreeSpaces(board,'o')));
+        //System.out.println(miniMax.miniMaxi(board,10,0,0,'o').getLastSet());
         //System.out.println(miniMax.miniMaxi(board,1,'o'));
         //miniMax.copyBoard(board);
         
