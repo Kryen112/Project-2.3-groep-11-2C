@@ -1,14 +1,11 @@
 package application.serverconnect;
 
-import application.App;
-import application.fxml.Start;
 import application.games.Game;
-import application.games.players.HumanPlayer;
-
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Queue;
 
+/**
+ *
+ */
 public class InputProcesser {
 
     public String answer;
@@ -26,14 +23,14 @@ public class InputProcesser {
     public String opponent;
     public boolean turn;
 
+    public String winner;
     public String black;
-    public String white;
 
     public int challengeNumber;
     public boolean match = false;
     public boolean gameOver = false;
 
-    Game game;
+    public Game game;
 
     public InputProcesser() {
         challengeNumber = 0;
@@ -41,9 +38,9 @@ public class InputProcesser {
 
     public void setStart() {
         if(black.equals(opponent)) {
-            Game.reversi.setStartPieces(game.getBoard(), 'x');
+            game.getReversi().setStartPieces(game.getBoard(), 'x');
         } else {
-            Game.reversi.setStartPieces(game.getBoard(), 'o');
+            game.getReversi().setStartPieces(game.getBoard(), 'o');
         }
     }
 
@@ -73,6 +70,10 @@ public class InputProcesser {
 
     public void setBlack() {
         black = matchMessage[0].replace("PLAYERTOMOVE: ", "").replace("\"", "");
+
+    }
+
+    public void setWinner() {
 
     }
 
@@ -137,23 +138,26 @@ public class InputProcesser {
 
                     try {
                         int move = game.getMm().miniMaxi(game.getBoard(),13,0,0,'o').getLastSet();
-                       System.out.println(move);
+                        System.out.println(move);
                         //App.miniMax.miniMaxi(App.board,15,0,0,'o').pirntBoard();
                        server.doMove(move);
                     } catch (CloneNotSupportedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                     }
+
                     turn = true;
                     break;
                 case "SVRGAMELOSS":
                     System.out.println("You have lost!");
                     this.lossMessage = setMessages(arr[3]);
+                    game.setWinner(game.getPlayer2());
                     gameOver = true;
                     break;
                 case "SVRGAMEWIN":
                     System.out.println("You have won!");
                     this.winMessage = setMessages(arr[3]);
+                    game.setWinner(game.getPlayer1());
                     gameOver = true;
                     break;
                 case "SVRGAMEMOVE":
@@ -164,7 +168,8 @@ public class InputProcesser {
                         setMove();
                         moves.add(move);
                         System.out.println("Deze zet is gedaan: " + this.move);
-                        Game.reversi.setPieceOnBoard(game.getBoard(), this.move, 'o');
+                        game.getReversi().setPieceOnBoard(game.getBoard(), this.move, 'o');
+                        game.changeTurn();
                         //App.reversi.setPieceOnBoard(App.board, this.move, 'o');
                         turn = false;
                     } else {
@@ -173,15 +178,20 @@ public class InputProcesser {
                         setMove();
                         moves.add(move);
                         System.out.println("Deze zet is gedaan: " + this.move);
-                        Game.reversi.setPieceOnBoard(game.getBoard(), this.move, 'x');
+                        game.getReversi().setPieceOnBoard(game.getBoard(), this.move, 'x');
+                        game.changeTurn();
                     }// zet move op het bord van diegene die move heeft gezet
                     break;
-
                 case "SVRGAMECHALLENGE":
-                    this.challenger = setMessages(arr[3]);
-                    challengeNumber = Integer.parseInt(setMessages(arr[3])[1].replace("CHALLENGENUMBER: ", "").replace("\"", ""));
-                    System.out.println("Challenge ontvangen van: " + challenger[0].replace("CHALLENGER: ", "").replace("\"", ""));
+                    if(input.contains("SVR GAME CHALLENGE CANCELLED")) {
+                        System.out.println("Challenge canceled");
+                    } else {
+                        this.challenger = setMessages(arr[3]);
+                        challengeNumber = Integer.parseInt(setMessages(arr[3])[1].replace("CHALLENGENUMBER: ", "").replace("\"", ""));
+                        System.out.println("Challenge ontvangen van: " + challenger[0].replace("CHALLENGER: ", "").replace("\"", ""));
+                    }
                     break;
+
             }
         } else {
                 gameOver = true;
@@ -190,6 +200,7 @@ public class InputProcesser {
         }
 
     public void setGame(Game game) {
+//        System.out.println("This game is set!!!!");
         this.game = game;
     }
 }

@@ -18,7 +18,6 @@ public class MiniMax {
         return newBoard;
     }
 
-
     public Board miniMaxi(Board board, int depth, int alpha, int beta, char maximizingPlayer) throws CloneNotSupportedException{
         if(depth == 0 ){//or game over
             return board;
