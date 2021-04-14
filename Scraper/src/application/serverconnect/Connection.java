@@ -4,27 +4,32 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 
+/**
+ * Main class voor project 2.3 Game Framework
+ * application.App zorgt voor de primaryStage,
+ * Start.application.fxml dient als root van de application.App
+ *
+ * @author Douwe
+ * Project 2.3 Hanze Hogeschool 2021
+ */
 public class Connection {
-    /** The server port */
-    protected static final int PORT = 7789;
+    /**
+     * Hardcoded connection
+     */
+    protected static final int PORT = 7789;                     // The server port
+    protected static final String IPSCHOOL = "145.33.225.170";  // The server ip
 
-    /** The server ip */
-    protected static final String IPSCHOOL = "145.33.225.170";
-
-    /** The socket */
-    protected Socket socket;
-
-    /** The Server class */
-    protected Server server;
-
-    /** The Input class */
-    protected Input input;
-
-    /** The input processer */
-    protected final InputProcesser inputProcesser;
+    protected Socket socket;    // the socket to use
+    protected Server server;    // the server that is used
+    protected Input input;      // class to handle the input
+    protected final InputProcesser inputProcesser;              // class to process the input
 
     /**
-     * The constructor for the standard connection
+     * The constructor for the standard connection (School server)
+     * creates a new Inputprocessor
+     * sets the socket
+     * sets the server
+     * sets the input
      */
     public Connection() {
         inputProcesser  = new InputProcesser();
@@ -35,6 +40,12 @@ public class Connection {
 
     /**
      * The constructor for other connections
+     * creates a new Inputprocessor
+     * sets the socket
+     * sets the server
+     * sets the input
+     * @param ip the ipAdress the use
+     * @param port the ipAdress the use
      */
     public Connection(String ip, String port) {
         inputProcesser  = new InputProcesser();
@@ -44,21 +55,23 @@ public class Connection {
     }
 
     /**
-     * This method sets the Input
+     * Method to set the Input
+     * uses the Socket, inputProcessor and Server to set the Input
      */
     public void setInput() {
         input = new Input(socket, inputProcesser, server);
     }
 
     /**
-     * This method sets the Output
+     * Method to set the Output
+     * uses the Socket and InputProcessor to set the Output
      */
     public void setServer() {
         server = new Server(socket, inputProcesser);
     }
 
     /**
-     * This method sets the Socket of the default address+port
+     * Method to set the Socket of the default address+port (School server)
      */
     public void setSocket() {
         try {
