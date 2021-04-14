@@ -75,17 +75,20 @@ public class Game {
         player2 = p2;
         player2.setScore(0);
 
-        // Random wie begint
-        int i = r.nextInt(2);
-        if (i == 0) {   // Player one plays as X / zwart
-            currentPlayer = player1;
-            turn = X.charAt(0);
-        } else {        // Player two plays as O / wit
-            currentPlayer = player2;
-            turn = O.charAt(0);
-        }
+        currentPlayer = p1;
 
         mm = new MiniMax();
+    }
+
+    public void setFirstPlayer(String black) {
+        System.out.println("Deze speler begint als eerste: "+black);
+        if(player1.getName().equals(black)) {
+            System.out.println("Deze wordt gezet als eerste speler: "+player1.getName());
+            currentPlayer = player1;
+        } else {
+            System.out.println("Deze wordt gezet als eerste speler: "+player2.getName());
+            currentPlayer = player2;
+        }
     }
 
     /**
@@ -145,14 +148,13 @@ public class Game {
         return this.turn;
     }
 
-    public void setWinner() {
+    public void determineWinner() {
         if(gameTitle.equals(BKE)){
             char winner = bke.isWonBKE(getBoard());
             if(winner != '.'){
 
             }
         }
-
         if(gameTitle.equals(REV)) {
             if(board.getStoneAmount('x') > board.getStoneAmount('o')) {
                 // tegenstander wint
@@ -163,17 +165,21 @@ public class Game {
                 this.winner = player1;
             } else {
                 // draw
+                int total = board.getStoneAmount('x') + board.getStoneAmount('o');
+
+                System.out.println("Ik zie het als een draw en ben dom");
                 this.winner = null;
             }
         }
     }
 
     public void setWinner(Player winner) {
+        System.out.println("Winnaar vaststellen!!!!");
         this.winner = winner;
     }
 
     public boolean isWon(){
-        if(gameTitle == BKE){
+        if(gameTitle.equals(BKE)){
             char winner = bke.isWonBKE(getBoard());
             if(winner != '.'){
                 return true;
