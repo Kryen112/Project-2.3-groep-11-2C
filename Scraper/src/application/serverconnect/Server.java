@@ -94,6 +94,10 @@ public class Server {
         processCommand("login " + username);
     }
 
+    public void quit() {
+        processCommand("quit");
+    }
+
     /**
      * Sends the forfeit command to the server
      */
