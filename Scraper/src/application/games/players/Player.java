@@ -65,6 +65,10 @@ public abstract class Player implements PlayerInterface {
         return this.losses;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void increaseLosses() {
         losses++;
     }

@@ -24,16 +24,15 @@
             "name": "Launch TIJDELIJK",
             "request": "launch",
             "mainClass": "application.games.attributes.TIJDELIJK",
-            "projectName": "Project-2.3-groep-11-2C_c4b4617b",
-            "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
+            "projectName": "Project-2.3-groep-11-2C_c4b4617b"
         },
         {
             "type": "java",
-            "name": "Launch TicTacToeAI",
+            "name": "Launch App",
             "request": "launch",
-            "mainClass": "application.TicTacToeAI",
-            "projectName": "Project-2.3-groep-11-2C_2e1cbd2d",
-            "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
+            "mainClass": "application.App",
+            "projectName": "Project-2.3-groep-11-2C_c4b4617b",
+            "vmArgs": "--module-path \"C:\\Users\\tomi4\\Downloads\\openjfx-11.0.2_windows-x64_bin-sdk\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
         },
         {
             "type": "java",
@@ -41,7 +40,7 @@
             "request": "launch",
             "mainClass": "application.App",
             "projectName": "Project-2.3-groep-11-2C_2e1cbd2d",
-            "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
+            "vmArgs": "--module-path \"C:\\Users\\tomi4\\Downloads\\openjfx-11.0.2_windows-x64_bin-sdk\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
         },
         {
             "type": "java",
@@ -49,7 +48,7 @@
             "request": "launch",
             "mainClass": "application.App",
             "projectName": "Project-2.3-groep-11-2C_f206e776",
-            "vmArgs": "--module-path \"C:\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
+            "vmArgs": "--module-path \"C:\\Users\\tomi4\\Downloads\\openjfx-11.0.2_windows-x64_bin-sdk\\javafx-sdk-11.0.2\\lib\" --add-modules javafx.controls,javafx.fxml"
         }
     ]
 }

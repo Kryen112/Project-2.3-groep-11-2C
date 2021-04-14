@@ -1,8 +1,5 @@
 package application;
 
-import application.games.attributes.Board;
-import application.games.attributes.Reversi;
-import application.games.attributes.miniMax;
 import application.serverconnect.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,48 +9,30 @@ import javafx.stage.Stage;
 
 /**
  * Main class voor project 2.3 Game Framework
- * application.App zorgt voor de primaryStage, Start.application.fxml dient als root van de application.App
+ * application.App zorgt voor de primaryStage,
+ * Start.application.fxml dient als root van de application.App
  *
  * @author Anouk, Stefan, Douwe, Robert, Jason
  * Project 2.3 Hanze Hogeschool 2021
  */
 public class App extends Application {
-    /** The primary stage */
-    public Stage appPrimaryStage;
+    public static final String GAMENAME = "AI Gaming";      // name of App
+    public static final int UIWIDTH = 900;                  // width of UI
+    public static final int UIHEIGHT = 630;                 // height of UI
 
-    /** The scene */
-    public static Scene homeScene;
-
-    /** The UI width */
-    public static final int UIWIDTH = 900;
-
-    /** The UI height */
-    public static final int UIHEIGHT = 630;
-
-    /** The name of the game */
-    public static final String GAMENAME = "AI Gaming";
-
-    /** The server */
-    public static Server server;
-
-    /** The board */
-    public static Board board;
-
-    public static Reversi reversi;
-
-    public static miniMax miniMax;
+    public static Stage appPrimaryStage;                    // the primary stage to use
+    public static Scene homeScene;                          // the Scene
+    public static Server server;                            // the Server that is used
 
     /**
      * Constructor
      */
-    public App() {
-        //TODO board maken bij aanroep spel
-        board = new Board();
-        board.execute();
-        reversi = new Reversi();
-        miniMax = new miniMax();
-    }
+    public App() { }
 
+    /**
+     * Main method runs the Application
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
@@ -65,7 +44,6 @@ public class App extends Application {
         Connection connection = new Connection();
         server = connection.getServer();
     }
-
     public static void makeConnectionWithServer(String ip, String port) {
         Connection connection = new Connection(ip, port);
         server = connection.getServer();
@@ -104,7 +82,7 @@ public class App extends Application {
         primaryStage.setTitle(title);
         homeScene = new Scene(root, uiWidth, uiHeight);
         primaryStage.setScene(homeScene);
-        primaryStage.setResizable(true);    // stage is not resizable
+        primaryStage.setResizable(false);    // stage is not resizable
         primaryStage.show();
     }
 }

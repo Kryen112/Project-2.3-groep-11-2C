@@ -3,12 +3,12 @@ import java.lang.*;
 
 import javax.swing.border.EmptyBorder;
 
-public class miniMax {
+public class MiniMax {
  Reversi reversi = new Reversi();//hoer  moet even naar gekeken worden
     
 
     public Board copyBoard(Board board){
-        Board newBoard = new Board();
+        Board newBoard = new Board(board.getHeight());
         newBoard.setGameBoard(board.getGameBoard());
         //System.out.println(board.getoPoints()+ "gekopieerde board");
         newBoard.setxPoints(board.getxPoints());
@@ -18,7 +18,6 @@ public class miniMax {
         return newBoard;
     }
 
-
     public Board miniMaxi(Board board, int depth, int alpha, int beta, char maximizingPlayer) throws CloneNotSupportedException{
         if(depth == 0 ){//or game over
             return board;
@@ -27,8 +26,8 @@ public class miniMax {
             int eval= 0;
             int maxEval= 0;
             boolean firstTime = true;
-            Board boardCopy = new Board();
-            Board boardToReturn = new Board();
+            Board boardCopy = new Board(board.getHeight());
+            Board boardToReturn = new Board(board.getHeight());
             if(reversi.getFreeSpaces(board,'o') != null){
                 for(int element : reversi.bestSpot(reversi.getFreeSpaces(board,'o'))){
                     boardCopy = copyBoard(board);
@@ -66,8 +65,8 @@ public class miniMax {
             int eval= 0;
             int minEval= 0;
             boolean firstTime = true;
-            Board boardCopy = new Board();
-            Board boardToReturn = new Board();
+            Board boardCopy = new Board(board.getHeight());
+            Board boardToReturn = new Board(board.getHeight());
             if(reversi.getFreeSpaces(board,'x') != null){
                 for(int element : reversi.bestSpot(reversi.getFreeSpaces(board,'x'))){
                     boardCopy = copyBoard(board);

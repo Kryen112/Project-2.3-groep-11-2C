@@ -7,6 +7,7 @@ import java.util.List;
 public class Reversi {
 
     ValueBoards valueBoard = new ValueBoards();
+    
 
     
 
@@ -100,6 +101,22 @@ public class Reversi {
         }
         
 
+    }
+
+    public char isWonRev(Board board){
+        if(board.getStoneAmount('x')+ board.getStoneAmount('o')==64 || getFreeSpaces(board, 'x').isEmpty() && getFreeSpaces(board, 'o').isEmpty()){
+            if (board.getStoneAmount('x') == board.getStoneAmount('o')) {
+                return 'g';
+            }
+
+            if(board.getStoneAmount('x') >= board.getStoneAmount('o')){
+                return 'x';
+            }
+            else{
+                return 'o';
+            }
+        }
+        return '.';
     }
 
     public void pointHandeling(char pieceToPlace, int space, Board board, boolean gotFromOtherPlayer){
