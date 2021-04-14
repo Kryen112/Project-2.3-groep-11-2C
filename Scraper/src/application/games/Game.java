@@ -168,6 +168,10 @@ public class Game {
         }
     }
 
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
+
     public boolean isWon(){
         if(gameTitle == BKE){
             char winner = bke.isWonBKE(getBoard());

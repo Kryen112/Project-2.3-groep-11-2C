@@ -154,11 +154,13 @@ public class InputProcesser {
                 case "SVRGAMELOSS":
                     System.out.println("You have lost!");
                     this.lossMessage = setMessages(arr[3]);
+                    game.setWinner(game.getPlayer2());
                     gameOver = true;
                     break;
                 case "SVRGAMEWIN":
                     System.out.println("You have won!");
                     this.winMessage = setMessages(arr[3]);
+                    game.setWinner(game.getPlayer1());
                     gameOver = true;
                     break;
                 case "SVRGAMEMOVE":
