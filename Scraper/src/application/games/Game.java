@@ -117,7 +117,6 @@ public class Game {
     }
 
     /**
-     *
      * Method to return the Player who plays as Player one
      * @return Player one of Game
      */
@@ -170,7 +169,7 @@ public class Game {
     }
 
     public boolean isWon(){
-        if(gameTitle.equals(BKE)){
+        if(gameTitle == BKE){
             char winner = bke.isWonBKE(getBoard());
             if(winner != '.'){
                 return true;

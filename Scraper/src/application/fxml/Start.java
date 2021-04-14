@@ -538,13 +538,31 @@ public class Start implements Runnable {
                         userClickedTile(e, p, thisGame, p1);
                     }
                     if (gameType.equals(Game.BKE)) {
+                        System.out.println("hier");
+
                         if (thisGame.isWon()) {
+                            System.out.println("hier");
+                            showMessage(info, 0, thisGame.getCurrentPlayer().getName() + " heeft gewonnen");
                             thisGame.setGameOver();
                             // todo winning pionnen
-                            info.setText(thisGame.getCurrentPlayer().getName() + " heeft gewonnen");
                         } else if (thisGame.getTurns() == 9) {
+                            System.out.println("hier");
+
+                            showMessage(info, 0, "Gelijkspel");
                             thisGame.setGameOver();
-                            info.setText("Helaas gelijk spel");
+                        }
+
+                    } else if (gameType.equals(Game.REV)) {
+                        if (thisGame.isWon()) {
+                            System.out.println("hier");
+
+                            showMessage(info, 0, thisGame.getCurrentPlayer().getName() + " heeft gewonnen");
+                            thisGame.setGameOver();
+                        } else if (thisGame.getReversi().isWonRev(thisGame.getBoard()) == 'g') {
+                            System.out.println("hier");
+
+                            showMessage(info, 0, "Gelijkspel");
+                            thisGame.setGameOver();
                         }
                     }
                 });

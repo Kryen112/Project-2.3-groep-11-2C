@@ -148,6 +148,7 @@ public class InputProcesser {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                     }
+
                     turn = true;
                     break;
                 case "SVRGAMELOSS":
@@ -191,6 +192,7 @@ public class InputProcesser {
                         System.out.println("Challenge ontvangen van: " + challenger[0].replace("CHALLENGER: ", "").replace("\"", ""));
                     }
                     break;
+
             }
         } else {
                 gameOver = true;
@@ -199,7 +201,7 @@ public class InputProcesser {
         }
 
     public void setGame(Game game) {
-        System.out.println("This game is set!!!!");
+//        System.out.println("This game is set!!!!");
         this.game = game;
     }
 }
