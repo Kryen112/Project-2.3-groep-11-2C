@@ -22,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -38,6 +39,8 @@ public class Start {
     public final String BKE = "Boter, Kaas en Eieren";
     public final String REV = "Reversi";
     public String toAdd = "";
+    public BoardUI bordToUse;
+    public Pane[][] gameBoardUI;
 
     // PANE VIEW
     @FXML protected BorderPane mainPane;    // the mainPane of application
@@ -213,6 +216,7 @@ public class Start {
         games.getChildren().remove(centerGameOnline);
         loginCenterBox.getChildren().remove(loginBox);
         loginCenterBox.getChildren().remove(loginMessageBox);
+        gameBoard.getChildren().remove(gameTiles);
         homeScreen.setVisible(false);
         backButtonLocal.setVisible(true);
         gameCenterBox.setVisible(true); 
@@ -392,10 +396,11 @@ public class Start {
 
         // stel het gameBoard in als Center op het mainPane
         mainPane.setCenter(gameBoard);
+        gameBoard.getChildren().add(gameTiles);
         gameBoard.setVisible(true);
 
         // stel het bord in met de juiste grootte
-        BoardUI bordToUse =  new BoardUI(boardSize, states);
+        bordToUse =  new BoardUI(boardSize, states);
         // maak een game met Type, bord en players
         Game thisGame = new Game(gameType, bordToUse, player1, player2);
 
@@ -423,7 +428,7 @@ public class Start {
         if (DEBUG) { gameTiles.setGridLinesVisible(true); }
 
         // maak leeg bord
-        Pane[][] gameBoardUI = bordToUse.getGameBoardUI();
+        gameBoardUI = bordToUse.getGameBoardUI();
         int x = 0;
         int y = 0;
 
@@ -733,8 +738,14 @@ public class Start {
 
     @FXML
     public void backToGameScreenFromGame() {
-        mainPane.getChildren().add(centerScreen);
+        gameBoard.getChildren().remove(gameTiles);
         mainPane.getChildren().remove(gameBoard);
+        mainPane.getChildren().add(centerScreen);
+
+        gameTiles = new GridPane();
+        gameTiles.setHgap(5);
+        gameTiles.setVgap(5);
+
         info.setText("");
         setTitleOfGameScreen(gameType);
         gameBoard.setVisible(false);
