@@ -1,8 +1,7 @@
 package application.serverconnect;
 
-import java.util.Arrays;
-
 import application.App;
+import application.fxml.Start;
 
 public class InputProcesser {
 
@@ -27,9 +26,9 @@ public class InputProcesser {
 
     public void setStart() {
         if(black.equals(opponent)) {
-            App.board.setStartPieces('x');
+//            App.board.setStartPieces('x');
         } else {
-            App.board.setStartPieces('o');
+//            App.board.setStartPieces('o');
         }
     }
 
@@ -73,6 +72,7 @@ public class InputProcesser {
                 case "ERR duplicate name exists":
                 case "ERR not logged in":
                 case "ERR player not found":
+                case "ERR invalid challenge":
                     setAnswer(input);
                     server.setResult(input);
                     break;                
@@ -89,10 +89,13 @@ public class InputProcesser {
             if(arr.length >= 3) {
                 serverMessage = arr[0]+arr[1]+arr[2];
             }
+            // try {
+            //     Thread.sleep(500);
+            // } catch (Exception e){}
 
             switch(serverMessage) {
                 case "SVRGAMEMATCH":
-                    App.board.clearBoard();
+//                    App.board.clearBoard();
                     System.out.println("Game match start!");
                     this.matchMessage = setMessages(arr[3]);
                     setBlack();
@@ -104,7 +107,7 @@ public class InputProcesser {
                 case "SVRGAMEYOURTURN":
                     System.out.println("It's your turn!");
                     this.turnMessage = setMessages(arr[3]);
-                    server.doMove(App.board.getRandomSet());
+//                    server.doMove(App.board.getRandomSet());
                     turn = true;
                     break;
                 case "SVRGAMELOSS":
@@ -116,7 +119,7 @@ public class InputProcesser {
                     this.winMessage = setMessages(arr[3]);
                     break;
                 case "SVRGAMEMOVE":
-                    System.out.print(App.board.getFreeSpacesX());
+//                    System.out.print(App.board.getFreeSpacesX());
                     if(turn) {
                         System.out.println(" Move set");
                         this.moveMessage = setMessages(arr[3]);
@@ -128,7 +131,7 @@ public class InputProcesser {
                         this.moveMessage = setMessages(arr[3]);
                         setMove();
                         System.out.println("Deze zet is gedaan: " + this.move);
-                        App.board.setPieceOnBoard(move, 'x');
+//                        App.board.setPieceOnBoard(move, 'x');
                     }// zet move op het bord van diegene die move heeft gezet
                     break;
                 case "SVRGAMECHALLENGE":
