@@ -1,9 +1,8 @@
 package application.games;
 
 import application.games.players.Player;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+import application.games.attributes.Board;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -24,9 +23,9 @@ public class Game {
     private int player1GameScore;
     private int player2GameScore;
 
-
     private Player currentPlayer; // de speler die aan zet is
     private char turn = 'x';
+    private int turns = 0;
     private Player winner = null;
     private Boolean activeGame = true;
 
@@ -148,6 +147,13 @@ public class Game {
     }
 
     /**
+     * Methode om de game over te activeren
+     */
+    public void setGameOver() {
+        this.activeGame = false;
+    }
+
+    /**
      * Methode die gebruikt wordt als de Speler het spel verloren heeft
      * @param p player that lost the game
      */
@@ -167,5 +173,25 @@ public class Game {
      */
     public Boolean isGameTie() {
         return (player1GameScore == player2GameScore);
+    }
+
+    public int getTurns() {
+        return turns;
+    }
+
+    public void incrementTurns() {
+        this.turns++;
+    }
+
+    public Boolean isWonREV() {
+        return true;
+    }
+
+    public void addPointToPlayer(Player p) {
+        if (p.equals(this.getPlayer1())) {
+            player1GameScore++;
+        } else if (p.equals(this.getPlayer2())) {
+            player2GameScore++;
+        }
     }
 }

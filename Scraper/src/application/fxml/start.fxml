@@ -108,7 +108,7 @@
                         <HBox translateY="140">
                             <Label text="Wilt u de beurttijd veranderen? Vul hier de nieuwe gewenste beurttijd in: " translateY="5"/>
                             <TextField fx:id="turnTime" maxWidth="50" promptText=" tijd" minHeight="30"/>
-                            <Button text="Beurttijd veranderen" onAction="#changeTurnTume"/>
+                            <Button text="Beurttijd veranderen" onAction="#changeTurnTume" translateX="5"/>
                         </HBox>
                         <Button text="Terug" onAction="#goBackOnline" translateY="160"/>
                     </VBox>
@@ -122,6 +122,7 @@
                 <Group fx:id="gameBoard" visible="false" translateY="50" translateX="50">
                     <GridPane fx:id="gameTiles" alignment="CENTER" hgap="5" vgap="5"/>
                     <Text fx:id="gameLog" translateY="-10" />
+                    <Button text="Terug" onAction="#backToGameScreenFromGame" translateY="350" translateX="650"/>
                 </Group>
             </VBox>
         </center>
