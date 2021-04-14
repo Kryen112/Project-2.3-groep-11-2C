@@ -1,21 +1,18 @@
 package application.fxml;
 
 import application.App;
-import application.games.Board;
 import application.games.Game;
 import application.games.BoardUI;
 import application.games.players.ComputerPlayer;
 import application.games.players.HumanPlayer;
 import application.games.players.Player;
 import javafx.application.Platform;
-import com.sun.prism.Image;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -25,14 +22,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**
