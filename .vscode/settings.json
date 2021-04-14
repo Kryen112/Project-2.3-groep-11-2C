@@ -9,13 +9,13 @@
         "Scraper/lib/javafx.swing.jar",
         "Scraper/lib/javafx.web.jar",
         "Scraper/lib/javafx-swt.jar",
-        "c:\\javafx-sdk-11.0.2\\lib\\javafx.base.jar",
-        "c:\\javafx-sdk-11.0.2\\lib\\javafx.controls.jar",
-        "c:\\javafx-sdk-11.0.2\\lib\\javafx.fxml.jar",
-        "c:\\javafx-sdk-11.0.2\\lib\\javafx.graphics.jar",
-        "c:\\javafx-sdk-11.0.2\\lib\\javafx.media.jar",
-        "c:\\javafx-sdk-11.0.2\\lib\\javafx.swing.jar",
-        "c:\\javafx-sdk-11.0.2\\lib\\javafx.web.jar",
-        "c:\\javafx-sdk-11.0.2\\lib\\javafx-swt.jar"
+        "c:\\Users\\tomi4\\Downloads\\openjfx-11.0.2_windows-x64_bin-sdk\\javafx-sdk-11.0.2\\lib\\javafx.base.jar",
+        "c:\\Users\\tomi4\\Downloads\\openjfx-11.0.2_windows-x64_bin-sdk\\javafx-sdk-11.0.2\\lib\\javafx.controls.jar",
+        "c:\\Users\\tomi4\\Downloads\\openjfx-11.0.2_windows-x64_bin-sdk\\javafx-sdk-11.0.2\\lib\\javafx.fxml.jar",
+        "c:\\Users\\tomi4\\Downloads\\openjfx-11.0.2_windows-x64_bin-sdk\\javafx-sdk-11.0.2\\lib\\javafx.graphics.jar",
+        "c:\\Users\\tomi4\\Downloads\\openjfx-11.0.2_windows-x64_bin-sdk\\javafx-sdk-11.0.2\\lib\\javafx.media.jar",
+        "c:\\Users\\tomi4\\Downloads\\openjfx-11.0.2_windows-x64_bin-sdk\\javafx-sdk-11.0.2\\lib\\javafx.swing.jar",
+        "c:\\Users\\tomi4\\Downloads\\openjfx-11.0.2_windows-x64_bin-sdk\\javafx-sdk-11.0.2\\lib\\javafx.web.jar",
+        "c:\\Users\\tomi4\\Downloads\\openjfx-11.0.2_windows-x64_bin-sdk\\javafx-sdk-11.0.2\\lib\\javafx-swt.jar"
     ]
 }

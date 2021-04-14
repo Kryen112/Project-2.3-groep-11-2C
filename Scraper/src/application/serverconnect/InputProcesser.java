@@ -38,9 +38,9 @@ public class InputProcesser {
 
     public void setStart() {
         if(black.equals(opponent)) {
-            App.board.setStartPieces('x');
+            App.reversi.setStartPieces(App.board, 'x');
         } else {
-            App.board.setStartPieces('o');
+            App.reversi.setStartPieces(App.board, 'o');
         }
     }
 
@@ -70,6 +70,7 @@ public class InputProcesser {
 
     public void setBlack() {
         black = matchMessage[0].replace("PLAYERTOMOVE: ", "").replace("\"", "");
+
     }
 
     public void setOpponent() {
@@ -128,9 +129,19 @@ public class InputProcesser {
                 case "SVRGAMEYOURTURN":
                     System.out.println("It's your turn!");
                     this.turnMessage = setMessages(arr[3]);
-                    int set = App.board.getRandomSet();
-                    server.doMove(set);
 
+                    //int set = App.board.getRandomSet();
+                    //server.doMove(set);
+
+                    try {
+                        int move = App.miniMax.miniMaxi(App.board,13,0,0,'o').getLastSet();
+                       System.out.println(move);
+                        //App.miniMax.miniMaxi(App.board,15,0,0,'o').pirntBoard();
+                       server.doMove(move);
+                    } catch (CloneNotSupportedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    }
                     turn = true;
                     break;
                 case "SVRGAMELOSS":
@@ -144,13 +155,14 @@ public class InputProcesser {
                     gameOver = true;
                     break;
                 case "SVRGAMEMOVE":
-                    System.out.print(App.board.getFreeSpacesX());
+                    //System.out.print(App.board.getFreeSpacesX());
                     if (turn) {
                         System.out.println(" Move set");
                         this.moveMessage = setMessages(arr[3]);
                         setMove();
                         moves.add(move);
                         System.out.println("Deze zet is gedaan: " + this.move);
+                        App.reversi.setPieceOnBoard(App.board, this.move, 'o');
                         turn = false;
                     } else {
                         System.out.println("Move set by opponent");
@@ -158,9 +170,10 @@ public class InputProcesser {
                         setMove();
                         moves.add(move);
                         System.out.println("Deze zet is gedaan: " + this.move);
-                        App.board.setPieceOnBoard(move, 'x');
+                        App.reversi.setPieceOnBoard(App.board, this.move, 'x');
                     }// zet move op het bord van diegene die move heeft gezet
                     break;
+
                 case "SVRGAMECHALLENGE":
                     this.challenger = setMessages(arr[3]);
                     challengeNumber = Integer.parseInt(setMessages(arr[3])[1].replace("CHALLENGENUMBER: ", "").replace("\"", ""));
