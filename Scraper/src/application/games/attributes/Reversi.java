@@ -34,6 +34,7 @@ public class Reversi {
         //getNeighbor(int direction, int space, int steps);
         board.setLastSet(space);
         board.setStartPieceOnBoard(space,pieceToPlace);
+        /*
         int[] corners = {0,7,56,63};
         if(pieceToPlace == 'o'){
             for(int e : corners){
@@ -60,7 +61,7 @@ public class Reversi {
                     break;
                 }
             }
-    }
+    }*/
         pointHandeling(pieceToPlace, space, board, false);
         char pieceToBeat;
         if(pieceToPlace == 'o'){

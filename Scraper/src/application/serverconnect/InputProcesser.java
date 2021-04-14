@@ -106,7 +106,7 @@ public class InputProcesser {
                     System.out.println("It's your turn!");
                     this.turnMessage = setMessages(arr[3]);
                 try {
-                    int move = App.miniMax.miniMaxi(App.board,16,0,0,'o').getLastSet();
+                    int move = App.miniMax.miniMaxi(App.board,13,0,0,'o').getLastSet();
                     System.out.println(move);
                     //App.miniMax.miniMaxi(App.board,15,0,0,'o').pirntBoard();
                     server.doMove(move);
