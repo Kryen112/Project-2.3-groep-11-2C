@@ -113,7 +113,6 @@ public class InputProcesser {
      */
     public void setBlack() {
         black = matchMessage[0].replace("PLAYERTOMOVE: ", "").replace("\"", "");
-
     }
 
     /**
@@ -179,6 +178,7 @@ public class InputProcesser {
                     System.out.println("Game match start!");
                     this.matchMessage = setMessages(arr[3]);
                     setBlack();
+                    game.setFirstPlayer(this.black);
                     setOpponent();
                     setStart();
                     System.out.println("The opponent of the game is: " + this.opponent);
@@ -193,7 +193,7 @@ public class InputProcesser {
                     //server.doMove(set);
 
                     try {
-                        int move = game.getMm().miniMaxi(game.getBoard(),13,0,0,'o').getLastSet();
+                        int move = game.getMm().miniMaxi(game.getBoard(),12,0,0,'o').getLastSet();
                         System.out.println(move);
                         //App.miniMax.miniMaxi(App.board,15,0,0,'o').pirntBoard();
                        server.doMove(move);
@@ -247,12 +247,12 @@ public class InputProcesser {
                         System.out.println("Challenge ontvangen van: " + challenger[0].replace("CHALLENGER: ", "").replace("\"", ""));
                     }
                     break;
-
+                case "SVRGAMEDRAW":
+                    gameOver = true;
             }
         } else {
                 gameOver = true;
             }
-
         }
 
     /**
