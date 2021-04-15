@@ -81,8 +81,8 @@
                         <!-- todo
                         help button
                         -->
-                        <Button text="Tegen computer" onAction="#playLocalvsAI" translateY="20"/>
-                        <Button text="Tegen elkaar" onAction="#playLocalvsLocal" translateY="40"/>
+                        <Button fx:id="playervsailocal" text="Speel tegen computer" onAction="#playLocalvsAI" visible="false"/>
+                        <Button fx:id="playervsplayerlocal" text="Speel tegen elkaar" onAction="#playLocalvsLocal" visible="false"/>
                     </VBox>
 
                     <!--       GAMES Online         --> 
@@ -90,23 +90,26 @@
                         <!-- todo       
                         help button
                         -->
+                        <Button fx:id="playervsonline" text="Speel tegen speler" onAction="#playNewGame" visible="false"/>
+                        <Button fx:id="playervsai" text="Speel tegen computer" onAction="#playLocalvsAI" visible="false"/>
+                        <Button fx:id="playervsplayer" text="Speel tegen elkaar" onAction="#playLocalvsLocal" visible="false"/>
+                        <Button fx:id="acceptChallenge" text="Uitdaging accepteren" onAction="#acceptChallenge" visible="false"/>
 
-                        <Button text="Speel online tegen een andere speler" onAction="#playNewGame" translateY="20"/>
-                        <Button text="Speel tegen computer" onAction="#playLocalvsAI" translateY="40"/>
-                        <Button text="Uitdaging accepteren" onAction="#acceptChallenge" translateY="60"/>
-                        <Label text="Gebruikersnaam om uit te dagen:" translateY="80"/>
-                        <TextField fx:id="enemyUserName" maxWidth="200" promptText=" vijand naam" minHeight="30" translateY="90"/>
-                        <Button text="Iemand Uitdagen" onAction="#challengePlayer" translateY="100"/>
-                        <Text fx:id="challengeMessage" translateY="120"/>
+                        <Label text="Gebruikersnaam om uit te dagen:" translateY="80" visible="false"/>
+                        <TextField fx:id="enemyUserName" maxWidth="200" promptText=" vijand naam" minHeight="30" translateY="90" visible="false"/>
+
+                        <Button fx:id="sendChallenge" text="Iemand Uitdagen" onAction="#challengePlayer" visible="false"/>
+                        <Text fx:id="challengeMessage" visible="false"/>
+
                         <HBox translateY="140">
-                            <Label text="Wilt u de beurttijd veranderen? Vul hier de nieuwe gewenste beurttijd in: " translateY="5"/>
-                            <TextField fx:id="turnTime" maxWidth="50" promptText=" tijd" minHeight="30"/>
-                            <Button text="Beurttijd veranderen" onAction="#changeTurnTime" translateX="5"/>
+                            <Label text="Wilt u de beurttijd veranderen? Vul hier de nieuwe gewenste beurttijd in: " translateY="5" visible="false"/>
+                            <TextField fx:id="turnTime" maxWidth="50" promptText=" tijd" minHeight="30" visible="false"/>
+                            <Button text="Beurttijd veranderen" onAction="#changeTurnTime" translateX="5" visible="false"/>
                         </HBox>
                     </VBox>
 
                     <VBox fx:id="playerList" visible="false" translateX="550" translateY="20">
-                        <Button text="Krijg spelerlijst" onAction="#getPlayerList"/>
+                        <Button text="Krijg spelerlijst" onAction="#getPlayerList" />
                         <Label fx:id="playerListList" translateY="20"/>
                     </VBox>
                 </Group>
@@ -120,8 +123,6 @@
                 </Group>
             </VBox>
         </center>
-
-
 
     </BorderPane>
 
