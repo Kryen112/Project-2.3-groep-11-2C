@@ -280,8 +280,9 @@ public class Start implements Runnable {
             if (!centerScreen.getChildren().contains(gameCenterBox)) {
                 centerScreen.getChildren().add(gameCenterBox);
             }
+            setTitleOfGameScreen("Welkom " + user.getName());
+            logOutButton.setVisible(true);
         }
-        setTitleOfGameScreen("Welkom " + user.getName());
     }
 
     public void showHomeScreen() {
@@ -361,6 +362,7 @@ public class Start implements Runnable {
 
         }
         setTitleOfGameScreen(gameType);
+        logOutButton.setVisible(false);
 
     }
 
@@ -397,34 +399,25 @@ public class Start implements Runnable {
     }
 
     /**
-     * Methode om een nieuwe Game te starten
-     * Methode wordt gestart als gebruiker op Play New Game button drukt
+     * Methode om een nieuwe Game te starten tegen een random online player
      */
     @FXML
     public void playNewGame() {
         stateOfTile = new HashMap<>();
+        if (inGame) { App.server.forfeit(); }
 
-        if (inGame) {
-            App.server.forfeit(); // forfeit game if inGame
-        }
+        Thread thread = new Thread(this);
+        thread.start();
+        thread.setPriority(1);
 
-        // BoterKaas en Eieren
+        thisGame = new Game(gameType, this.user,  new HumanPlayer(App.server.getInputProcesser().opponent));
+
         if(gameType.equals(BKE)) {
-            App.server.subscribe("Tic-tac-toe", result ->  System.out.println("Subscribed to Tic-tac-toe"));
-        }
-
-        // Reversi
-        if(gameType.equals(REV)) {
-            Thread thread = new Thread(this);
-            thread.start();
-            thread.setPriority(1);
-
-            thisGame = new Game(gameType, this.user,  new HumanPlayer(App.server.getInputProcesser().opponent));
-            App.server.getInputProcesser().setGame(thisGame);
-
+            App.server.subscribe("Tic-tac-toe", result -> System.out.println("Subscribed to Tic-tac-toe"));
+        } else if (gameType.equals(REV)) {
             App.server.subscribe("Reversi", result -> System.out.println(""));
-            info.setText("wacht op speler");
         }
+        showMessage(info, 0, "Wacht op speler...");
     }
 
     @Override
@@ -433,52 +426,111 @@ public class Start implements Runnable {
             // wait for response opponent
             System.out.print("");
         }
+
         if(!App.server.getInputProcesser().gameOver) {
             stateOfTile = new HashMap<>();
-            for(int i = 0; i < 64; i++) {
-                stateOfTile.put(""+i, CAPTUREDBYP1);
+
+            int bke = 9;
+            int rev = 64;
+
+            if (gameType.equals(BKE)) {
+                for(int i = 0; i < 9; i++) {
+                    stateOfTile.put(""+i, CAPTUREDBYP1);
+                }
+            } else if (gameType.equals(REV)) {
+                for(int i = 0; i < 64; i++) {
+                    stateOfTile.put(""+i, CAPTUREDBYP1);
+                }
             }
-            info.setText("Speler gevonden");
-            Platform.runLater(() -> setUpActiveGameScreen(8, "Reversi", this.user, new HumanPlayer(App.server.getInputProcesser().opponent), stateOfTile));
-            Thread thread = new Thread(() -> {
-                while(!App.server.getInputProcesser().gameOver) {
-                    LinkedList<Integer> moves = App.server.getInputProcesser().getMoves();
-                    System.out.print("");
-                    if(!(moves.size() == 0)) {
-                        // Hier tile zetten
-                        String id = ""+moves.getFirst();
-                        Pane p = listOfPanes.get(id);
 
-//                        ImageView thisView = thisGame.setPieceOnBoard( (ImageView) p.getChildren().get(0) );
+            showMessage(info, 2, "speler gevonden");
 
-                        Platform.runLater(() -> {
-//                            p.getChildren().add(thisView);
-                            thisGame.copyList();
-                        });
+            if (gameType.equals(BKE)) {
+                Platform.runLater(() -> setUpActiveGameScreen(3, BKE, this.user, new HumanPlayer(App.server.getInputProcesser().opponent), stateOfTile));
 
-                        String color;
-                        if(thisGame.getCurrentPlayer().getName().equals(App.server.getInputProcesser().black)) {
-                            color = "zwart";
-                        } else {
-                            color = "wit";
+                Thread bkeThread = new Thread(() -> {
+
+                    while (!App.server.getInputProcesser().gameOver) {
+                        LinkedList<Integer> bkeMoves = App.server.getInputProcesser().getMoves();
+                        System.out.print("");
+                        if (!(bkeMoves.size() == 0)) {
+                            // Hier tile zetten
+                            String id = "" + bkeMoves.getFirst();
+                            Pane p = listOfPanes.get(id);
+
+                            ImageView thisView = thisGame.setPieceOnBoard((ImageView) p.getChildren().get(0));
+
+                            Platform.runLater(() -> {
+                                p.getChildren().add(thisView);
+                            });
+
+                            String xo;
+                            if (thisGame.getCurrentPlayer().getName().equals(App.server.getInputProcesser().black)) {
+                                xo = "x";
+                            } else {
+                                xo = "o";
+                            }
+
+                            showMessage(info, 0, "De beurt is aan: " + thisGame.getCurrentPlayer().getName() + " : " + xo);
+                            App.server.getInputProcesser().removeFirstMove();
                         }
-                        info.setText("De beurt is aan: "+thisGame.getCurrentPlayer().getName()+" : "+color);
-                        App.server.getInputProcesser().removeFirstMove();
                     }
-                }
-                System.out.println("Winner zetten: ");
-                thisGame.setWinner();
-                if(thisGame.getWinner().getName().equals(this.user.getName())) {
-                    showMessage(info, 2, this.user.getName()+" heeft gewonnen");
-                }
-                else if(!thisGame.getWinner().getName().equals(this.user.getName())) {
-                    showMessage(info, 1, thisGame.getWinner().getName()+" heeft gewonnen");
-                } else {
-                    showMessage(info, 3, "Het is gelijkspel!");
-                }
-            });
-            thisGame.getPlayer2().setName(App.server.getInputProcesser().opponent);
-            thread.start();
+                    System.out.println("Winner zetten: ");
+                    thisGame.setWinner();
+                    if(thisGame.getWinner().getName().equals(this.user.getName())) {
+                        showMessage(info, 2, this.user.getName()+" heeft gewonnen");
+                    }
+                    else if(!thisGame.getWinner().getName().equals(this.user.getName())) {
+                        showMessage(info, 1, thisGame.getWinner().getName()+" heeft gewonnen");
+                    } else {
+                        showMessage(info, 3, "Het is gelijkspel!");
+                    }
+                });
+
+                thisGame.getPlayer2().setName(App.server.getInputProcesser().opponent);
+                bkeThread.start();
+
+            }else if (gameType.equals(REV)) {
+                Platform.runLater(() -> setUpActiveGameScreen(8, REV, this.user, new HumanPlayer(App.server.getInputProcesser().opponent), stateOfTile));
+                Thread revThread = new Thread(() -> {
+                    while(!App.server.getInputProcesser().gameOver) {
+                        LinkedList<Integer> revMoves = App.server.getInputProcesser().getMoves();
+                        System.out.print("");
+                        if (!(revMoves.size() == 0)) {
+                            // Hier tile zetten
+                            String id = "" + revMoves.getFirst();
+                            Pane p = listOfPanes.get(id);
+                            Platform.runLater(() -> {
+                                thisGame.copyList();
+                            });
+
+                            String color;
+                            if(thisGame.getCurrentPlayer().getName().equals(App.server.getInputProcesser().black)) {
+                                color = "zwart";
+                            } else {
+                                color = "wit";
+                            }
+
+                            showMessage(info, 0, "De beurt is aan: "+thisGame.getCurrentPlayer().getName()+" : "+color);
+                            App.server.getInputProcesser().removeFirstMove();
+                        }
+                    }
+
+                    System.out.println("Winner zetten: ");
+                    thisGame.setWinner();
+                    if(thisGame.getWinner().getName().equals(this.user.getName())) {
+                        showMessage(info, 2, this.user.getName()+" heeft gewonnen");
+                    }
+                    else if(!thisGame.getWinner().getName().equals(this.user.getName())) {
+                        showMessage(info, 1, thisGame.getWinner().getName()+" heeft gewonnen");
+                    } else {
+                        showMessage(info, 3, "Het is gelijkspel!");
+                    }
+                });
+
+                thisGame.getPlayer2().setName(App.server.getInputProcesser().opponent);
+                revThread.start();
+            }
         }
     }
 
