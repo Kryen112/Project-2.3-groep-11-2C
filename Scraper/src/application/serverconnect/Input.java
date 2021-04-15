@@ -49,7 +49,7 @@ public class Input implements Runnable {
         try (BufferedReader bf = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             while(connected) { //Read the incoming line and process the input
                 String input = bf.readLine();
-                System.out.println("DEBUG Answer from server: " + input);
+//                System.out.println("DEBUG Answer from server: " + input);
                 inputProcesser.processInput(input, server);
             }
         } catch (Exception e) { System.out.print("Something went wrong: "); e.printStackTrace(); }
