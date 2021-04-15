@@ -23,59 +23,53 @@
                 xmlns:fx="http://javafx.com/fxml" fx:id="mainPane">
         <top>
             <VBox>
+                <HBox>
+                    <Button fx:id="backButton" onAction="#goBackButton" translateY="-25" translateX="-25" visible="false"/>
+                    <Button fx:id="logOutButton" text="Log uit" onAction="#logOut" translateY="-25" visible="false"/>
+                </HBox>
+
                 <Text fx:id="title" text="Welkom bij AI Gaming"/>
-                <Text fx:id="info" text="Wil je online of lokaal spelen?"/>
+                <Text fx:id="info" text="Wil je Online of Lokaal spelen?" translateY="5"/>
             </VBox>
         </top>
 
         <center>
             <VBox fx:id="centerScreen">
-
+                <!-- HOMESCREEN -->
                 <Group fx:id="homeScreen">
                     <HBox>
-                        <Button text="Speel Online" onAction="#handleOnlinePlay"/>
-                        <Button text="Speel Lokaal" onAction="#handleLocalPlay" translateX="20"/>
+                        <Button fx:id="buttonOnline" text="Speel Online" onAction="#handlePlayMode" translateY="30"/>
+                        <Button fx:id="buttonLocal" text="Speel Lokaal" onAction="#handlePlayMode"  translateY="30" translateX="20"/>
                     </HBox>
                 </Group>
 
-                <!--       LOGIN            -->
+                <!-- LOGIN -->
                 <Group fx:id="loginCenterBox" visible="false">
-                    <HBox fx:id="loginBox">
-                        <!--  login  -->
-                        <VBox>
-                            <Label text="Gebruikersnaam: " translateY="5"/>
-                            <Label text="Inloggen op een ander netwerk: " translateY="30"/>
-                            <TextField fx:id="ipAddress" maxWidth="200" promptText=" ip adres" minHeight="30"/>
-                            <TextField fx:id="portNr" maxWidth="100" promptText=" poort nummer" minHeight="30"/>
-                            <Button text="Login ip+poort" onAction="#handleLoginActionOnOtherServer"/>
-                            <Button text="Terug" onAction="#backToHomeScreenFromLogin"/>
-                        </VBox>
-                        <TextField fx:id="userName" maxWidth="200" promptText=" jouw naam" translateX="10" minHeight="30"/>
-                        <Button text="Login op schoolserver" onAction="#handleLoginActionOnSchoolServer" translateX="20"/>
-                    </HBox>
+                    <VBox fx:id="loginBox">
+                        <Label text="Gebruikersnaam: " translateY="60" translateX="50"/>
+                        <TextField fx:id="userName" maxWidth="200" promptText=" jouw naam" minHeight="30" translateY="60" translateX="50"/>
+                        <Button text="Login op schoolserver" onAction="#handleLoginAction" translateX="50" translateY="80"/>
 
-                    <HBox fx:id="loginMessageBox" translateY="20">
-                        <!--  error / succes message  -->
-                        <Text fx:id="loginMessage" translateY="30"/>
-                        <Button fx:id="verder" text="Ga Verder" onAction="#handleContinue" translateX="10" translateY="20" visible="false"/>
-                    </HBox>
+                        <Label text="Inloggen op een ander netwerk: " translateX="300" translateY="-22"/>
+                        <TextField fx:id="ipAddress" maxWidth="200" promptText=" ip adres" minHeight="30" translateX="300" translateY="-22"/>
+                        <TextField fx:id="portNr" maxWidth="200" promptText=" poort nummer" minHeight="30" translateX="300"/>
+                        <Button text="Login op Netwerk" onAction="#handleLoginAction" translateX="300" translateY="20"/>
+                    </VBox>
                 </Group>
 
                 <!--       GAME CENTER         -->
                 <Group fx:id="gameCenterBox" visible="false">
                     <HBox translateY="20" fx:id="gameSelection">
-                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpBoterKaasEieren" translateY="20">
+                        <ImageView fx:id="BOTERKAASEIEREN" fitHeight="140" fitWidth="140" onMouseClicked="#setUpGame" translateY="20">
                             <!--    todo change img to bke gamescreenshot -->
                             <Image url="@../images/bke.jpg"/>
                         </ImageView>
 
-                        <ImageView fitHeight="140" fitWidth="140" onMouseClicked="#setUpReversi" translateX="20" translateY="20">
+                        <ImageView fx:id="REVERSI" fitHeight="140" fitWidth="140" onMouseClicked="#setUpGame" translateX="20" translateY="20">
                             <!--    todo change img to bke gamescreenshot -->
                             <Image url="@../images/reversi.png"/>
                         </ImageView>
 
-                        <Button fx:id="backButtonLocal" text="Terug" onAction="#backToHomeScreenFromLocal" translateX="40" visible="false"/>
-                        <Button fx:id="logOutButton" text="Log uit" onAction="#logOut" translateY="20" translateX="40" visible="false"/>
                     </HBox>
                 </Group>
 
@@ -89,7 +83,6 @@
                         -->
                         <Button text="Tegen computer" onAction="#playLocalvsAI" translateY="20"/>
                         <Button text="Tegen elkaar" onAction="#playLocalvsLocal" translateY="40"/>
-                        <Button text="Terug" onAction="#goBackLocal" translateY="60"/>
                     </VBox>
 
                     <!--       GAMES Online         --> 
@@ -108,9 +101,8 @@
                         <HBox translateY="140">
                             <Label text="Wilt u de beurttijd veranderen? Vul hier de nieuwe gewenste beurttijd in: " translateY="5"/>
                             <TextField fx:id="turnTime" maxWidth="50" promptText=" tijd" minHeight="30"/>
-                            <Button text="Beurttijd veranderen" onAction="#changeTurnTume" translateX="5"/>
+                            <Button text="Beurttijd veranderen" onAction="#changeTurnTime" translateX="5"/>
                         </HBox>
-                        <Button text="Terug" onAction="#goBackOnline" translateY="160"/>
                     </VBox>
 
                     <VBox fx:id="playerList" visible="false" translateX="550" translateY="20">

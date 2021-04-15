@@ -8,7 +8,7 @@ root {
 }
 
 .label {
-    -fx-font-size: 12.5px;
+    -fx-font-size: 14px;
     -fx-text-fill: #333333;
 }
 
@@ -44,7 +44,7 @@ root {
 }
 
 .button {
-    -fx-min-width: 140px;
+    -fx-min-width: 200px;
     -fx-text-fill: #000009;
     -fx-font-size: 14px;
     -fx-font-family: "Roboto";
