@@ -466,8 +466,7 @@ public class Start implements Runnable {
                         App.server.getInputProcesser().removeFirstMove();
                     }
                 }
-                System.out.println("Winner zetten: ");
-                thisGame.setWinner();
+
                 if(thisGame.getWinner().getName().equals(this.user.getName())) {
                     showMessage(info, 2, this.user.getName()+" heeft gewonnen");
                 }
